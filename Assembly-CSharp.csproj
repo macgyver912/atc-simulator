@@ -58,10 +58,21 @@
     <Analyzer Include="D:\Programas\Unity\Editor\2022.2.0f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\airports\Airport.cs" />
     <Compile Include="Assets\Scripts\general\General.cs" />
+    <Compile Include="Assets\Scripts\graphics\DrawRadarScreen.cs" />
+    <Compile Include="Assets\Scripts\utils\Measurement.cs" />
     <Compile Include="Assets\Scripts\companies\Company.cs" />
     <Compile Include="Assets\Scripts\aircrafts\Aircraft.cs" />
+    <Compile Include="Assets\Scripts\graphics\MngScreen.cs" />
     <Compile Include="Assets\Scripts\game\CreateObjects.cs" />
+    <Compile Include="Assets\Scripts\game\Config.cs" />
+    <Compile Include="Assets\Scripts\airports\Runway.cs" />
+    <Compile Include="Assets\Scripts\graphics\DrawGUI.cs" />
+    <Compile Include="Assets\Scripts\navaids\VOR.cs" />
+    <Compile Include="Assets\Scripts\navaids\FIX.cs" />
+    <Compile Include="Assets\Scripts\general\CreateInstance.cs" />
+    <Compile Include="Assets\Scripts\graphics\MngCamera.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

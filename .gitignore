@@ -1,4 +1,5 @@
 *.meta
+*.log
 .vs/*
 Temp/*
 Library/*
