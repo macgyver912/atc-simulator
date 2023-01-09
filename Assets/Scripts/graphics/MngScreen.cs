@@ -31,7 +31,7 @@ public class MngScreen : MonoBehaviour
         instance = this;
     }
 
-    void Init()
+    public static void Init()
     {
 
         lats = new List<float>();
@@ -46,13 +46,13 @@ public class MngScreen : MonoBehaviour
         //	Debug.Log("DrawGUI.windowFPSWidth: " + DrawGUI.windowFPSWidth);
         //	Debug.Log("radarScreenSize.x: " + (Screen.width - DrawGUI.windowFPSWidth));
 
-        foreach (FIX fix in CreateObjects.fixArray)
+        foreach (FIX fix in CreateObjects.fixList)
         {
             lats.Add(fix.GetLat());
             lons.Add(fix.GetLon());
         }
 
-        foreach (VOR vor in CreateObjects.vorArray)
+        foreach (VOR vor in CreateObjects.vorList)
         {
             lats.Add(vor.GetLat());
             lons.Add(vor.GetLon());

@@ -180,8 +180,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 1
+  far clip plane: 100
   field of view: 60
   orthographic: 1
   orthographic size: 5
@@ -255,6 +255,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 606412716}
+  - component: {fileID: 606412722}
+  - component: {fileID: 606412717}
+  - component: {fileID: 606412723}
+  - component: {fileID: 606412721}
+  - component: {fileID: 606412720}
+  - component: {fileID: 606412719}
+  - component: {fileID: 606412718}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -277,3 +284,104 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &606412717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606412714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d976767845f29d249884176e4504a7ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ILS_range: 15
+  _radarPeriod: 5
+  _aircraftDataPeriod: 5
+--- !u!114 &606412718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606412714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d44cf6add18b6d49a0904598355d64e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &606412719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606412714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c309c1f717978145ac512e78627397e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &606412720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606412714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc20c61421790a458ae6c2e300b6b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labelStyle_navaids: {fileID: 11400000, guid: 0e0e1166fa3baed47b8c2705d9b00c7b, type: 2}
+  labelStyle_aircrafts: {fileID: 11400000, guid: 29490564915073341b6cf6aad5a0122b, type: 2}
+--- !u!114 &606412721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606412714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d0413b0f574464d8c8f61a149cad9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &606412722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606412714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07467843b45c9c478400cee3a24b6f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ILS_Instance: {fileID: 400000, guid: 460d4d574d907dc4aa826be58d8a2922, type: 3}
+--- !u!114 &606412723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606412714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a2ef86fcf75914dbeb7b153e22159c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _twr_range: 10
+  _app_range: 60
+  _rings_separation: 20
+  _ils_range: 15
+  _background_color: {r: 0, g: 0, b: 0, a: 0}
+  _color_circles: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+  _color_limit_circles: {r: 1, g: 0, b: 0, a: 1}
+  _color_grid: {r: 0, g: 0, b: 1, a: 1}
+  _color_runways: {r: 0, g: 1, b: 0, a: 1}
+  _defIconsColor_navaids: 2
+  _defIconsColor_aircrafts: 2

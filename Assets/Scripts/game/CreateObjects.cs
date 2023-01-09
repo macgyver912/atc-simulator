@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreateObjects : MonoBehaviour
@@ -7,8 +8,8 @@ public class CreateObjects : MonoBehaviour
     public static Airport airport;
     public static List<Company> companyList;
     public static List<Aircraft> aircraftList;
-    public static List<FIX> fixArray;
-    public static List<VOR> vorArray;
+    public static List<FIX> fixList;
+    public static List<VOR> vorList;
 
     Quaternion fromRotation;
 
@@ -33,30 +34,32 @@ public class CreateObjects : MonoBehaviour
     {
         Debug.Log("Hello World!");
 
-        /*
-        var rwys = new Runway[4];
-        rwys[0] = new Runway("14R", 144, 13083, Measurement.DMS2DD(40, 29, 05.50), Measurement.DMS2DD(-3, 34, 33.64), 2000f);
-        rwys[1] = new Runway("32L", 324, 13083, Measurement.DMS2DD(40, 27, 47.10), Measurement.DMS2DD(-3, 33, 14.02), 2000f);
-        rwys[2] = new Runway("14L", 144, 11482, Measurement.DMS2DD(40, 29, 41.71), Measurement.DMS2DD(-3, 33, 28.33), 2000f);
-        rwys[3] = new Runway("32R", 324, 11482, Measurement.DMS2DD(40, 28, 24.85), Measurement.DMS2DD(-3, 32, 10.30), 2000f);
+        
+        Runway[] rwys = new Runway[4];
+        rwys[0] = new Runway("14R", 144, 13083, Measurement.DMS2DD(40, 29, 05.50f), Measurement.DMS2DD(-3, 34, 33.64f), 2000f);
+        rwys[1] = new Runway("32L", 324, 13083, Measurement.DMS2DD(40, 27, 47.10f), Measurement.DMS2DD(-3, 33, 14.02f), 2000f);
+        rwys[2] = new Runway("14L", 144, 11482, Measurement.DMS2DD(40, 29, 41.71f), Measurement.DMS2DD(-3, 33, 28.33f), 2000f);
+        rwys[3] = new Runway("32R", 324, 11482, Measurement.DMS2DD(40, 28, 24.85f), Measurement.DMS2DD(-3, 32, 10.30f), 2000f);
 
-        airport = new Airport("Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20), Measurement.DMS2DD(-3, 33, 39), 2000f, "Madrid", "Spain", 13000, rwys);
+        airport = new Airport("Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20f), Measurement.DMS2DD(-3, 33, 39f), 2000f, "Madrid", "Spain", 13000, 140, rwys);
 
-        fixArray.Add(new FIX("ASBIN", Measurement.DMS2DD(40, 15, 18), Measurement.DMS2DD(-3, 10, 35), FIX.FixTypes.Compulsory));
-        fixArray.Add(new FIX("TOBEK", Measurement.DMS2DD(40, 11, 47), Measurement.DMS2DD(-3, 25, 28), FIX.FixTypes.Compulsory));
-        fixArray.Add(new FIX("PRADO", Measurement.DMS2DD(40, 08, 51), Measurement.DMS2DD(-2, 00, 37), FIX.FixTypes.Compulsory));
-        fixArray.Add(new FIX("MORAL", Measurement.DMS2DD(39, 00, 00), Measurement.DMS2DD(-3, 32, 32), FIX.FixTypes.Compulsory));
-        fixArray.Add(new FIX("RIDAV", Measurement.DMS2DD(40, 32, 07), Measurement.DMS2DD(-5, 48, 30), FIX.FixTypes.Compulsory));
+        fixList = new List<FIX>();
+      
+        fixList.Add(new FIX("ASBIN", Measurement.DMS2DD(40, 15, 18f), Measurement.DMS2DD(-3, 10, 35f), FIX.FixTypes.Compulsory));
+        fixList.Add(new FIX("TOBEK", Measurement.DMS2DD(40, 11, 47f), Measurement.DMS2DD(-3, 25, 28f), FIX.FixTypes.Compulsory));
+        fixList.Add(new FIX("PRADO", Measurement.DMS2DD(40, 08, 51f), Measurement.DMS2DD(-2, 00, 37f), FIX.FixTypes.Compulsory));
+        fixList.Add(new FIX("MORAL", Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-3, 32, 32f), FIX.FixTypes.Compulsory));
+        fixList.Add(new FIX("RIDAV", Measurement.DMS2DD(40, 32, 07f), Measurement.DMS2DD(-5, 48, 30f), FIX.FixTypes.Compulsory));
 
-        fixArray.Add(new FIX("AUX1", Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-4, 00, 00), FIX.FixTypes.OnRequest));
-        fixArray.Add(new FIX("AUX2", Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-3, 00, 00), FIX.FixTypes.OnRequest));
-        fixArray.Add(new FIX("AUX3", Measurement.DMS2DD(39, 00, 00), Measurement.DMS2DD(-3, 00, 00), FIX.FixTypes.OnRequest));
+        fixList.Add(new FIX("AUX1", Measurement.DMS2DD(40, 00, 00f), Measurement.DMS2DD(-4, 00, 00f), FIX.FixTypes.OnRequest));
+        fixList.Add(new FIX("AUX2", Measurement.DMS2DD(40, 00, 00f), Measurement.DMS2DD(-3, 00, 00f), FIX.FixTypes.OnRequest));
+        fixList.Add(new FIX("AUX3", Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-3, 00, 00f), FIX.FixTypes.OnRequest));
 
-        vorArray.Add(new VOR("PDT", "Perales", 116.75, null, true, Measurement.DMS2DD(40, 15, 10), Measurement.DMS2DD(-3, 20, 52), 0));
-        // 	vorArray.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-7, 00, 00), 0));
-        // 	vorArray.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-3, 33, 39)+3.439167, 0));
-        */
-
+        vorList = new List<VOR>();
+        vorList.Add(new VOR("PDT", "Perales", 116.75f, null, true, Measurement.DMS2DD(40, 15, 10f), Measurement.DMS2DD(-3, 20, 52f), 0));
+        // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-7, 00, 00), 0));
+        // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-3, 33, 39)+3.439167, 0));
+        
         companyList = new List<Company>();
         aircraftList = new List<Aircraft>();
 
@@ -192,12 +195,12 @@ public class CreateObjects : MonoBehaviour
             aircraft.SetGameObjectPos();
         }
         /*
-        foreach (FIX fix in fixArray)
+        foreach (FIX fix in fixList)
         {
             fix.SetGameObjectPos();
         }
 
-        foreach (VOR vor in vorArray)
+        foreach (VOR vor in vorList)
         {
             vor.SetGameObjectPos();
         }

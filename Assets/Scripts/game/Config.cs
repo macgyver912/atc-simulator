@@ -5,26 +5,32 @@ using static DrawRadarScreen;
 public class Config : MonoBehaviour
 {
 
-    // Draw limits
-    int _twr_range = 10;
-    int _app_range = 60;
-    int _rings_separation = 20;
+    [Header("Radar Preferences")]
+    public float _radarPeriod = 5.0f;
+    public float _aircraftDataPeriod = 5.0f;
+    public static float radarPeriod;
+    public static float aircraftDataPeriod;
+
+    [Header("Draw limits")]
+    public int _twr_range = 10;
+    public int _app_range = 60;
+    public int _rings_separation = 20;  // nm 
     public static int twr_range;
     public static int app_range;
     public static int rings_separation;
 
-    // ILS
-    int _ils_range = 15;
+    [Header("ILS")]
+    public int _ils_range = 15; // nm
     public static int ils_range;
 
-    // Colors
-    Color _background_color;
-    Color _color_circles;
-    Color _color_limit_circles;
-    Color _color_grid;
-    Color _color_runways;
-    IconsColorEnum _defIconsColor_navaids;
-    IconsColorEnum _defIconsColor_aircrafts;
+    [Header("Colors")]
+    public Color _background_color;
+    public Color _color_circles;
+    public Color _color_limit_circles;
+    public Color _color_grid;
+    public Color _color_runways;
+    public IconsColorEnum _defIconsColor_navaids;
+    public IconsColorEnum _defIconsColor_aircrafts;
 
     public static Color background_color;
     public static Color color_circles;
@@ -36,6 +42,10 @@ public class Config : MonoBehaviour
 
     void Awake()
     {
+        // Radar config
+        radarPeriod = _radarPeriod;
+        aircraftDataPeriod = _aircraftDataPeriod;
+
         // Draw limits
         twr_range = _twr_range;
         app_range = _app_range;

@@ -9,7 +9,7 @@ public class MngCamera : MonoBehaviour
     {
         //	instance = this;
     }
-    static void Init()
+    public static void Init()
     {
         mainCamera = Camera.main;
     }

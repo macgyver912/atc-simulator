@@ -11,7 +11,7 @@ using UnityEngine;
  * @date December 10th, 2022
  * @author Jaime Valle Alonso
  */
-public class Aircraft : ScriptableObject
+public class Aircraft /*: ScriptableObject*/
 {
 
     /**
@@ -458,10 +458,13 @@ public class Aircraft : ScriptableObject
 
 
 
-	public void SetLabel(string label) { this.label = label;}
+	public void SetLabel(string label) { this.label = label; }
     public void SetLabelPos(DrawRadarScreen.AcftLabelPos labelPos) { this.labelPos = labelPos; }
-    public void SetLabelLineOffset(Vector2 labelLineOffset) { this.labelLineOffset = labelLineOffset;}
+    public void SetLabelLineOffset(Vector2 labelLineOffset) { this.labelLineOffset = labelLineOffset; }
+
+	public void SetLabelScreenPos(Vector3 labelScreenPos) { this.labelScreenPos = labelScreenPos; }
 
 
-	
+
+
 }// end-class

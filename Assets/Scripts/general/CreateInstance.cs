@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CreateInstance : MonoBehaviour
 {
-    Transform ILS_Instance;
+    public Transform ILS_Instance;
     static Transform _ILS_Instance;
 
     void Awake()

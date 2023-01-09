@@ -75,6 +75,10 @@
     <Compile Include="Assets\Scripts\graphics\MngCamera.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Resources\shaders\Normal-Diffuse.shader" />
+    <None Include="Assets\Resources\shaders\Alpha-Diffuse.shader" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>D:\Programas\Unity\Editor\2022.2.0f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

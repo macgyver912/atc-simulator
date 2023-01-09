@@ -12,7 +12,7 @@ using UnityEngine;
  * @author Jaime Valle Alonso
  */
 
-public class FIX : ScriptableObject
+public class FIX /*: ScriptableObject*/
 {
 
     /**
@@ -73,7 +73,7 @@ public class FIX : ScriptableObject
 	 * @type {GameObject}
 	 */
     GameObject go;
-	
+
 	/**
 	 * @class FIX
 	 * @constructor
@@ -93,9 +93,9 @@ public class FIX : ScriptableObject
         this.lat = lat;
         this.lon = lon;
         this.position = new Vector2(lat, lon);
-
+		
         this.type = type;
-
+		
         if (this.type == FixTypes.Compulsory)
         {
             this.icon = DrawRadarScreen.icons["fix_filled"];
@@ -107,11 +107,16 @@ public class FIX : ScriptableObject
 
         this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
         UnityEngine.Object.Destroy(this.go.GetComponent<Collider>());
-        this.go.name = this.GetType() + "_" + this.name;
+		this.go.name = this.GetType() + "_" + this.name;
         this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
         this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
-        this.go.GetComponent<Renderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1f);		
-        this.go.transform.rotation = Quaternion.Euler(90, 180, 0);
+		//this.go.GetComponent<Renderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+		/*
+		Color auxColor = this.go.GetComponent<Renderer>().material.color;
+		auxColor.a = 1f;
+		this.go.GetComponent<Renderer>().material.color = auxColor;
+		*/
+        this.go.transform.rotation = Quaternion.Euler(90f, 180f, 0f);
         this.go.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
     }
 
@@ -126,6 +131,9 @@ public class FIX : ScriptableObject
 
 	public float GetLat() { return lat; }
 	public float GetLon() { return lon; }
+	public string GetName() { return name; }
+	public Vector2 GetScreenPosition() { return screenPosition; }
+	public GameObject GetGO() { return this.go; }
 
 }
 

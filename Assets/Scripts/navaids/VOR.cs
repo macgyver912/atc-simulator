@@ -15,7 +15,7 @@ using static UnityEngine.Rendering.VirtualTexturing.Debugging;
  * @author Jaime Valle Alonso
  */
 
-public class VOR : ScriptableObject
+public class VOR /*: ScriptableObject*/
 {
 
     /**
@@ -138,7 +138,10 @@ public class VOR : ScriptableObject
         this.go.name = this.GetType() + "_" + this.id;
         this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
         this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
-        this.go.GetComponent<Renderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+        //this.go.GetComponent<Renderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+        Color auxColor = this.go.GetComponent<Renderer>().material.color;
+        auxColor.a = 1f;
+        this.go.GetComponent<Renderer>().material.color = auxColor;
         this.go.transform.rotation = Quaternion.Euler(90, 180, 0);
 
         if (iconName.Contains("rose"))
@@ -159,5 +162,10 @@ public class VOR : ScriptableObject
 
     public float GetLat() { return lat; }
     public float GetLon() { return lon; }
+    public string GetName() { return name; }
+	public string GetID() { return id; }
+	public bool HasDME() { return hasDME; }
+    public Vector2 GetScreenPosition() { return screenPosition; }
+    public GameObject GetGO() { return this.go; }
 
 }

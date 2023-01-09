@@ -11,7 +11,7 @@ using UnityEngine;
  * @date August 14, 2013
  * @author Jaime Valle Alonso
  */
-public class Company : ScriptableObject
+public class Company /*: ScriptableObject*/
 {
 	/**
 		* Company name. For example: <i>IBERIA Líneas Aéreas de España, S.A.</i>

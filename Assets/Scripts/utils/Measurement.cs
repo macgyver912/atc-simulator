@@ -16,7 +16,7 @@ public class Measurement : ScriptableObject
     static Vector2 km2degree;
     static Vector2 nm2degree;
 
-    static void Init()
+    public static void Init()
     {
         //	Debug.Log("Distance (40, -3)-(40, -2): " + Distance_DD_KM( Vector3(40, -3), Vector3(40, -2) ) + " km");
         //	Debug.Log("Distance (70, -3)-(70, -2): " + Distance_DD_KM( Vector3(70, -3), Vector3(70, -2) ) + " km");

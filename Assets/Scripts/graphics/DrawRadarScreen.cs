@@ -47,8 +47,8 @@ public class DrawRadarScreen : MonoBehaviour
     private static IconsColorEnum _defIconsColor_navaids;
     private static IconsColorEnum _defIconsColor_aircrafts;
 
-    GUISkin labelStyle_navaids;
-    GUISkin labelStyle_aircrafts;
+    public GUISkin labelStyle_navaids;
+    public GUISkin labelStyle_aircrafts;
     static Color labelLineColor;
  
     public static Dictionary<string, Texture2D> icons;
@@ -118,20 +118,19 @@ public class DrawRadarScreen : MonoBehaviour
 
             defCallsignSize = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX"));
             acftLabelHeight = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent(CreateObjects.aircraftList[0].GetLabel())).y;
+            
+            fixGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixList[0]).GetGO());
             /*
-            fixGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixArray[0]).go);
-
-            var auxVor : VOR = CreateObjects.vorArray.Find(function(_vor: VOR){ return _vor.hasDME == false; });
+            VOR auxVor = CreateObjects.vorList.Find(function(_vor: VOR){ return _vor.hasDME == false; });
             if (auxVor != null)
                 vorGOSize = MngScreen.GetScreenSizeOfGameObject(auxVor.go);
 
-            var auxVorRose : VOR = CreateObjects.vorArray.Find(function(_vor: VOR){ return _vor.hasDME == true; });
+            var auxVorRose : VOR = CreateObjects.vorList.Find(function(_vor: VOR){ return _vor.hasDME == true; });
             if (auxVorRose != null)
                 vorRoseGOSize = MngScreen.GetScreenSizeOfGameObject(auxVorRose.go);
 
             acftGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.aircraftList[0]).go);
             */
-
             //		SetAcftLabelPos();
 
         }// if initGUI
@@ -139,44 +138,44 @@ public class DrawRadarScreen : MonoBehaviour
         if (showGUI)
         {
             // ######### Show name of navaids #########
-            /*
+
             // FIX
-            for (var fix : FIX in CreateObjects.fixArray)
+            foreach (FIX fix in CreateObjects.fixList)
             {
-                labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(GUIContent(fix.name));
-                var fixPos = MngScreen.ScreenPosAbsolute(fix.screenPosition);
+                labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(fix.GetName()));
+                Vector2 fixPos = MngScreen.ScreenPosAbsolute(fix.GetScreenPosition());
                 // Below GameObject
-                GUI.Label(Rect(fixPos.x - labelSize.x / 2, fixPos.y + fixGOSize.y / 2, labelSize.x, labelSize.y), fix.name, labelStyle_navaids.GetStyle("Label"));
+                GUI.Label(new Rect(fixPos.x - labelSize.x / 2f, fixPos.y + fixGOSize.y / 2f, labelSize.x, labelSize.y), fix.GetName(), labelStyle_navaids.GetStyle("Label"));
             }//for
 
             // VOR
-            for (var vor : VOR in CreateObjects.vorArray)
+            foreach (VOR vor in CreateObjects.vorList)
             {
-                labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(GUIContent(vor.name));
+                labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(vor.GetName()));
 
-                var vorPos = MngScreen.ScreenPosAbsolute(vor.screenPosition);
+                Vector2 vorPos = MngScreen.ScreenPosAbsolute(vor.GetScreenPosition());
                 // Below GameObject
-                if (vor.hasDME)
+                if (vor.HasDME())
                     //				GUI.Label(Rect(vorPos.x-labelSize.x/2, vorPos.y+vorRoseGOSize.y/2, labelSize.x, labelSize.y), vor.id, labelStyle_navaids.GetStyle("Label"));
-                    GUI.Label(Rect(vorPos.x - labelSize.x / 2, vorPos.y - vorRoseGOSize.y / 2 - labelSize.y, labelSize.x, labelSize.y), vor.id, labelStyle_navaids.GetStyle("Label"));
+                    GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y - vorRoseGOSize.y / 2f - labelSize.y, labelSize.x, labelSize.y), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
                 else
                     //				GUI.Label(Rect(vorPos.x-labelSize.x/2, vorPos.y+vorGOSize.y/2, labelSize.x, labelSize.y), vor.id, labelStyle_navaids.GetStyle("Label"));
-                    GUI.Label(Rect(vorPos.x - labelSize.x / 2, vorPos.y - vorGOSize.y / 2 - labelSize.y, labelSize.x, labelSize.y), vor.id, labelStyle_navaids.GetStyle("Label"));
+                    GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y - vorGOSize.y / 2f - labelSize.y, labelSize.x, labelSize.y), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
             }
 
             // ######### Show aircrafts labels #########
             // Aircraft
-            for (var acft : Aircraft in CreateObjects.aircraftList)
+            foreach (Aircraft acft in CreateObjects.aircraftList)
             {
                 SetAcftLabelPos(acft);
-                var acftPos = MngScreen.ScreenPosAbsolute(acft.screenPosition);
+                Vector2 acftPos = MngScreen.ScreenPosAbsolute(acft.GetScreenPosition());
                 // Below GameObject
 
-                var rect = Rect(acftLabelRect.x + acftPos.x, acftLabelRect.y + acftPos.y, acftLabelRect.width, acftLabelRect.height);
-                acft.labelScreenPos = MngScreen.GetScreenToWorldPoint(Vector3(rect.x, rect.y, 0));
-                GUI.Label(rect, acft.label, labelStyle_aircrafts.GetStyle("Label"));
+                var rect = new Rect(acftLabelRect.x + acftPos.x, acftLabelRect.y + acftPos.y, acftLabelRect.width, acftLabelRect.height);
+                acft.SetLabelScreenPos(MngScreen.GetScreenToWorldPoint(new Vector3(rect.x, rect.y, 0)));
+                GUI.Label(rect, acft.GetLabel(), labelStyle_aircrafts.GetStyle("Label"));
             }//for
-            */
+
         }// if showGUI
     }
 
@@ -229,13 +228,13 @@ public class DrawRadarScreen : MonoBehaviour
         icons.Add("fix_filled", Resources.Load("icons/aeronautical/" + folderNavaids + "/FIX_FILLED") as Texture2D);
     }
 
-    static void StartDraw()
+    public static void StartDraw()
     {
         rwyWidth = 0.7f * MngScreen.GetPixelRatio();
         //	Debug.Log("rwyWidth: " + rwyWidth);
         DrawAirport();
         showGUI = true;
-        instance.InvokeRepeating("UpdateRadarScreen", 0, General.radarPeriod);
+        instance.InvokeRepeating("UpdateRadarScreen", 0, Config.radarPeriod);
     }
 
     void UpdateRadarScreen()
