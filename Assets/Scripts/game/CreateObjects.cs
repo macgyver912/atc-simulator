@@ -194,7 +194,7 @@ public class CreateObjects : MonoBehaviour
         {
             aircraft.SetGameObjectPos();
         }
-        /*
+        
         foreach (FIX fix in fixList)
         {
             fix.SetGameObjectPos();
@@ -204,7 +204,7 @@ public class CreateObjects : MonoBehaviour
         {
             vor.SetGameObjectPos();
         }
-        */
+        
     }
 
     

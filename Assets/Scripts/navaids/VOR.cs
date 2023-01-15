@@ -137,21 +137,29 @@ public class VOR /*: ScriptableObject*/
         this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
         this.go.name = this.GetType() + "_" + this.id;
         this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
-        this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
+        //this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
+        this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
         //this.go.GetComponent<Renderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+		/*
         Color auxColor = this.go.GetComponent<Renderer>().material.color;
         auxColor.a = 1f;
         this.go.GetComponent<Renderer>().material.color = auxColor;
+		*/
         this.go.transform.rotation = Quaternion.Euler(90, 180, 0);
 
         if (iconName.Contains("rose"))
         {
-            this.go.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+            //this.go.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+            this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_vor_rose;
+        }
+		else
+		{
+            this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_vor;
         }
     }
 
 
-    void SetGameObjectPos()
+    public void SetGameObjectPos()
     {
         //		this.screenPosition = MngScreen.ScreenPosRelToAirport(this.lon, this.lat, 0);
         this.screenPosition = MngScreen.RadarScreenPosRelToAirport(this.lon, this.lat, 0);

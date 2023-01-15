@@ -31,6 +31,7 @@ public class Config : MonoBehaviour
     public Color _color_runways;
     public IconsColorEnum _defIconsColor_navaids;
     public IconsColorEnum _defIconsColor_aircrafts;
+    public Shader _object_shader;    
 
     public static Color background_color;
     public static Color color_circles;
@@ -39,6 +40,25 @@ public class Config : MonoBehaviour
     public static Color color_runways;
     public static IconsColorEnum defIconsColor_navaids;
     public static IconsColorEnum defIconsColor_aircrafts;
+    public static Shader object_shader;
+
+    [Header("Text style")]
+    public GUISkin _labelStyle_navaids;
+    public GUISkin _labelStyle_aircrafts;
+
+    public static GUISkin labelStyle_navaids;
+    public static GUISkin labelStyle_aircrafts;
+
+    [Header("Scale")]
+    public float _scale_vor = 1.3f;
+    public float _scale_vor_rose = 1.3f;
+    public float _scale_fix = 0.4f;
+    public float _scale_acf = 1.4f;
+
+    public static float scale_vor;
+    public static float scale_vor_rose;
+    public static float scale_fix;
+    public static float scale_acf;
 
     void Awake()
     {
@@ -50,17 +70,29 @@ public class Config : MonoBehaviour
         twr_range = _twr_range;
         app_range = _app_range;
         rings_separation = _rings_separation;
+
         // ILS
         ils_range = _ils_range;
+
         // Colors
         background_color = _background_color;
         color_circles = _color_circles;
         color_limit_circles = _color_limit_circles;
         color_grid = _color_grid;
         color_runways = _color_runways;
-
+        object_shader = _object_shader;
         defIconsColor_navaids = _defIconsColor_navaids;
         defIconsColor_aircrafts = _defIconsColor_aircrafts;
+
+        // Text style
+        labelStyle_navaids = _labelStyle_navaids;
+        labelStyle_aircrafts = _labelStyle_aircrafts;
+
+        // Scale
+        scale_vor = _scale_vor;
+        scale_vor_rose = _scale_vor_rose;
+        scale_fix = _scale_fix;
+        scale_acf= _scale_acf; 
     }
 
     // Use this for initialization

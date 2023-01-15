@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static DrawRadarScreen;
 
 /**
  * Manages and draws graphical icons and others.
@@ -47,8 +48,6 @@ public class DrawRadarScreen : MonoBehaviour
     private static IconsColorEnum _defIconsColor_navaids;
     private static IconsColorEnum _defIconsColor_aircrafts;
 
-    public GUISkin labelStyle_navaids;
-    public GUISkin labelStyle_aircrafts;
     static Color labelLineColor;
  
     public static Dictionary<string, Texture2D> icons;
@@ -73,6 +72,9 @@ public class DrawRadarScreen : MonoBehaviour
     private static Color _color_grid;
     private static Color _color_runways;
 
+    private static GUISkin labelStyle_navaids;
+    private static GUISkin labelStyle_aircrafts;
+
     //var lengthOfLineRenderer : int = 2;
     private static Material defaultMaterial;
 
@@ -85,29 +87,10 @@ public class DrawRadarScreen : MonoBehaviour
     private static uint twr_app_limit;
     private static uint app_ctr_limit;
 
-    void Awake()
+    public void Awake()
     {
-        Camera.main.clearFlags = CameraClearFlags.SolidColor;
-        Camera.main.backgroundColor = Config.background_color;
-
-        _color_circles = Config.color_circles;
-        _color_limit_circles = Config.color_limit_circles;
-        _color_grid = Config.color_grid;
-        _color_runways = Config.color_runways;
-
-        _defIconsColor_navaids = Config.defIconsColor_navaids;
-        _defIconsColor_aircrafts = Config.defIconsColor_aircrafts;
-
-        twr_app_limit = (uint) Config.twr_range;
-        app_ctr_limit = (uint) Config.app_range;
-        ringsSeparation = Config.rings_separation;
-        Debug.LogWarning("sep: " + ringsSeparation);
-
-        defaultMaterial = new Material(Shader.Find("Diffuse"));
         instance = this;
-        labelLineColor = labelStyle_aircrafts.GetStyle("Label").normal.textColor;
     }
-
     void OnGUI()
     {
         if (initGUI)
@@ -181,6 +164,33 @@ public class DrawRadarScreen : MonoBehaviour
 
     public static void Init()
     {
+
+        Camera.main.clearFlags = CameraClearFlags.SolidColor;
+        Camera.main.backgroundColor = Config.background_color;
+
+        
+
+        _color_circles = Config.color_circles;
+        _color_limit_circles = Config.color_limit_circles;
+        _color_grid = Config.color_grid;
+        _color_runways = Config.color_runways;
+
+        _defIconsColor_navaids = Config.defIconsColor_navaids;
+        _defIconsColor_aircrafts = Config.defIconsColor_aircrafts;
+
+        twr_app_limit = (uint)Config.twr_range;
+        app_ctr_limit = (uint)Config.app_range;
+        ringsSeparation = Config.rings_separation;
+
+        defaultMaterial = new Material(Shader.Find("Diffuse"));
+
+        labelStyle_navaids = Config.labelStyle_navaids;
+        labelStyle_aircrafts = Config.labelStyle_aircrafts;
+
+        labelLineColor = labelStyle_aircrafts.GetStyle("Label").normal.textColor;
+
+        
+
         //	lineRenderer = instance.gameObject.AddComponent(LineRenderer);
 
         prefAcftLabelPos = AcftLabelPos.BottomLeft;
@@ -214,8 +224,8 @@ public class DrawRadarScreen : MonoBehaviour
         }
 
         icons = new Dictionary<string, Texture2D>();
-        icons.Add("aircraft", Resources.Load("icons/aeronautical/" + folderAircraft + "/aircraft") as Texture2D);
 
+        icons.Add("aircraft", Resources.Load("icons/aeronautical/" + folderAircraft + "/Aircraft") as Texture2D);
         icons.Add("aerodrome_civil", Resources.Load("icons/aeronautical/" + folderNavaids + "/Aerodrome_Civil") as Texture2D);
         icons.Add("aerodrome_civil_(no facilities)", Resources.Load("icons/aeronautical/" + folderNavaids + "/Aerodrome_Civil_(no facilities)") as Texture2D);
         icons.Add("aerodrome_government_civil", Resources.Load("icons/aeronautical/" + folderNavaids + "/Aerodrome_Government_Civil") as Texture2D);
@@ -374,8 +384,8 @@ public class DrawRadarScreen : MonoBehaviour
 
         //	lineRenderer.SetPosition(0, MngScreen.ScreenPosRelToAirport(rwys[0].GetThrLon(), rwys[0].GetThrLat(), CreateObjects.airport.GetPosition().z/100));
         //	lineRenderer.SetPosition(1, MngScreen.ScreenPosRelToAirport(rwys[1].GetThrLon(), rwys[1].GetThrLat(), CreateObjects.airport.GetPosition().z/100));
-        lineRenderer.SetPosition(0, MngScreen.RadarScreenPosRelToAirport(rwys[0].GetThrLon(), rwys[0].GetThrLat(), CreateObjects.airport.GetPosition().z / 100));
-        lineRenderer.SetPosition(1, MngScreen.RadarScreenPosRelToAirport(rwys[1].GetThrLon(), rwys[1].GetThrLat(), CreateObjects.airport.GetPosition().z / 100));
+        lineRenderer.SetPosition(0, MngScreen.RadarScreenPosRelToAirport(rwys[0].GetThrLon(), rwys[0].GetThrLat(), CreateObjects.airport.GetPosition().z / 100f));
+        lineRenderer.SetPosition(1, MngScreen.RadarScreenPosRelToAirport(rwys[1].GetThrLon(), rwys[1].GetThrLat(), CreateObjects.airport.GetPosition().z / 100f));
     }
 
     public static void DrawCircles()
@@ -395,7 +405,7 @@ public class DrawRadarScreen : MonoBehaviour
             Debug.Log("MngScreen.ratio.x: " + MngScreen.GetRatio().y);
             Debug.Log("distance: " + distance);
 
-            float stopCondition = (Screen.width > Screen.height ? Screen.width / 2 : Screen.height / 2);
+            float stopCondition = (Screen.width > Screen.height ? Screen.width / 2f : Screen.height / 2f);
 
             while (distance < stopCondition)
             {
@@ -437,8 +447,8 @@ public class DrawRadarScreen : MonoBehaviour
         float theta = 0;
 
         Vector2 offset;
-        offset.x = MngScreen.GetRadarScreenOffset().x + (Screen.width - MngScreen.GetRadarScreenOffset().x) / 2;
-        offset.y = MngScreen.GetRadarScreenOffset().y + Screen.height / 2;
+        offset.x = MngScreen.GetRadarScreenOffset().x + (Screen.width - MngScreen.GetRadarScreenOffset().x) / 2f;
+        offset.y = MngScreen.GetRadarScreenOffset().y + Screen.height / 2f;
 
         for (int i = 0; i < vertexCount + 1; i++)
         {
@@ -506,8 +516,8 @@ public class DrawRadarScreen : MonoBehaviour
         float theta = 0;
 
         Vector2 offset;
-        offset.x = MngScreen.GetRadarScreenOffset().x + (Screen.width - MngScreen.GetRadarScreenOffset().x) / 2;
-        offset.y = MngScreen.GetRadarScreenOffset().y + Screen.height / 2;
+        offset.x = MngScreen.GetRadarScreenOffset().x + (Screen.width - MngScreen.GetRadarScreenOffset().x) / 2f;
+        offset.y = MngScreen.GetRadarScreenOffset().y + Screen.height / 2f;
 
         for (int i = 0; i < vertexCount + 1; i++)
         {
@@ -540,7 +550,7 @@ public class DrawRadarScreen : MonoBehaviour
             float deltaDistance = gridSeparation * Measurement.GetNM_Degree().y * MngScreen.GetRatio().y / MngScreen.GetPixelRatio();
             float distance = 0;
 
-            float stopCondition = (Screen.width > Screen.height ? Screen.width / 2 : Screen.height / 2);
+            float stopCondition = (Screen.width > Screen.height ? Screen.width / 2f : Screen.height / 2f);
 
             while (distance < stopCondition)
             {
@@ -586,8 +596,8 @@ public class DrawRadarScreen : MonoBehaviour
         lineRenderer.SetVertexCount(2);
 
         Vector2 offset;
-        offset.x = MngScreen.GetRadarScreenOffset().x + (Screen.width - MngScreen.GetRadarScreenOffset().x) / 2;
-        offset.y = MngScreen.GetRadarScreenOffset().y + Screen.height / 2;
+        offset.x = MngScreen.GetRadarScreenOffset().x + (Screen.width - MngScreen.GetRadarScreenOffset().x) / 2f;
+        offset.y = MngScreen.GetRadarScreenOffset().y + Screen.height / 2f;
 
         Vector3 pos;
         pos.z = 0;
@@ -597,13 +607,13 @@ public class DrawRadarScreen : MonoBehaviour
         {
             case 0: // top
                 pos.x = posDist + offset.x;
-                pos.y = -Screen.height / 2 + offset.y;
+                pos.y = -Screen.height / 2f + offset.y;
                 pos = MngScreen.GetScreenToWorldPoint(pos);
                 lineRenderer.SetPosition(0, pos);
                 lineRenderer.SetPosition(1, new Vector3(pos.x, pos.y - 10.0f, pos.z));
                 break;
             case 1: // right
-                pos.x = (Screen.width - MngScreen.GetRadarScreenOffset().x) / 2 + offset.x;
+                pos.x = (Screen.width - MngScreen.GetRadarScreenOffset().x) / 2f + offset.x;
                 pos.y = posDist + offset.y;
                 pos = MngScreen.GetScreenToWorldPoint(pos);
                 lineRenderer.SetPosition(0, pos);
@@ -611,7 +621,7 @@ public class DrawRadarScreen : MonoBehaviour
                 break;
             case 2: // bottom
                 pos.x = posDist + offset.x;
-                pos.y = Screen.height / 2 + offset.y;
+                pos.y = Screen.height / 2f + offset.y;
                 pos = MngScreen.GetScreenToWorldPoint(pos);
                 lineRenderer.SetPosition(0, pos);
                 lineRenderer.SetPosition(1, new Vector3(pos.x, pos.y + 10.0f, pos.z));
@@ -634,48 +644,48 @@ public class DrawRadarScreen : MonoBehaviour
         if (pos == AcftLabelPos.UpperLeft)
         {
             acftLabelRect = new Rect(-defCallsignSize.x,
-                                -acftGOSize.y / 3 - acftLabelHeight,
+                                -acftGOSize.y / 3f - acftLabelHeight,
                                  defCallsignSize.x,
                                  defCallsignSize.y);
-            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4, -labelSize.y));
+            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4f, -labelSize.y));
         }
         else if (pos == AcftLabelPos.UpperCenter)
         {
-            acftLabelRect = new Rect(-defCallsignSize.x / 2,
-                            -acftGOSize.y / 2 - acftLabelHeight,
+            acftLabelRect = new Rect(-defCallsignSize.x / 2f,
+                            -acftGOSize.y / 2f - acftLabelHeight,
                              defCallsignSize.x,
                              defCallsignSize.y);
         }
         else if (pos == AcftLabelPos.UpperRight)
         {
-            acftLabelRect = new Rect(defCallsignSize.x / 4,
-                            -acftGOSize.y / 3 - acftLabelHeight,
+            acftLabelRect = new Rect(defCallsignSize.x / 4f,
+                            -acftGOSize.y / 3f - acftLabelHeight,
                              defCallsignSize.x,
                              defCallsignSize.y);
         }
         else if (pos == AcftLabelPos.BottomLeft)
         {
             acftLabelRect = new Rect(-defCallsignSize.x,
-                            acftGOSize.y + defCallsignSize.y / 2,
+                            acftGOSize.y + defCallsignSize.y / 2f,
                              defCallsignSize.x,
                              defCallsignSize.y);
-            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4, defCallsignSize.y * 0.5f));
+            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4f, defCallsignSize.y * 0.5f));
         }
         else if (pos == AcftLabelPos.BottomCenter)
         {
-            acftLabelRect = new Rect(-defCallsignSize.x / 2,
+            acftLabelRect = new Rect(-defCallsignSize.x / 2f,
                             acftGOSize.y + defCallsignSize.y,
                              defCallsignSize.x,
                              defCallsignSize.y);
-            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4, defCallsignSize.y * 0.5f));
+            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4f, defCallsignSize.y * 0.5f));
         }
         else if (pos == AcftLabelPos.BottomRight)
         {
-            acftLabelRect = new Rect(defCallsignSize.x / 4,
-                        acftGOSize.y + defCallsignSize.y / 2,
+            acftLabelRect = new Rect(defCallsignSize.x / 4f,
+                        acftGOSize.y + defCallsignSize.y / 2f,
                          defCallsignSize.x,
                          defCallsignSize.y);
-            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4, defCallsignSize.y * 0.5f));
+            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4f, defCallsignSize.y * 0.5f));
         }
 
         DrawLabelLine(acft);

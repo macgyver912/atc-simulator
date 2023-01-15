@@ -364,17 +364,19 @@ public class Aircraft /*: ScriptableObject*/
             
         //this.labelPos = DrawRadarScreen.prefAcftLabelPos;
 						
-        //this.icon = DrawRadarScreen.icons["aircraft"];
+        this.icon = DrawRadarScreen.icons["aircraft"];
 			
         this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
         this.go.name = this.GetType() + "_" /*+ this.company.callsignCode*/ + this.flightNumber;
         this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
-        this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
+        //this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
+        this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
         //		this.go.renderer.material.color = new Color(1,1,1,1);
         //this.go.GetComponent<Renderer>().material.color.a = 1;
         this.go.transform.rotation = Quaternion.Euler(90 + this.heading, 90, 270);
-        this.go.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
-		/*
+        //this.go.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
+        this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_acf;
+        /*
         this.go.AddComponent(AircraftCtrl);
         this.go.GetComponent(AircraftCtrl).aircraft = this;
 

@@ -109,18 +109,20 @@ public class FIX /*: ScriptableObject*/
         UnityEngine.Object.Destroy(this.go.GetComponent<Collider>());
 		this.go.name = this.GetType() + "_" + this.name;
         this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
-        this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
-		//this.go.GetComponent<Renderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+        //this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
+        this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
+        //this.go.GetComponent<Renderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1f);
 		/*
-		Color auxColor = this.go.GetComponent<Renderer>().material.color;
+        Color auxColor = this.go.GetComponent<Renderer>().material.color;
 		auxColor.a = 1f;
 		this.go.GetComponent<Renderer>().material.color = auxColor;
 		*/
         this.go.transform.rotation = Quaternion.Euler(90f, 180f, 0f);
-        this.go.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+        //this.go.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+        this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_fix;
     }
 
-    void SetGameObjectPos()
+    public void SetGameObjectPos()
     {
         //		this.screenPosition = MngScreen.ScreenPosRelToAirport(this.lon, this.lat, -1);
         this.screenPosition = MngScreen.RadarScreenPosRelToAirport(this.lon, this.lat, 0);
