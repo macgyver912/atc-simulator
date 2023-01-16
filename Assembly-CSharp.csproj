@@ -63,7 +63,10 @@
     <Compile Include="Assets\Scripts\graphics\DrawRadarScreen.cs" />
     <Compile Include="Assets\Scripts\utils\Measurement.cs" />
     <Compile Include="Assets\Scripts\companies\Company.cs" />
+    <Compile Include="Assets\Scripts\graphics\ATCPopupCtrl.cs" />
     <Compile Include="Assets\Scripts\aircrafts\Aircraft.cs" />
+    <Compile Include="Assets\Scripts\graphics\DrawATCPopup.cs" />
+    <Compile Include="Assets\Scripts\aircrafts\AircraftCtrl.cs" />
     <Compile Include="Assets\Scripts\graphics\MngScreen.cs" />
     <Compile Include="Assets\Scripts\game\CreateObjects.cs" />
     <Compile Include="Assets\Scripts\game\Config.cs" />

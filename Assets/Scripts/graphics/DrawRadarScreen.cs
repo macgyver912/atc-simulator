@@ -48,7 +48,7 @@ public class DrawRadarScreen : MonoBehaviour
     private static IconsColorEnum _defIconsColor_navaids;
     private static IconsColorEnum _defIconsColor_aircrafts;
 
-    static Color labelLineColor;
+    public static Color labelLineColor;
  
     public static Dictionary<string, Texture2D> icons;
 
@@ -692,7 +692,7 @@ public class DrawRadarScreen : MonoBehaviour
 
     }
     
-    static AcftLabelPos ChangeAcftLabelPos(AcftLabelPos pos)
+    public static AcftLabelPos ChangeAcftLabelPos(AcftLabelPos pos)
     {
         AcftLabelPos newPos;
         if(pos < AcftLabelPos.BottomLeft)

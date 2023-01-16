@@ -37,7 +37,7 @@ public class General : MonoBehaviour
 
         DrawGUI.StartDraw();
         DrawRadarScreen.StartDraw();
-        //DrawATCPopup.Init();
+        DrawATCPopup.Init();
 
     }
 
