@@ -12,21 +12,12 @@ public class General : MonoBehaviour
 
     public static int windowId = 0;
 
-    // Start is called as soon as script is loaded
-    private void Awake()
-    {
-        
-    }
-
-
     // Start is called before the first frame update
     void Start()
     {
         DrawGUI.Init();
         DrawRadarScreen.Init();
 
-
-        //GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
         MngCamera.Init();
         //	LoadData.Init();
         CreateObjects.Init();

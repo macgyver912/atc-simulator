@@ -10,13 +10,15 @@ public class DrawGUI : MonoBehaviour
     private static int id;
 
     // Window for Flight Progress Strips
+    public GUISkin windowFPS_guistyle;
+
     //static string windowFPSDefaultText;
     static float windowFPSWidth;
     static Rect windowFPS;
     string windowFPSTitle = "Flight Progress Strips";
     Vector2 fpsTitleSize;
     Vector2 stripSize;
-    GUISkin windowFPS_guistyle;
+    
     GUIStyle scroll_guistyle;
 
     Vector2 arrivals_scrollPos = Vector2.zero;
@@ -71,8 +73,7 @@ public class DrawGUI : MonoBehaviour
             //			DrawRadarScreen.DrawCircles();
             //		}
 
-            var aux = distanceAssistantValue;
-            distanceAssistantValue = GUI.HorizontalSlider(new Rect(Screen.width / 2.0f, 5.0f, 30.0f, 10.0f),
+            float aux = distanceAssistantValue = GUI.HorizontalSlider(new Rect(Screen.width / 2.0f, 5.0f, 30.0f, 10.0f),
                         Mathf.Round(distanceAssistantValue), -1.0f, 1.0f);
 
             if (distanceAssistantValue != aux)
@@ -126,35 +127,44 @@ public class DrawGUI : MonoBehaviour
         string authFLStr;
         string strip;
 
-        /*
-        List<Aircraft> arrivalAcfts = CreateObjects.aircraftList.FindAll(
-            function(Aircraft _acft){ 
-                return _acft.flightStatus == Aircraft.FlightStatus.Arrival; 
-            }
-        );
-        
-        //		var arrivalAcfts : Aircraft = CreateObjects.aircraftList.Find(function(_acft : Aircraft){return _acft.flightStatus == Aircraft.FlightStatus.Arrival;});
-        var i = 0;
-        for (var acft : Aircraft in arrivalAcfts)
+
+        List<Aircraft> arrivalAcfts = new List<Aircraft>();
+        List<Aircraft> departureAcfts = new List<Aircraft>();
+
+        foreach (Aircraft acft in CreateObjects.aircraftList)
         {
-            if (acft.authoAltitude > CreateObjects.airport.transAltitude)
+            if (acft.GetFlightStatus() == Aircraft.FlightStatus.Arrival)
             {
-                authFL = Mathf.Ceil(acft.authoAltitude / 100);
+                arrivalAcfts.Add(acft);
+            }
+            else if(acft.GetFlightStatus() == Aircraft.FlightStatus.Departure)
+            {
+                departureAcfts.Add(acft);
+            }
+        }
+
+
+        ushort i = 0;
+        foreach (Aircraft acft in arrivalAcfts)
+        {
+            if (acft.GetAuthoAltitude() > CreateObjects.airport.GetTransAltitude())
+            {
+                authFL = (ushort) Mathf.Ceil(acft.GetAuthoAltitude() / 100f);
                 authFLStr = (authFL < 100 ? "0" + authFL.ToString() : authFL.ToString());
                 authFLStr = (authFL < 10 ? authFLStr + "0" : authFLStr);
                 authFLStr = "FL" + authFLStr;
             }
             else
             {
-                authFLStr = "A" + acft.authoAltitude.ToString();
+                authFLStr = "A" + acft.GetAuthoAltitude().ToString();
             }
 
-            strip = acft.callsignCode + acft.flightNumber + " " + acft.aircraftModelCode + "\n" +
-                                authFLStr + " " + acft.authoPoint;
-            GUI.Label(Rect(0, stripSize.y * i, 100, stripSize.y), strip, windowFPS_guistyle.GetStyle("Arrivals"));
+            strip = acft.GetCallsignCode() + acft.GetFlightNumber() + " " + acft.GetAircraftModelCode() + "\n" +
+                                authFLStr + " " + acft.GetAuthoPoint();
+            GUI.Label(new Rect(0f, stripSize.y * i, 100f, stripSize.y), strip, windowFPS_guistyle.GetStyle("Arrivals"));
             i++;
         }
-        */
+        
         GUI.EndScrollView();
 
         GUI.EndGroup();
@@ -168,30 +178,28 @@ public class DrawGUI : MonoBehaviour
                                     arrivals_scrollPos,
                                     new Rect(0.0f, 0.0f, windowFPSWidth - 20.0f, CreateObjects.aircraftList.Count * stripSize.y)
                                 );
-        /*
-        var departureAcfts : List.< Aircraft > = CreateObjects.aircraftList.FindAll(function(_acft: Aircraft){ return _acft.flightStatus == Aircraft.FlightStatus.Departure; });
-        //		var departureAcfts : Aircraft = CreateObjects.aircraftList.Find(function(_acft : Aircraft){return _acft.flightStatus == Aircraft.FlightStatus.Departure;});
+       
         i = 0;
-        for (var acft : Aircraft in departureAcfts)
+        foreach (Aircraft acft in departureAcfts)
         {
-            if (acft.authoAltitude > CreateObjects.airport.transAltitude)
+            if (acft.GetAuthoAltitude() > CreateObjects.airport.GetTransAltitude())
             {
-                authFL = Mathf.Ceil(acft.authoAltitude / 100);
+                authFL = (ushort) Mathf.Ceil(acft.GetAuthoAltitude() / 100);
                 authFLStr = (authFL < 100 ? "0" + authFL.ToString() : authFL.ToString());
                 authFLStr = (authFL < 10 ? authFLStr + "0" : authFLStr);
                 authFLStr = "FL" + authFLStr;
             }
             else
             {
-                authFLStr = "A" + acft.authoAltitude.ToString();
+                authFLStr = "A" + acft.GetAuthoAltitude().ToString();
             }
 
-            strip = acft.callsignCode + acft.flightNumber + " " + acft.aircraftModelCode + "\n" +
-                                 authFLStr + " " + acft.authoPoint;
-            GUI.Label(Rect(0, stripSize.y * i, 100, stripSize.y), strip, windowFPS_guistyle.GetStyle("Departures"));
+            strip = acft.GetCallsignCode() + acft.GetFlightNumber() + " " + acft.GetAircraftModelCode() + "\n" +
+                                authFLStr + " " + acft.GetAuthoPoint();
+            GUI.Label(new Rect(0f, stripSize.y * i, 100f, stripSize.y), strip, windowFPS_guistyle.GetStyle("Departures"));
             i++;
         }
-        */
+        
         GUI.EndScrollView();
 
         GUI.EndGroup();

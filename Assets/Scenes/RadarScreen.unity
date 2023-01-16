@@ -258,6 +258,7 @@ GameObject:
   - component: {fileID: 606412722}
   - component: {fileID: 606412717}
   - component: {fileID: 606412723}
+  - component: {fileID: 606412724}
   - component: {fileID: 606412721}
   - component: {fileID: 606412720}
   - component: {fileID: 606412719}
@@ -389,3 +390,16 @@ MonoBehaviour:
   _scale_vor_rose: 0.5
   _scale_fix: 0.4
   _scale_acf: 1.4
+--- !u!114 &606412724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606412714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 126887035f65fa64e80eb9dbe84fc2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowFPS_guistyle: {fileID: 11400000, guid: a52efd6595b049243a7d0cf70c9e4eed, type: 2}

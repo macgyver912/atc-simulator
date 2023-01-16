@@ -139,10 +139,6 @@ public class DrawATCPopup : MonoBehaviour
         ctrlTexts.Add("Increase Speed");
         ctrlTexts.Add("Reduce Speed");
     }
-    void Update()
-    {
-
-    }
 
     // #################
     // ##### MENUS #####
