@@ -73,7 +73,8 @@ public class DrawGUI : MonoBehaviour
             //			DrawRadarScreen.DrawCircles();
             //		}
 
-            float aux = distanceAssistantValue = GUI.HorizontalSlider(new Rect(Screen.width / 2.0f, 5.0f, 30.0f, 10.0f),
+            float aux = distanceAssistantValue;
+            distanceAssistantValue = GUI.HorizontalSlider(new Rect(Screen.width / 2.0f, 5.0f, 30.0f, 10.0f),
                         Mathf.Round(distanceAssistantValue), -1.0f, 1.0f);
 
             if (distanceAssistantValue != aux)
@@ -88,20 +89,16 @@ public class DrawGUI : MonoBehaviour
                         DrawRadarScreen.HideCircles();
                         break;
                     case 0:
-                        //					if(!existsDistGrid){
                         existsDistGrid = true;
                         existsDistRings = false;
                         DrawRadarScreen.DrawGrid();
                         DrawRadarScreen.HideCircles();
-                        //					}
                         break;
                     case 1:
-                        //					if(!existsDistRings){
                         existsDistGrid = true;
                         existsDistRings = true;
-                        DrawRadarScreen.DrawGrid();
+                        //DrawRadarScreen.DrawGrid();
                         DrawRadarScreen.DrawCircles();
-                        //					}
                         break;
                 }// switch
             }// if

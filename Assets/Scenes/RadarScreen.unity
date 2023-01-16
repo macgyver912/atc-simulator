@@ -379,7 +379,7 @@ MonoBehaviour:
   _background_color: {r: 0, g: 0, b: 0, a: 0}
   _color_circles: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
   _color_limit_circles: {r: 1, g: 0, b: 0, a: 1}
-  _color_grid: {r: 0, g: 0, b: 1, a: 1}
+  _color_grid: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
   _color_runways: {r: 0, g: 1, b: 0, a: 1}
   _defIconsColor_navaids: 0
   _defIconsColor_aircrafts: 2

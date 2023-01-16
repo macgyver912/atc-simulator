@@ -82,7 +82,7 @@ public class DrawRadarScreen : MonoBehaviour
     static float minAltitude = airportPosition.z;
 
     private static int ringsSeparation;
-    private static int gridSeparation = ringsSeparation;
+    private static int gridSeparation;
     private static ushort ringsVertexs = 48;
     private static uint twr_app_limit;
     private static uint app_ctr_limit;
@@ -181,6 +181,7 @@ public class DrawRadarScreen : MonoBehaviour
         twr_app_limit = (uint)Config.twr_range;
         app_ctr_limit = (uint)Config.app_range;
         ringsSeparation = Config.rings_separation;
+        gridSeparation = ringsSeparation;
 
         defaultMaterial = new Material(Shader.Find("Diffuse"));
 
@@ -407,7 +408,7 @@ public class DrawRadarScreen : MonoBehaviour
 
             float stopCondition = (Screen.width > Screen.height ? Screen.width / 2f : Screen.height / 2f);
 
-            while (distance < stopCondition)
+            while ((deltaDistance > 0) && (distance < stopCondition))
             {
                 DrawCircle(distance, ringsVertexs);
                 distance += deltaDistance;
@@ -552,7 +553,7 @@ public class DrawRadarScreen : MonoBehaviour
 
             float stopCondition = (Screen.width > Screen.height ? Screen.width / 2f : Screen.height / 2f);
 
-            while (distance < stopCondition)
+            while ((deltaDistance > 0) && (distance < stopCondition))
             {
                 // 'i' represents 4 screen borders (top, right, bottom, left)
                 for (ushort i = 0; i < 4; i++)
@@ -617,7 +618,7 @@ public class DrawRadarScreen : MonoBehaviour
                 pos.y = posDist + offset.y;
                 pos = MngScreen.GetScreenToWorldPoint(pos);
                 lineRenderer.SetPosition(0, pos);
-                lineRenderer.SetPosition(1, new Vector3(pos.x, pos.y - 10.0f, pos.z));
+                lineRenderer.SetPosition(1, new Vector3(pos.x - 10.0f, pos.y, pos.z));
                 break;
             case 2: // bottom
                 pos.x = posDist + offset.x;
@@ -631,7 +632,7 @@ public class DrawRadarScreen : MonoBehaviour
                 pos.y = posDist + offset.y;
                 pos = MngScreen.GetScreenToWorldPoint(pos);
                 lineRenderer.SetPosition(0, pos);
-                lineRenderer.SetPosition(1, new Vector3(pos.x, pos.y + 10.0f, pos.z));
+                lineRenderer.SetPosition(1, new Vector3(pos.x + 10.0f, pos.y, pos.z));
                 break;
         }
 
