@@ -263,6 +263,7 @@ GameObject:
   - component: {fileID: 606412720}
   - component: {fileID: 606412719}
   - component: {fileID: 606412718}
+  - component: {fileID: 606412725}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -386,10 +387,10 @@ MonoBehaviour:
   _object_shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
   _labelStyle_navaids: {fileID: 11400000, guid: 0e0e1166fa3baed47b8c2705d9b00c7b, type: 2}
   _labelStyle_aircrafts: {fileID: 11400000, guid: 29490564915073341b6cf6aad5a0122b, type: 2}
-  _scale_vor: 1.3
+  _scale_vor: 0.5
   _scale_vor_rose: 0.5
   _scale_fix: 0.4
-  _scale_acf: 1.4
+  _scale_acf: 1
 --- !u!114 &606412724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,3 +404,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windowFPS_guistyle: {fileID: 11400000, guid: a52efd6595b049243a7d0cf70c9e4eed, type: 2}
+--- !u!114 &606412725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606412714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b7deb9e6f19ae94c844f0acab336a49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popup_guistyle: {fileID: 11400000, guid: 354163be2e2ac13409a8a2214f9f638c, type: 2}
+  buttonUpText: {fileID: 2800000, guid: 7a149e40db2fabb4ca4c7a928528d1df, type: 3}
+  buttonDownText: {fileID: 2800000, guid: d5d2480ce7b8d074bae5a4f75e182696, type: 3}
+  buttonLeftText: {fileID: 2800000, guid: be5851e460f022946a1b90cdc03cdf45, type: 3}
+  buttonRightText: {fileID: 2800000, guid: 4ad89c314420d6a49bde3e1fcf33a81c, type: 3}
+  turnLeftText: {fileID: 2800000, guid: 8e0fc9ba6cd3f5648b5b8196e01d01d3, type: 3}
+  turnText: {fileID: 2800000, guid: 5ef5de898797afc45a996b62fc335264, type: 3}
+  turnRightText: {fileID: 2800000, guid: 29ed53effbbcdd34799221853a6eaefe, type: 3}

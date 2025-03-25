@@ -34,6 +34,15 @@ public class DrawGUI : MonoBehaviour
     bool existsDistRings = false;
     bool existsDistGrid = false;
 
+    List<Aircraft> arrivalAcfts;
+    List<Aircraft> departureAcfts;
+
+    public void Awake()
+    {
+        arrivalAcfts = new List<Aircraft>();
+        departureAcfts = new List<Aircraft>();
+    }
+
     public static void Init()
     {
         initGUI = true;
@@ -124,9 +133,8 @@ public class DrawGUI : MonoBehaviour
         string authFLStr;
         string strip;
 
-
-        List<Aircraft> arrivalAcfts = new List<Aircraft>();
-        List<Aircraft> departureAcfts = new List<Aircraft>();
+        arrivalAcfts.Clear();
+        departureAcfts.Clear();
 
         foreach (Aircraft acft in CreateObjects.aircraftList)
         {
@@ -137,6 +145,11 @@ public class DrawGUI : MonoBehaviour
             else if(acft.GetFlightStatus() == Aircraft.FlightStatus.Departure)
             {
                 departureAcfts.Add(acft);
+            }
+            else
+            {
+                arrivalAcfts.Remove(acft);
+                departureAcfts.Remove(acft);
             }
         }
 

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#pragma strict
-
 /**
  * Runway data and details.
  *

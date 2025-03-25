@@ -482,6 +482,8 @@ public class Aircraft /*: ScriptableObject*/
 	public void SetAltitude(ushort altitude) { this.altitude = altitude; }
 	public void SetAuthoAltitude(ushort authoAltitude) { this.authoAltitude= authoAltitude; }
 
+	public void SetAuthoPoint(string authoPoint) { this.authoPoint = authoPoint; }
+
     public void SetPosition(Vector3 position) { this.position = position; }
 
     public void SetPosition(Vector2 position) { this.position = new Vector3(position.x, position.y, 1.0f); }

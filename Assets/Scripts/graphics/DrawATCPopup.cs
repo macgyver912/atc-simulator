@@ -1,7 +1,10 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86;
+using UnityEngine.UIElements.Experimental;
 
 public class DrawATCPopup : MonoBehaviour
 {
@@ -56,7 +59,7 @@ public class DrawATCPopup : MonoBehaviour
     static List<string> ctrlTexts;
     static List<string> transCtrlTexts;
 
-    GUISkin popup_guistyle;
+    public GUISkin popup_guistyle;
 
     public Texture buttonUpText;
     public Texture buttonDownText;
@@ -89,13 +92,21 @@ public class DrawATCPopup : MonoBehaviour
     ushort popupOffset = 1;       // offset in pixels
 
 
-    short heading;
+    ushort heading;
     int altitude;
     short speed;
+
+    private ushort minHeading = 001;   // in degrees
+    private ushort maxHeading = 360;   // in degrees
+    private ushort nDigits;
+    ushort[] aux;
 
     public void Awake()
     {
         submenuHeadingToolbarTextures = new Texture[] { buttonLeftText, buttonUpText, buttonRightText };
+        nDigits = (ushort)maxHeading.ToString().Length;
+        aux = new ushort[nDigits];
+        Debug.Log("nDigits = " + nDigits);
     }
 
     public static void Init()
@@ -422,9 +433,101 @@ public class DrawATCPopup : MonoBehaviour
     }
 
 
-    // Make the contents of the window
-    
-    void DoHeadingPopup(int windowID)
+    void ChangeNumber_HDG(short variation, short digit)
+    {
+        
+        Debug.Log("ChangeNumber_HDG(" + variation + ", " + digit + ")");
+
+        ushort k = 0;
+
+        heading = 0;
+        // Convert inputs to number
+        for (k = 0; k<nDigits; k++)
+        {
+            if (k == digit)
+            {
+                Debug.Log("k == digit: " + k);
+
+                ushort.TryParse(submenuDigits[k], out aux[k]);
+                aux[k] += (ushort) variation;
+                //	 			if(aux[k] > maxHeading || aux[k] < minHeading){
+                //	 				ushort.TryParse(maxHeading.ToString()[k].ToString(), aux[k]);
+                //	 			}		
+            }
+            else
+            {
+                Debug.Log("k != digit: " + k);
+
+                ushort.TryParse(submenuDigits[k], out aux[k]);
+            }
+
+            aux[k] = (ushort) (aux[k] * Mathf.Pow(10, nDigits - k - 1));
+
+            Debug.Log("aux[k]: " + aux[k]);
+
+            heading += aux[k];
+            Debug.Log("heading: " + heading);
+        }
+
+        if (heading < minHeading)
+        {
+            heading = maxHeading;
+        }
+        else if (heading > maxHeading)
+        {
+            heading = minHeading;
+        }
+        else
+        {
+            heading = (ushort)(heading % 360);
+        }
+        heading = (heading == 0 ? (ushort) 360 : heading);
+
+        // Convert number to inputs
+        string str = string.Format("{0:D3}", heading);
+        for (k = 0; k < nDigits; k++)
+        {
+            submenuDigits[k] = str[k].ToString();
+        }
+    } //changeNumber
+
+
+    void AcceptPressed_HDG()
+    {
+        Debug.Log("HDG: " + heading);
+        if (heading != acftCtrl.GetAircraft().GetHeading())
+        {
+
+            showHeadingPopup = false;
+
+            switch (submenuHeadingToolbarInt)
+            {
+                case 0:
+                    acftCtrl.TurnLeft(heading);
+                    break;
+                case 1:
+                    acftCtrl.Turn(heading);
+                    break;
+                case 2:
+                    acftCtrl.TurnRight(heading);
+                    break;
+            }
+
+            string hdgStr = string.Format("{0:D3}", heading);
+            acftCtrl.GetAircraft().SetAuthoPoint("H" + hdgStr);
+            DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
+
+        }
+        else
+        {
+            // heading and requested heading are equals
+        }
+
+    }
+
+
+// Make the contents of the window
+void DoHeadingPopup(int windowID)
     {
 
         /* Heading submenu
@@ -438,12 +541,13 @@ public class DrawATCPopup : MonoBehaviour
         //	string number;						// number introduced through inputs
         //	ushort heading;						// store the number after conversion from String
 
-
+        /*
         ushort minHeading = 001;   // in degrees
         ushort maxHeading = 360;   // in degrees	
         ushort nDigits = (ushort) maxHeading.ToString().Length;
         ushort[] aux = new ushort[nDigits];
         ushort k = 0;
+        */
         /*
         var changeNumber = function(variation: short, digit: short){
             heading = 0;
@@ -554,9 +658,8 @@ public class DrawATCPopup : MonoBehaviour
             if (GUI.Button(new Rect(popupOffset + 3 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset,
                         submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpText, buttonWithoutPadding))
             {
-
-
-                //changeNumber(1, i, nDigits, aux);
+                Debug.Log("UP_" + i);
+                ChangeNumber_HDG(1, i);
 
             }//if-up button
 
@@ -576,8 +679,8 @@ public class DrawATCPopup : MonoBehaviour
             if (GUI.Button(new Rect(popupOffset + 3 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y + submenuInputBoxSize.y,
                         submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownText, buttonWithoutPadding))
             {
-
-                //changeNumber(-1, i, nDigits, aux);
+                Debug.Log("DN_" + i);
+                ChangeNumber_HDG(-1, i);
 
             }//if-down buttons
 
@@ -588,7 +691,7 @@ public class DrawATCPopup : MonoBehaviour
                         acceptText, submenuAcceptButtonStyle) || Input.GetButton("Accept"))
         {
 
-            //acceptPressed();
+            AcceptPressed_HDG();
 
         }// if-button
 

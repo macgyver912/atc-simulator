@@ -288,7 +288,7 @@ public class DrawRadarScreen : MonoBehaviour
     }
 
 
-    static void UpdateAcftAuthLabel(Aircraft acft)
+    public static void UpdateAcftAuthLabel(Aircraft acft)
     {
         // ######### Show aircrafts labels #########
 
@@ -332,8 +332,10 @@ public class DrawRadarScreen : MonoBehaviour
             Color c1 = labelLineColor;
             auxLineRenderer.material = defaultMaterial;
             auxLineRenderer.material.color = c1;
-            auxLineRenderer.SetColors(c1, c1);
-            auxLineRenderer.SetWidth(0.5f, 0.5f);
+            auxLineRenderer.startColor = c1;
+            auxLineRenderer.endColor = c1;
+            auxLineRenderer.startWidth = 0.5f;
+            auxLineRenderer.endWidth = 0.5f;
         }
 
         lineRenderer = acft.GetGO().GetComponentsInChildren<LineRenderer>()[0];
@@ -380,8 +382,10 @@ public class DrawRadarScreen : MonoBehaviour
         Color c1 = _color_runways;
         lineRenderer.material = defaultMaterial;
         lineRenderer.material.color = c1;
-        lineRenderer.SetColors(c1, c1);
-        lineRenderer.SetWidth(rwyWidth, rwyWidth);
+        lineRenderer.startColor = c1;
+        lineRenderer.endColor = c1;
+        lineRenderer.startWidth = rwyWidth;
+        lineRenderer.endWidth = rwyWidth;
 
         //	lineRenderer.SetPosition(0, MngScreen.ScreenPosRelToAirport(rwys[0].GetThrLon(), rwys[0].GetThrLat(), CreateObjects.airport.GetPosition().z/100));
         //	lineRenderer.SetPosition(1, MngScreen.ScreenPosRelToAirport(rwys[1].GetThrLon(), rwys[1].GetThrLat(), CreateObjects.airport.GetPosition().z/100));
@@ -440,9 +444,11 @@ public class DrawRadarScreen : MonoBehaviour
         Color c1 = _color_circles;
         lineRenderer.material = new Material(defaultMaterial);
         lineRenderer.material.color = c1;
-        lineRenderer.SetColors(c1, c1);
-        lineRenderer.SetWidth(0.5f, 0.5f);
-        lineRenderer.SetVertexCount(vertexCount + 1);
+        lineRenderer.startColor = c1;
+        lineRenderer.endColor = c1;
+        lineRenderer.startWidth = 0.5f;
+        lineRenderer.endWidth = 0.5f;
+        lineRenderer.positionCount = vertexCount + 1;
 
         float deltaTheta = (2.0f * Mathf.PI) / vertexCount;
         float theta = 0;
@@ -509,9 +515,11 @@ public class DrawRadarScreen : MonoBehaviour
         Color c1 = _color_limit_circles;
         lineRenderer.material = new Material(defaultMaterial);
         lineRenderer.material.color = c1;
-        lineRenderer.SetColors(c1, c1);
-        lineRenderer.SetWidth(0.5f, 0.5f);
-        lineRenderer.SetVertexCount(vertexCount + 1);
+        lineRenderer.startColor = c1;
+        lineRenderer.endColor = c1;
+        lineRenderer.startWidth = 0.5f;
+        lineRenderer.endWidth = 0.5f;
+        lineRenderer.positionCount = vertexCount + 1;
 
         float deltaTheta = (2.0f * Mathf.PI) / vertexCount;
         float theta = 0;
@@ -592,9 +600,11 @@ public class DrawRadarScreen : MonoBehaviour
         Color c1 = _color_grid;
         lineRenderer.material = new Material(defaultMaterial);
         lineRenderer.material.color = c1;
-        lineRenderer.SetColors(c1, c1);
-        lineRenderer.SetWidth(0.5f, 0.5f);
-        lineRenderer.SetVertexCount(2);
+        lineRenderer.startColor = c1;
+        lineRenderer.endColor = c1;
+        lineRenderer.startWidth = 0.5f;
+        lineRenderer.endWidth = 0.5f;
+        lineRenderer.positionCount = 2;
 
         Vector2 offset;
         offset.x = MngScreen.GetRadarScreenOffset().x + (Screen.width - MngScreen.GetRadarScreenOffset().x) / 2f;

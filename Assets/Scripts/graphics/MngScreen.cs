@@ -67,7 +67,7 @@ public class MngScreen : MonoBehaviour
 
 #if DEBUG_MODE
 	        Debug.Log("maxDistance: " + maxDistance);
-	        Debug.Log("safeMargin (º): " + safeMargin);
+	        Debug.Log("safeMargin (ï¿½): " + safeMargin);
 	        Debug.Log("ratio: " + ratio);
 	        Debug.Log("pixelRatio: " + pixelRatio);
 #endif

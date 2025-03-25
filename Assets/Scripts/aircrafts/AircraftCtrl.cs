@@ -46,7 +46,7 @@ public class AircraftCtrl : MonoBehaviour
     void SetTrails()
     {
         GameObject trailsGO = new GameObject(aircraft.GetGO().name + "_Trails");
-        //	trailsGO.transform.parent = aircraft.go.transform;
+        //trailsGO.transform.parent = aircraft.GetGO().transform;
 
         //	trailsList = new List.<GameObject>();
         //	positionsList = new List.<Vector2>();
@@ -56,6 +56,7 @@ public class AircraftCtrl : MonoBehaviour
             GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
             plane.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             plane.GetComponent<Renderer>().material.color = DrawRadarScreen.labelLineColor;
+            plane.GetComponent<Renderer>().material.shader = Config.object_shader;
             plane.name = aircraft.GetGO().name + "_trail#" + i;
             plane.transform.parent = GameObject.Find(aircraft.GetGO().name + "_Trails").transform;
             plane.transform.position = aircraft.GetGO().transform.position;
@@ -216,7 +217,7 @@ public class AircraftCtrl : MonoBehaviour
 
     // #### HEADING ####
 
-    void Turn(ushort targetHeading){
+    public void Turn(ushort targetHeading){
         // Calculates the shortest difference between two given angles.
         // E.g. (350, 090) = 100 -> TurnRight
         // E.g. (150, 090) = -60 -> TurnLeft
@@ -227,7 +228,7 @@ public class AircraftCtrl : MonoBehaviour
     }
 
 
-    IEnumerator TurnLeft(ushort targetHeading)
+    public IEnumerator TurnLeft(ushort targetHeading)
     {
 
         ushort prevHdg = aircraft.GetHeading();
@@ -248,7 +249,7 @@ public class AircraftCtrl : MonoBehaviour
         }
     }
 
-    IEnumerator TurnRight(ushort targetHeading)
+    public IEnumerator TurnRight(ushort targetHeading)
     {
 
         ushort prevHdg = aircraft.GetHeading();

@@ -14,7 +14,7 @@ using UnityEngine;
 public class Company /*: ScriptableObject*/
 {
 	/**
-		* Company name. For example: <i>IBERIA Líneas Aéreas de España, S.A.</i>
+		* Company name. For example: <i>IBERIA Lineas Aereas de Espana, S.A.</i>
 		* @attribute name
 		* @type {string}
 		*/
@@ -35,7 +35,7 @@ public class Company /*: ScriptableObject*/
 	/**
 		* @class Company
 		* @constructor
-		* @param {string} name Company name. For example: <i>IBERIA Líneas Aéreas de España, S.A.</i>
+		* @param {string} name Company name. For example: <i>IBERIA Lineas Aereas de Espana, S.A.</i>
 		* @param {string} callsign Company callsign. For example: <i>Iberia</i> for <i>IBERIA LAE, S.A.</i>
 		* @param {string} callsignCode Company callsignCode. For example: <i>IBE</i> for <i>IBERIA LAE, S.A.</i>
 		*/
@@ -66,7 +66,7 @@ public class Company /*: ScriptableObject*/
         return this.callsign;
     }
 
-    public void SetCallsignCode(string callsign)
+    public void SetCallsignCode(string callsignCode)
     {
         this.callsignCode = callsignCode;
     }
