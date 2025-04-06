@@ -925,6 +925,7 @@ void DoHeadingPopup(int windowID)
         {
 
             //acceptPressed();
+            AcceptPressed_HDG();
 
         }// if-button
 
