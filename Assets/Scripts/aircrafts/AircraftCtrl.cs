@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 public class AircraftCtrl : MonoBehaviour
 { 
@@ -221,10 +222,22 @@ public class AircraftCtrl : MonoBehaviour
         // Calculates the shortest difference between two given angles.
         // E.g. (350, 090) = 100 -> TurnRight
         // E.g. (150, 090) = -60 -> TurnLeft
+        string debugText = "Turn ";
+
         if (Mathf.DeltaAngle(aircraft.GetHeading(), targetHeading) > 0)
+        {
+            debugText += "right";
             TurnRight(targetHeading);
+        }
         else
+        {
+            debugText += "left";
             TurnLeft(targetHeading);
+        }
+        debugText += " to heading " + TextUtils.Text2SpellFormat(string.Format("{0:D3}", targetHeading)) + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+
+        //debugText += " to heading " + targetHeading + ", " + aircraft.GetCallsignCode() + aircraft.GetFlightNumber();
+        Debug.LogWarning(debugText);
     }
 
 

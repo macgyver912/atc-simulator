@@ -96,8 +96,8 @@ public class DrawATCPopup : MonoBehaviour
     int altitude;
     short speed;
 
-    private ushort minHeading = 001;   // in degrees
-    private ushort maxHeading = 360;   // in degrees
+    private ushort minHeading = 001;   // in degrees - really it should be 0 but in ATC phraseology is 360
+    private ushort maxHeading = 360;   // in degrees - really it should be 359 but in ATC phraseology is 360
     private ushort nDigits;
     ushort[] aux;
 
@@ -314,7 +314,7 @@ public class DrawATCPopup : MonoBehaviour
         }//if-else
     }
 
-    // Make the contents of the window
+    // Make the contents of the window for aircraft with 'incoming' status
     void DoNoCtrlPopup(int windowID)
     {
         for (var i = 0; i < noCtrlTexts.Count; i++)
@@ -327,8 +327,9 @@ public class DrawATCPopup : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        // Do something
-                        Debug.Log("Pressed");
+                        Debug.Log("Traffic " + acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber() + " is accepted under your control");
+                        
+                        // Change status condition of the aircraft from no controlled to be under your control
                         acftCtrl.GetAircraft().SetFlightStatus(Aircraft.FlightStatus.Arrival);
                         break;
                     default:
@@ -347,7 +348,7 @@ public class DrawATCPopup : MonoBehaviour
 
     }
 
-    // Make the contents of the window
+    // Make the contents of the window for aircraft with 'tranferred' status
     void DoTransCtrlPopup(int windowID)
     {
         for (var i = 0; i < transCtrlTexts.Count; i++)
@@ -360,8 +361,9 @@ public class DrawATCPopup : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        // Do something
-                        Debug.Log("Pressed");
+                        Debug.Log("Requested to come back with you to " + acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber());
+
+                        // Change status condition of the aircraft from tranferred to be under your control
                         // if is Outgoing traffic
                         if (acftCtrl.GetAircraft().GetFlightStatus() == Aircraft.FlightStatus.Transferred)
                             acftCtrl.GetAircraft().SetFlightStatus(Aircraft.FlightStatus.Departure);
@@ -491,7 +493,7 @@ public class DrawATCPopup : MonoBehaviour
         }
     } //changeNumber
 
-
+    // Sets commands to aircraft when heading is set and 'accept' button is pressed
     void AcceptPressed_HDG()
     {
         Debug.Log("HDG: " + heading);
@@ -500,22 +502,33 @@ public class DrawATCPopup : MonoBehaviour
 
             showHeadingPopup = false;
 
-            switch (submenuHeadingToolbarInt)
-            {
-                case 0:
-                    acftCtrl.TurnLeft(heading);
-                    break;
-                case 1:
-                    acftCtrl.Turn(heading);
-                    break;
-                case 2:
-                    acftCtrl.TurnRight(heading);
-                    break;
-            }
-
+            // update radar screen tag of this aircraft
             string hdgStr = string.Format("{0:D3}", heading);
             acftCtrl.GetAircraft().SetAuthoPoint("H" + hdgStr);
             DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
+
+            // simulate the communication text between ATC and pilots
+            string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", turn ";
+            debugText += (submenuHeadingToolbarInt == 0) ? "left " : (submenuHeadingToolbarInt == 2) ? "right " : "";
+            debugText += "to heading " + TextUtils.Text2SpellFormat(hdgStr);
+            Debug.LogWarning(debugText);
+
+            // set commands to the aircraft
+            switch (submenuHeadingToolbarInt)
+            {
+                case 0:
+                    // turn left to desired heading
+                    acftCtrl.TurnLeft(heading);
+                    break;
+                case 1:
+                    // turn by nearest way to desired heading
+                    acftCtrl.Turn(heading);
+                    break;
+                case 2:
+                    // turn right to desired heading
+                    acftCtrl.TurnRight(heading);
+                    break;
+            }
 
         }
         else
@@ -532,8 +545,8 @@ void DoHeadingPopup(int windowID)
 
         /* Heading submenu
 	     * _________________
-	     * |     |<||<||<| |     XXX = {ALT, FL}
-	     * | XXX  N  N  N  |	 NNN = {0, 9}
+	     * |     |<||<||<| |     XXX = {"Heading"}
+	     * | XXX  N  N  N  |	   N = {0, 9}
 	     * |_____|>||>||>|_|
 	     * |_____ACCEPT____|
 	     */
@@ -688,7 +701,7 @@ void DoHeadingPopup(int windowID)
 
         if (GUI.Button(new Rect(popupOffset, popupOffset + 2 * submenuSelButtonSize.y + submenuInputBoxSize.y,
                         submenuSize.x - popupOffset, submenuAcceptButtonSize.y),
-                        acceptText, submenuAcceptButtonStyle) || Input.GetButton("Accept"))
+                        acceptText, submenuAcceptButtonStyle) /*|| Input.GetButton("Accept")*/)
         {
 
             AcceptPressed_HDG();
@@ -820,7 +833,7 @@ void DoHeadingPopup(int windowID)
         /* Heading submenu
 	     * _________________
 	     * |     |<||<||<| |     XXX = {ALT, FL}
-	     * | XXX  N  N  N  |	 NNN = {0, 9}
+	     * | XXX  N  N  N  |	   N = {0, 9}
 	     * |_____|>||>||>|_|
 	     * |_____ACCEPT____|
 	     */
@@ -921,7 +934,7 @@ void DoHeadingPopup(int windowID)
 
         if (GUI.Button(new Rect(popupOffset, popupOffset + 2 * submenuSelButtonSize.y + submenuInputBoxSize.y,
                         submenuSize.x - popupOffset, submenuAcceptButtonSize.y),
-                        acceptText, submenuAcceptButtonStyle) || Input.GetButton("Accept"))
+                        acceptText, submenuAcceptButtonStyle) /*|| Input.GetButton("Accept")*/)
         {
 
             //acceptPressed();
@@ -974,8 +987,8 @@ void DoHeadingPopup(int windowID)
 
         /* Speed submenu
 	     * _________________
-	     * |     |<||<||<| |     XXXXX = {SPEED}
-	     * |XXXXX N  N  N  |	 NNN = {0, 9}
+	     * |     |<||<||<| |     XXXXX = {"Speed"}
+	     * |XXXXX N  N  N  |	     N = {0, 9}
 	     * |_____|>||>||>|_|
 	     * |_____ACCEPT____|
 	     */
@@ -1103,7 +1116,7 @@ void DoHeadingPopup(int windowID)
 
         if (GUI.Button(new Rect(popupOffset, popupOffset + 2 * submenuSelButtonSize.y + submenuInputBoxSize.y,
                         submenuSize.x - popupOffset, submenuAcceptButtonSize.y),
-                        acceptText, submenuAcceptButtonStyle) || Input.GetButton("Accept"))
+                        acceptText, submenuAcceptButtonStyle) /*|| Input.GetButton("Accept")*/)
         {
 
             //acceptPressed();

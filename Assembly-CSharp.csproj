@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\graphics\DrawATCPopup.cs" />
     <Compile Include="Assets\Scripts\aircrafts\AircraftCtrl.cs" />
     <Compile Include="Assets\Scripts\graphics\MngScreen.cs" />
+    <Compile Include="Assets\Scripts\utils\TextUtils.cs" />
     <Compile Include="Assets\Scripts\game\CreateObjects.cs" />
     <Compile Include="Assets\Scripts\game\Config.cs" />
     <Compile Include="Assets\Scripts\airports\Runway.cs" />
