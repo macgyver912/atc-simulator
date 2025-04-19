@@ -471,19 +471,7 @@ public class DrawATCPopup : MonoBehaviour
             Debug.Log("heading: " + heading);
         }
 
-        if (heading < minHeading)
-        {
-            heading = maxHeading;
-        }
-        else if (heading > maxHeading)
-        {
-            heading = minHeading;
-        }
-        else
-        {
-            heading = (ushort)(heading % 360);
-        }
-        heading = (heading == 0 ? (ushort) 360 : heading);
+        heading = CheckRange_HDG(heading);
 
         // Convert number to inputs
         string str = string.Format("{0:D3}", heading);
@@ -492,6 +480,27 @@ public class DrawATCPopup : MonoBehaviour
             submenuDigits[k] = str[k].ToString();
         }
     } //changeNumber
+
+    ushort CheckRange_HDG(ushort hdg_in)
+    {
+        ushort hdg_out;
+        if (hdg_in < minHeading)
+        {
+            hdg_out = maxHeading;
+        }
+        else if (heading > maxHeading)
+        {
+            hdg_out = minHeading;
+        }
+        else
+        {
+            hdg_out = (ushort)(hdg_in % 360);
+        }
+        hdg_out = (hdg_out == 0 ? (ushort)360 : hdg_out);
+
+        Debug.Log("CheckRange_HDG: " + hdg_out);
+        return hdg_out;
+    }
 
     // Sets commands to aircraft when heading is set and 'accept' button is pressed
     void AcceptPressed_HDG()
@@ -523,6 +532,9 @@ public class DrawATCPopup : MonoBehaviour
 
     }
 
+
+
+    
 
 // Make the contents of the window
 void DoHeadingPopup(int windowID)
@@ -584,7 +596,7 @@ void DoHeadingPopup(int windowID)
             submenuDigits[i] = GUI.TextField(new Rect(popupOffset + 3 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y,
                         submenuInputBoxSize.x, submenuInputBoxSize.y),
                         submenuDigits[i], 1, submenuInputBoxStyle);
-
+            
             // Control only digits						
             submenuDigits[i] = (submenuDigits[i] != "" && char.IsDigit(submenuDigits[i][0]) ? submenuDigits[i] : "0");
 
@@ -625,6 +637,9 @@ void DoHeadingPopup(int windowID)
         }
         else if ((e.isKey && e.keyCode == KeyCode.Return) || (e.isKey && e.keyCode == KeyCode.KeypadEnter))
         {
+            ushort n = minHeading;
+            ushort.TryParse(submenuDigits[0].ToString() + submenuDigits[1].ToString() + submenuDigits[2].ToString(), out n);
+            heading = CheckRange_HDG(n);
             AcceptPressed_HDG();
         }
 
