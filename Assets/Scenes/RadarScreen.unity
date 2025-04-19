@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -38,13 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 1
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -67,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 0
@@ -207,13 +203,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &527240976
 GameObject:
@@ -238,13 +234,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 527240976}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &606412714
 GameObject:
@@ -278,13 +274,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 606412714}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &606412717
 MonoBehaviour:
@@ -417,10 +413,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popup_guistyle: {fileID: 11400000, guid: 354163be2e2ac13409a8a2214f9f638c, type: 2}
-  buttonUpText: {fileID: 2800000, guid: 7a149e40db2fabb4ca4c7a928528d1df, type: 3}
-  buttonDownText: {fileID: 2800000, guid: d5d2480ce7b8d074bae5a4f75e182696, type: 3}
-  buttonLeftText: {fileID: 2800000, guid: be5851e460f022946a1b90cdc03cdf45, type: 3}
-  buttonRightText: {fileID: 2800000, guid: 4ad89c314420d6a49bde3e1fcf33a81c, type: 3}
-  turnLeftText: {fileID: 2800000, guid: 8e0fc9ba6cd3f5648b5b8196e01d01d3, type: 3}
-  turnText: {fileID: 2800000, guid: 5ef5de898797afc45a996b62fc335264, type: 3}
-  turnRightText: {fileID: 2800000, guid: 29ed53effbbcdd34799221853a6eaefe, type: 3}
+  buttonUpIcon: {fileID: 2800000, guid: 7a149e40db2fabb4ca4c7a928528d1df, type: 3}
+  buttonDownIcon: {fileID: 2800000, guid: d5d2480ce7b8d074bae5a4f75e182696, type: 3}
+  buttonLeftIcon: {fileID: 2800000, guid: be5851e460f022946a1b90cdc03cdf45, type: 3}
+  buttonRightIcon: {fileID: 2800000, guid: 4ad89c314420d6a49bde3e1fcf33a81c, type: 3}
+  turnLeftIcon: {fileID: 2800000, guid: 8e0fc9ba6cd3f5648b5b8196e01d01d3, type: 3}
+  turnIcon: {fileID: 2800000, guid: 5ef5de898797afc45a996b62fc335264, type: 3}
+  turnRightIcon: {fileID: 2800000, guid: 29ed53effbbcdd34799221853a6eaefe, type: 3}
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 519420032}
+  - {fileID: 527240978}
+  - {fileID: 606412716}

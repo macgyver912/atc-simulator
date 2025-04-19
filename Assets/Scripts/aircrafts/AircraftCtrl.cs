@@ -270,14 +270,14 @@ public class AircraftCtrl : MonoBehaviour
         if (auxHdg <= targetHeading && prevHdg > targetHeading)
         {
             // Target heading is reached, stop turn
-            Debug.Log("Target heading is reached, stop turn");
+            //Debug.Log("Target heading is reached, stop turning left");
 
             aircraft.SetHeading((ushort) targetHeading);
         }
         else
         {
             // Target heading is not reached yet, continue turn
-            Debug.Log("Target heading is not reached yet, continue turn");
+            //Debug.Log("Target heading is not reached yet, continue turning left");
 
             aircraft.SetHeading((ushort) auxHdg);
             yield return new WaitForSeconds(Config.aircraftDataPeriod);
@@ -297,14 +297,14 @@ public class AircraftCtrl : MonoBehaviour
         if (auxHdg >= targetHeading && prevHdg < targetHeading)
         {
             // Target heading is reached, stop turn
-            Debug.Log("Target heading is reached, stop turn");
+            //Debug.Log("Target heading is reached, stop turning right");
 
             aircraft.SetHeading((ushort) targetHeading);
         }
         else
         {
             // Target heading is not reached yet, continue turn
-            Debug.Log("Target heading is not reached yet, continue turn");
+            //Debug.Log("Target heading is not reached yet, continue turning right");
 
             aircraft.SetHeading((ushort) auxHdg);
             yield return new WaitForSeconds(Config.aircraftDataPeriod);

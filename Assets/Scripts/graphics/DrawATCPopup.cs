@@ -61,13 +61,13 @@ public class DrawATCPopup : MonoBehaviour
 
     public GUISkin popup_guistyle;
 
-    public Texture buttonUpText;
-    public Texture buttonDownText;
-    public Texture buttonLeftText;
-    public Texture buttonRightText;
-    public Texture turnLeftText;
-    public Texture turnText;
-    public Texture turnRightText;
+    public Texture buttonUpIcon;
+    public Texture buttonDownIcon;
+    public Texture buttonLeftIcon;
+    public Texture buttonRightIcon;
+    public Texture turnLeftIcon;
+    public Texture turnIcon;
+    public Texture turnRightIcon;
 
     private GUIStyle popupStyle;
     private GUIStyle buttonStyle;
@@ -103,7 +103,7 @@ public class DrawATCPopup : MonoBehaviour
 
     public void Awake()
     {
-        submenuHeadingToolbarTextures = new Texture[] { buttonLeftText, buttonUpText, buttonRightText };
+        submenuHeadingToolbarTextures = new Texture[] { turnLeftIcon, turnIcon, turnRightIcon };
         nDigits = (ushort)maxHeading.ToString().Length;
         aux = new ushort[nDigits];
         Debug.Log("nDigits = " + nDigits);
@@ -536,103 +536,19 @@ void DoHeadingPopup(int windowID)
 	     * |_____ACCEPT____|
 	     */
 
-        //	string number;						// number introduced through inputs
-        //	ushort heading;						// store the number after conversion from String
-
-        /*
-        ushort minHeading = 001;   // in degrees
-        ushort maxHeading = 360;   // in degrees	
-        ushort nDigits = (ushort) maxHeading.ToString().Length;
-        ushort[] aux = new ushort[nDigits];
-        ushort k = 0;
-        */
-        /*
-        var changeNumber = function(variation: short, digit: short){
-            heading = 0;
-            // Convert inputs to number
-            for (k = 0; k < nDigits; k++)
-            {
-                if (k == digit)
-                {
-                    ushort.TryParse(submenuDigits[k], aux[k]);
-                    aux[k] += variation;
-                    //	 			if(aux[k] > maxHeading || aux[k] < minHeading){
-                    //	 				ushort.TryParse(maxHeading.ToString()[k].ToString(), aux[k]);
-                    //	 			}		
-                }
-                else
-                {
-                    ushort.TryParse(submenuDigits[k], aux[k]);
-                }
-
-                aux[k] = aux[k] * Mathf.Pow(10, nDigits - k - 1);
-
-                heading += aux[k];
-            }
-
-            if (heading < minHeading)
-                heading = maxHeading;
-            else if (heading > maxHeading)
-                heading = minHeading;
-            else
-                heading = heading % 360;
-            heading = (heading == 0 ? 360 : heading);
-
-            // Convert number to inputs
-            var str = String.Format("{0:D3}", heading);
-            for (k = 0; k < nDigits; k++)
-            {
-                submenuDigits[k] = str[k].ToString();
-            }
-        }; //changeNumber
-        */
-        /*
-        var acceptPressed = function(){
-            Debug.Log("HDG: " + heading);
-            if (heading != acftCtrl.aircraft.heading)
-            {
-
-                showHeadingPopup = false;
-
-                switch (submenuHeadingToolbarInt)
-                {
-                    case 0:
-                        acftCtrl.TurnLeft(heading);
-                        break;
-                    case 1:
-                        acftCtrl.Turn(heading);
-                        break;
-                    case 2:
-                        acftCtrl.TurnRight(heading);
-                        break;
-                }
-
-                var hdgStr = String.Format("{0:D3}", heading);
-                acftCtrl.aircraft.authoPoint = "H" + hdgStr;
-                DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.aircraft);
-
-            }
-            else
-            {
-                // heading and requested heading are equals
-            }
-
-        };
-        */
-
-
-
-        string asideText = "Heading";                  // text to show at left of inputs				
+        // Show "Heading" text left to inputs
+        string asideText = "Heading";                  				
         GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
         textStyle.alignment = TextAnchor.MiddleCenter;
 
+        // Show aircraft callsign in upper left corner
         GUIStyle acftLabelStyle = new GUIStyle(submenuAsideTextStyle);
         acftLabelStyle.alignment = TextAnchor.UpperLeft;
         acftLabelStyle.fontSize = 9;
-
         GUI.Label(new Rect(3 * popupOffset, popupOffset, 3 * submenuAsideTextSize.x, submenuAsideTextSize.y),
                 acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber(), acftLabelStyle);
 
+        // Set input digits
         GUI.Label(new Rect(popupOffset, popupOffset + submenuSelButtonSize.y,
                     3 * submenuAsideTextSize.x, submenuAsideTextSize.y),
                     asideText, textStyle);
@@ -648,13 +564,12 @@ void DoHeadingPopup(int windowID)
         GUIStyle buttonWithoutPadding = new GUIStyle("Button");
         buttonWithoutPadding.padding = new RectOffset(4, 4, 4, 4);
 
-
         for (short i = 0; i < nDigits; i++)
         {
 
             // ##### Up buttons #####
             if (GUI.Button(new Rect(popupOffset + 3 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset,
-                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpText, buttonWithoutPadding))
+                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpIcon, buttonWithoutPadding))
             {
                 Debug.Log("UP_" + i);
                 ChangeNumber_HDG(1, i);
@@ -675,7 +590,7 @@ void DoHeadingPopup(int windowID)
 
             // ##### Down buttons #####
             if (GUI.Button(new Rect(popupOffset + 3 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y + submenuInputBoxSize.y,
-                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownText, buttonWithoutPadding))
+                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownIcon, buttonWithoutPadding))
             {
                 Debug.Log("DN_" + i);
                 ChangeNumber_HDG(-1, i);
@@ -684,6 +599,7 @@ void DoHeadingPopup(int windowID)
 
         }//for	
 
+        // Set "Accept" button
         if (GUI.Button(new Rect(popupOffset, popupOffset + 2 * submenuSelButtonSize.y + submenuInputBoxSize.y,
                         submenuSize.x - popupOffset, submenuAcceptButtonSize.y),
                         acceptText, submenuAcceptButtonStyle) /*|| Input.GetButton("Accept")*/)
@@ -696,7 +612,7 @@ void DoHeadingPopup(int windowID)
         // Keyboard input control
         Event e = Event.current;
 
-        if (e.isKey && e.keyCode != KeyCode.Tab)
+        if (e.isKey && e.keyCode != KeyCode.Tab && e.keyCode != KeyCode.Return)
         {
             //changeNumber(0, -1, nDigits, aux);
             string currentInput = GUI.GetNameOfFocusedControl().Split("_"[0])[1];
@@ -706,6 +622,10 @@ void DoHeadingPopup(int windowID)
             string nextInput = inputsName + "_" + n.ToString();
             //		Debug.Log("nextInput: " + inputsName + "_" + n);
             GUI.FocusControl(inputsName + "_" + n);
+        }
+        else if ((e.isKey && e.keyCode == KeyCode.Return) || (e.isKey && e.keyCode == KeyCode.KeypadEnter))
+        {
+            AcceptPressed_HDG();
         }
 
         if (setupSubmenu)
@@ -880,7 +800,7 @@ void DoHeadingPopup(int windowID)
             //		GUI.DrawTexture(Rect(popupOffset + 2*submenuAsideTextSize.x + sizeCtrl + i*submenuInputBoxSize.x, popupOffset,
             //					submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpText, ScaleMode.ScaleToFit, true);
             if (GUI.Button(new Rect(popupOffset + 2 * submenuAsideTextSize.x + sizeCtrl + i * submenuInputBoxSize.x, popupOffset,
-                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpText, buttonWithoutPadding))
+                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpIcon, buttonWithoutPadding))
             {
 
                 //changeNumber(1, i);
@@ -902,7 +822,7 @@ void DoHeadingPopup(int windowID)
 
             // ##### Down buttons #####
             if (GUI.Button(new Rect(popupOffset + 2 * submenuAsideTextSize.x + sizeCtrl + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y + submenuInputBoxSize.y,
-                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownText, buttonWithoutPadding))
+                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownIcon, buttonWithoutPadding))
             {
 
                 //changeNumber(-1, i, nDigits);
@@ -1068,7 +988,7 @@ void DoHeadingPopup(int windowID)
 
             // ##### Up buttons #####
             if (GUI.Button(new Rect(popupOffset + 3 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset,
-                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpText, buttonWithoutPadding))
+                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpIcon, buttonWithoutPadding))
             {
 
 
@@ -1090,7 +1010,7 @@ void DoHeadingPopup(int windowID)
 
             // ##### Down buttons #####
             if (GUI.Button(new Rect(popupOffset + 3 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y + submenuInputBoxSize.y,
-                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownText, buttonWithoutPadding))
+                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownIcon, buttonWithoutPadding))
             {
 
                 //changeNumber(-1, i);
