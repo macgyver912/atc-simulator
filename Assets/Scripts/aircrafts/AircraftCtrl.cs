@@ -28,6 +28,14 @@ public class AircraftCtrl : MonoBehaviour
     private static ushort turnAngle;
     private static ushort turnRate;
 
+    private IEnumerator coroutine_HDG_Left;
+    private IEnumerator coroutine_HDG_Right;
+    private IEnumerator coroutine_SPD_Increase;
+    private IEnumerator coroutine_SPD_Decrease;
+    private IEnumerator coroutine_ALT_Climb;
+    private IEnumerator coroutine_ALT_Descend;
+
+
     //function Awake(){
     //	instance = this;
     //}
@@ -123,57 +131,82 @@ public class AircraftCtrl : MonoBehaviour
 
     // #### SPEED ####
 
-    void ChangeSpeed(ushort targetSpeed, bool fast){
-        if (targetSpeed > aircraft.GetSpeedIAS())
-            IncreaseSpeed(targetSpeed, fast);
+    public void ChangeSpeed(ushort targetSpeed, bool fast){
+        string debugText = string.Empty;
+
+        // Cancel previous commands
+        StopCoroutine("IncreaseSpeed");
+        StopCoroutine("ReduceSpeed");
+
+        if (targetSpeed > aircraft.GetSpeedGS())
+        {
+            debugText += "Increasing";
+            StartCoroutine(IncreaseSpeed(targetSpeed, fast));
+        }
         else
-            ReduceSpeed(targetSpeed, fast);
+        {
+            debugText += "Reducing";
+            StartCoroutine(ReduceSpeed(targetSpeed, fast));
+        }
+
+        debugText += " speed to " + targetSpeed + " knots" + (fast ? " as soon as possible" : "") +  ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+        Debug.LogWarning(debugText);
     }
 
-    public IEnumerator IncreaseSpeed(ushort targetSpeed, bool fast)
+    private IEnumerator IncreaseSpeed(ushort targetSpeed, bool fast)
     {
         ushort speedRate = (fast ? aircraft.GetSpeedRateAirMax() : aircraft.GetSpeedRateAirStd());
         float auxSpeed = aircraft.GetSpeedGS() + (speedRate * Config.aircraftDataPeriod) + Random.Range(-2, 2);
         if (auxSpeed >= targetSpeed && aircraft.GetSpeedGS() < targetSpeed)
         {
+            // Target speed is reached, maintain target speed
+            Debug.Log("Target speed is reached, maintain target speed");
             aircraft.SetSpeedGS((ushort) targetSpeed);
+            StopCoroutine("IncreaseSpeed");
         }
         else
         {
+            // Target speed is not reached yet, maintain increasing speed
+            Debug.Log("Target speed is not reached yet, maintain increasing speed");
             aircraft.SetSpeedGS((ushort) auxSpeed);
 
             yield return new WaitForSeconds(Config.aircraftDataPeriod);
-            IncreaseSpeed(targetSpeed, fast);
+            StartCoroutine(IncreaseSpeed(targetSpeed, fast));
         }
     }
 
-    public IEnumerator ReduceSpeed(ushort targetSpeed, bool fast)
+    private IEnumerator ReduceSpeed(ushort targetSpeed, bool fast)
     {
         ushort speedRate = (fast ? aircraft.GetSpeedRateAirMax() : aircraft.GetSpeedRateAirStd());
         float auxSpeed = aircraft.GetSpeedGS() - (speedRate * Config.aircraftDataPeriod) + Random.Range(-2, 2);
         if (auxSpeed <= targetSpeed && aircraft.GetSpeedGS() > targetSpeed)
         {
+            // Target speed is reached, maintain target speed
+            Debug.Log("Target speed is reached, maintain target speed");
             aircraft.SetSpeedGS((ushort) targetSpeed);
+            StopCoroutine("ReduceSpeed");
         }
         else
         {
+            // Target speed is not reached yet, maintain reducing speed
+            Debug.Log("Target speed is not reached yet, maintain reducing speed");
             aircraft.SetSpeedGS((ushort) auxSpeed);
 
             yield return new WaitForSeconds(Config.aircraftDataPeriod);
-            ReduceSpeed(targetSpeed, fast);
+            StartCoroutine(ReduceSpeed(targetSpeed, fast));
         }
     }
 
     // #### ALTITUDE ####
 
-    void ChangeLevel(ushort targetAltitude, bool fast){
+    public void ChangeLevel(ushort targetAltitude, bool fast){
         if (targetAltitude > aircraft.GetAltitude())
             Climb(targetAltitude, fast);
         else
             Descend(targetAltitude, fast);
     }
 
-    public IEnumerator Climb(ushort targetAltitude, bool fast) 
+    private IEnumerator Climb(ushort targetAltitude, bool fast) 
     {
         ushort vsRate = (fast ? aircraft.GetVSRateMax() : aircraft.GetVSRateStd());
         int auxRate = vsRate + Random.Range(-50, 50);       // feet per minute
@@ -195,7 +228,7 @@ public class AircraftCtrl : MonoBehaviour
         }
     }
 
-    public IEnumerator Descend(ushort targetAltitude, bool fast)
+    private IEnumerator Descend(ushort targetAltitude, bool fast)
     {
         ushort vsRate = (fast ? aircraft.GetVSRateMax() : aircraft.GetVSRateStd());
         int auxRate = -vsRate + Random.Range(-50, 50);       // feet per minute
@@ -258,7 +291,7 @@ public class AircraftCtrl : MonoBehaviour
     }
 
 
-    public IEnumerator TurnLeft(ushort targetHeading)
+    private IEnumerator TurnLeft(ushort targetHeading)
     {
 
         ushort prevHdg = aircraft.GetHeading();
@@ -270,14 +303,15 @@ public class AircraftCtrl : MonoBehaviour
         if (auxHdg <= targetHeading && prevHdg > targetHeading)
         {
             // Target heading is reached, stop turn
-            //Debug.Log("Target heading is reached, stop turning left");
+            Debug.Log("Target heading is reached, stop turning left");
 
             aircraft.SetHeading((ushort) targetHeading);
+            StopCoroutine("TurnLeft");
         }
         else
         {
             // Target heading is not reached yet, continue turn
-            //Debug.Log("Target heading is not reached yet, continue turning left");
+            Debug.Log("Target heading is not reached yet, continue turning left");
 
             aircraft.SetHeading((ushort) auxHdg);
             yield return new WaitForSeconds(Config.aircraftDataPeriod);
@@ -285,7 +319,7 @@ public class AircraftCtrl : MonoBehaviour
         }
     }
 
-    public IEnumerator TurnRight(ushort targetHeading)
+    private IEnumerator TurnRight(ushort targetHeading)
     {
 
         ushort prevHdg = aircraft.GetHeading();
@@ -297,14 +331,15 @@ public class AircraftCtrl : MonoBehaviour
         if (auxHdg >= targetHeading && prevHdg < targetHeading)
         {
             // Target heading is reached, stop turn
-            //Debug.Log("Target heading is reached, stop turning right");
+            Debug.Log("Target heading is reached, stop turning right");
 
             aircraft.SetHeading((ushort) targetHeading);
+            StopCoroutine("TurnRight");
         }
         else
         {
             // Target heading is not reached yet, continue turn
-            //Debug.Log("Target heading is not reached yet, continue turning right");
+            Debug.Log("Target heading is not reached yet, continue turning right");
 
             aircraft.SetHeading((ushort) auxHdg);
             yield return new WaitForSeconds(Config.aircraftDataPeriod);

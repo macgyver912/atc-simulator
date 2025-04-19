@@ -92,19 +92,26 @@ public class DrawATCPopup : MonoBehaviour
     ushort popupOffset = 1;       // offset in pixels
 
 
-    ushort heading;
-    int altitude;
-    short speed;
+    ushort tgtHdg;
+    int tgtAlt;
+    ushort tgtSpd;
 
-    private ushort minHeading = 001;   // in degrees - really it should be 0 but in ATC phraseology is 360
-    private ushort maxHeading = 360;   // in degrees - really it should be 359 but in ATC phraseology is 360
+    private const ushort HDG_MIN = 001;   // in degrees - really it should be 0 but in ATC phraseology is 360
+    private const ushort HDG_MAX = 360;   // in degrees - really it should be 359 but in ATC phraseology is 360
+
+    private const int ALT_MIN = -2000;   // in feet - lowest airport is about -1240 ft in Israel
+    private const int ALT_MAX = 55000;   // in feet
+
+    private const ushort SPD_MIN = 100;     // in kts
+    private const ushort SPD_MAX = 500;     // in kts	
+
     private ushort nDigits;
     ushort[] aux;
 
     public void Awake()
     {
         submenuHeadingToolbarTextures = new Texture[] { turnLeftIcon, turnIcon, turnRightIcon };
-        nDigits = (ushort)maxHeading.ToString().Length;
+        nDigits = (ushort) HDG_MAX.ToString().Length;
         aux = new ushort[nDigits];
         Debug.Log("nDigits = " + nDigits);
     }
@@ -179,16 +186,16 @@ public class DrawATCPopup : MonoBehaviour
                 //			acftCtrl.TurnLeft(270);
                 break;
             case 3:
-                acftCtrl.Climb(12000, false);
+                acftCtrl.ChangeLevel(12000, false);
                 break;
             case 4:
-                acftCtrl.Descend(3000, true);
+                acftCtrl.ChangeLevel(3000, true);
                 break;
             case 5:
-                acftCtrl.IncreaseSpeed(280, true);
+                acftCtrl.ChangeSpeed(280, true);
                 break;
             case 6:
-                acftCtrl.ReduceSpeed(180, false);
+                acftCtrl.ChangeSpeed(180, false);
                 break;
             default:
                 showCtrlGUI = false;
@@ -435,14 +442,14 @@ public class DrawATCPopup : MonoBehaviour
     }
 
 
-    void ChangeNumber_HDG(short variation, short digit)
+    void ChangeNumber_HDG(short variation, ushort digit)
     {
         
         Debug.Log("ChangeNumber_HDG(" + variation + ", " + digit + ")");
 
         ushort k = 0;
 
-        heading = 0;
+        tgtHdg = 0;
         // Convert inputs to number
         for (k = 0; k<nDigits; k++)
         {
@@ -467,30 +474,30 @@ public class DrawATCPopup : MonoBehaviour
 
             Debug.Log("aux[k]: " + aux[k]);
 
-            heading += aux[k];
-            Debug.Log("heading: " + heading);
+            tgtHdg += aux[k];
+            Debug.Log("tgtHdg: " + tgtHdg);
         }
 
-        heading = CheckRange_HDG(heading);
+        tgtHdg = CheckRange_HDG(tgtHdg);
 
         // Convert number to inputs
-        string str = string.Format("{0:D3}", heading);
+        string str = string.Format("{0:D3}", tgtHdg);
         for (k = 0; k < nDigits; k++)
         {
             submenuDigits[k] = str[k].ToString();
         }
-    } //changeNumber
+    } // ChangeNumber_HDG
 
     ushort CheckRange_HDG(ushort hdg_in)
     {
         ushort hdg_out;
-        if (hdg_in < minHeading)
+        if (hdg_in < HDG_MIN)
         {
-            hdg_out = maxHeading;
+            hdg_out = HDG_MAX;
         }
-        else if (heading > maxHeading)
+        else if (hdg_in > HDG_MAX)
         {
-            hdg_out = minHeading;
+            hdg_out = HDG_MIN;
         }
         else
         {
@@ -505,14 +512,14 @@ public class DrawATCPopup : MonoBehaviour
     // Sets commands to aircraft when heading is set and 'accept' button is pressed
     void AcceptPressed_HDG()
     {
-        Debug.Log("HDG: " + heading);
-        if (heading != acftCtrl.GetAircraft().GetHeading())
+        Debug.Log("HDG: " + tgtHdg);
+        if (tgtHdg != acftCtrl.GetAircraft().GetHeading())
         {
 
             showHeadingPopup = false;
 
             // update radar screen tag of this aircraft
-            string hdgStr = string.Format("{0:D3}", heading);
+            string hdgStr = string.Format("{0:D3}", tgtHdg);
             acftCtrl.GetAircraft().SetAuthoPoint("H" + hdgStr);
             DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
 
@@ -523,21 +530,21 @@ public class DrawATCPopup : MonoBehaviour
             Debug.LogWarning(debugText);
 
             // set commands to the aircraft
-            acftCtrl.Turn(heading, submenuHeadingToolbarInt);
+            acftCtrl.Turn(tgtHdg, submenuHeadingToolbarInt);
         }
         else
         {
             // heading and requested heading are equals
         }
 
-    }
+    } // AcceptPressed_HDG
 
 
 
-    
 
-// Make the contents of the window
-void DoHeadingPopup(int windowID)
+
+    // Make the contents of the window
+    void DoHeadingPopup(int windowID)
     {
 
         /* Heading submenu
@@ -547,6 +554,8 @@ void DoHeadingPopup(int windowID)
 	     * |_____|>||>||>|_|
 	     * |_____ACCEPT____|
 	     */
+
+        ushort nDigits = (ushort) HDG_MAX.ToString().Length;
 
         // Show "Heading" text left to inputs
         string asideText = "Heading";                  				
@@ -560,7 +569,7 @@ void DoHeadingPopup(int windowID)
         GUI.Label(new Rect(3 * popupOffset, popupOffset, 3 * submenuAsideTextSize.x, submenuAsideTextSize.y),
                 acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber(), acftLabelStyle);
 
-        // Set input digits
+        // Set turning side buttons
         GUI.Label(new Rect(popupOffset, popupOffset + submenuSelButtonSize.y,
                     3 * submenuAsideTextSize.x, submenuAsideTextSize.y),
                     asideText, textStyle);
@@ -573,10 +582,12 @@ void DoHeadingPopup(int windowID)
                 3 * submenuAsideTextSize.x, submenuAsideTextSize.y - 2 * popupOffset), submenuHeadingToolbarInt,
                 submenuHeadingToolbarTextures, toolbarStyle);
 
+
+        // Set input digits
         GUIStyle buttonWithoutPadding = new GUIStyle("Button");
         buttonWithoutPadding.padding = new RectOffset(4, 4, 4, 4);
 
-        for (short i = 0; i < nDigits; i++)
+        for (ushort i = 0; i < nDigits; i++)
         {
 
             // ##### Up buttons #####
@@ -637,9 +648,9 @@ void DoHeadingPopup(int windowID)
         }
         else if ((e.isKey && e.keyCode == KeyCode.Return) || (e.isKey && e.keyCode == KeyCode.KeypadEnter))
         {
-            ushort n = minHeading;
+            ushort n = HDG_MIN;
             ushort.TryParse(submenuDigits[0].ToString() + submenuDigits[1].ToString() + submenuDigits[2].ToString(), out n);
-            heading = CheckRange_HDG(n);
+            tgtHdg = CheckRange_HDG(n);
             AcceptPressed_HDG();
         }
 
@@ -657,10 +668,33 @@ void DoHeadingPopup(int windowID)
         }
 
     }
-    /*
-    void changeNumber(short variation, short digit, ushort nDigits, ushort[] aux)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    void ChangeNumber_ALT(short variation, short digit, ushort nDigits, int[] aux)
     {
-        ushort altitude = 0;
+        int tgtAlt = 0;
 
         ushort k = 0; 
         // Convert inputs to number
@@ -668,7 +702,8 @@ void DoHeadingPopup(int windowID)
         {
             if (k == digit)
             {
-                if (k < ctrlInputIndex)
+                //if (k < ctrlInputIndex)
+                if (k < nDigits)
                 {
                     int.TryParse(submenuDigits[k], out aux[k]);
                     aux[k] += variation;
@@ -684,35 +719,35 @@ void DoHeadingPopup(int windowID)
             }
 
             if (submenuIsAltitude)
-                aux[k] = aux[k] * Mathf.Pow(10, nDigits - k - 1);
+                aux[k] = (int) (aux[k] * Mathf.Pow(10, nDigits - k - 1));
             else
-                aux[k] = aux[k] * Mathf.Pow(10, (nDigits - k - 1) + 2);
+                aux[k] = (int) (aux[k] * Mathf.Pow(10, (nDigits - k - 1) + 2));
 
-            altitude += aux[k];
+            tgtAlt += aux[k];
 
             //			Debug.Log("submenuDigits[" + k + "]: " + submenuDigits[k] + " (" + aux[k] + ")");
         }
 
 
-        if (altitude < minAltitude)
+        if (tgtAlt < ALT_MIN)
         {
-            altitude = minAltitude;
-            Debug.Log("alt < min (" + minAltitude + ")");
+            tgtAlt = ALT_MIN;
+            Debug.Log("alt < min (" + ALT_MIN + ")");
         }
-        else if (altitude > maxAltitude)
+        else if (tgtAlt > ALT_MAX)
         {
-            altitude = maxAltitude;
-            Debug.Log("alt > max (" + maxAltitude + ")");
+            tgtAlt = ALT_MAX;
+            Debug.Log("alt > max (" + ALT_MAX + ")");
         }
 
 
         // Convert number to inputs
-        ushort aux_j = (altitude >= 10000 ? 0 : 1);
-        string currentAltitude = (submenuIsAltitude ? altitude.ToString() : altitude.ToString() + "00");
+        int aux_j = (tgtAlt >= 10000 ? 0 : 1);
+        string currentAltitude = (submenuIsAltitude ? tgtAlt.ToString() : tgtAlt.ToString() + "00");
 
         if (aux_j > 0)
             submenuDigits[0] = "0";
-        ushort limit = (submenuIsAltitude ? nDigits - 1 : nDigits);
+        int limit = (submenuIsAltitude ? nDigits - 1 : nDigits);
         for (ushort j = 0; j < limit; j++)
         {
             Debug.Log("number(" + (j + aux_j) + "): " + submenuDigits[j + aux_j]);
@@ -720,21 +755,21 @@ void DoHeadingPopup(int windowID)
         }
 
 
-        Debug.Log("altitude: " + altitude);
-    }; //changeNumber
-    */
+        Debug.Log("tgtAlt: " + tgtAlt);
+    } // ChangeNumber_ALT
+    
     /*
     void acceptPressed()
     {
-        Debug.Log("ALT: " + altitude);
+        Debug.Log("ALT: " + tgtAlt);
 
-        if (altitude != acftCtrl.aircraft.GetAltitude())
+        if (tgtAlt != acftCtrl.aircraft.GetAltitude())
         {
 
             showAltitudePopup = false;
 
-            acftCtrl.ChangeLevel(altitude, submenuIsAltSpeedUp);
-            acftCtrl.aircraft.SetAuthoAltitude(altitude);
+            acftCtrl.ChangeLevel(tgtAlt, submenuIsAltSpeedUp);
+            acftCtrl.aircraft.SetAuthoAltitude(tgtAlt);
             DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
 
         }
@@ -763,7 +798,7 @@ void DoHeadingPopup(int windowID)
         //				2*submenuAsideTextSize.x + sizeCtrl, submenuAsideTextSize.y), submenuIsAltitude,
         //				asideText, submenuAcceptButtonStyle);
 
-        submenuIsAltitude = (altitude <= CreateObjects.airport.GetTransAltitude() ? true : false);
+        submenuIsAltitude = (tgtAlt <= CreateObjects.airport.GetTransAltitude() ? true : false);
         // number of digits for input (here to avoid problems with change between A and FL)
         ushort nDigits = (ushort) (submenuIsAltitude ? 5 : 3);
 
@@ -801,11 +836,8 @@ void DoHeadingPopup(int windowID)
         GUIStyle buttonWithoutPadding = new GUIStyle("Button");
         buttonWithoutPadding.padding = new RectOffset(4, 4, 4, 4);
 
-
-        int minAltitude = 00000;      // in feet
-        int maxAltitude = 55000;      // in feet	
-                                      //	var nDigits = maxHeading.ToString().Length;
-        int[] aux = new int[maxAltitude.ToString().Length];
+        //	var nDigits = maxHeading.ToString().Length;
+        int[] aux = new int[ALT_MAX.ToString().Length];
         
 
         for (ushort i = 0; i < nDigits; i++)
@@ -818,7 +850,7 @@ void DoHeadingPopup(int windowID)
                         submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpIcon, buttonWithoutPadding))
             {
 
-                //changeNumber(1, i);
+                //ChangeNumber_ALT(1, i);
 
             }//if-up button
 
@@ -840,7 +872,7 @@ void DoHeadingPopup(int windowID)
                         submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownIcon, buttonWithoutPadding))
             {
 
-                //changeNumber(-1, i, nDigits);
+                //ChangeNumber_ALT(-1, i, nDigits);
 
             }//if-down buttons
 
@@ -868,7 +900,7 @@ void DoHeadingPopup(int windowID)
 
         if (e.isKey && e.keyCode != KeyCode.Tab)
         {
-            //changeNumber(0, -1);
+            //ChangeNumber_ALT(0, -1);
             string currentInput = GUI.GetNameOfFocusedControl().Split("_"[0])[1];
             ushort n = 0;
             ushort.TryParse(currentInput, out n);
@@ -884,7 +916,7 @@ void DoHeadingPopup(int windowID)
 
             var currentAltitude = acftCtrl.GetAircraft().GetAltitude();
 
-            altitude = currentAltitude;
+            tgtAlt = currentAltitude;
 
             var aux_j = (currentAltitude >= 10000 ? 0 : 1);
             if (aux_j > 0)
@@ -902,6 +934,122 @@ void DoHeadingPopup(int windowID)
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    void ChangeNumber_SPD(short variation, ushort digit)
+    {
+
+        Debug.Log("ChangeNumber_SPD(" + variation + ", " + digit + ")");
+
+        ushort k = 0;
+
+        tgtSpd = 0;
+        // Convert inputs to number
+        for (k = 0; k < nDigits; k++)
+        {
+            if (k == digit)
+            {
+                Debug.Log("k == digit: " + k);
+
+                ushort.TryParse(submenuDigits[k], out aux[k]);
+                aux[k] += (ushort)variation;
+                //	 			if(aux[k] > maxHeading || aux[k] < minHeading){
+                //	 				ushort.TryParse(maxHeading.ToString()[k].ToString(), aux[k]);
+                //	 			}		
+            }
+            else
+            {
+                Debug.Log("k != digit: " + k);
+
+                ushort.TryParse(submenuDigits[k], out aux[k]);
+            }
+
+            aux[k] = (ushort)(aux[k] * Mathf.Pow(10, nDigits - k - 1));
+
+            Debug.Log("aux[k]: " + aux[k]);
+
+            tgtSpd += aux[k];
+            Debug.Log("tgtSpd: " + tgtSpd);
+        }
+
+        tgtSpd = CheckRange_SPD(tgtSpd);
+
+        // Convert number to inputs
+        string str = string.Format("{0:D3}", tgtSpd);
+        for (k = 0; k < nDigits; k++)
+        {
+            submenuDigits[k] = str[k].ToString();
+        }
+    } // ChangeNumber_SPD
+
+    ushort CheckRange_SPD(ushort spd_in)
+    {
+        ushort spd_out;
+        if (spd_in < HDG_MIN)
+        {
+            spd_out = HDG_MAX;
+        }
+        else if (spd_in > HDG_MAX)
+        {
+            spd_out = HDG_MIN;
+        }
+        else
+        {
+            spd_out = (ushort)(spd_in % 360);
+        }
+        spd_out = (spd_out == 0 ? (ushort)360 : spd_out);
+
+        Debug.Log("CheckRange_HDG: " + spd_out);
+        return spd_out;
+    }
+
+    // Sets commands to aircraft when heading is set and 'accept' button is pressed
+    void AcceptPressed_SPD()
+    {
+        Debug.Log("SPD: " + tgtSpd);
+        if (tgtSpd != acftCtrl.GetAircraft().GetSpeedGS())
+        {
+
+            showSpeedPopup = false;
+
+            // update radar screen tag of this aircraft
+            string spdStr = string.Format("{0:D3}", tgtSpd);
+            //acftCtrl.GetAircraft().SetAuthoSpeed(tgtSpd);
+            DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
+
+            // simulate the communication text between ATC and pilots
+            string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) 
+                + ", " + (submenuIsSpeedSpeedUp ? "expedite " : " ") + "speed ";
+            debugText += spdStr + " knots";
+            Debug.LogWarning(debugText);
+
+            // set commands to the aircraft
+            //acftCtrl.GetAircraft().SetAuthoSpeed(tgtSpd);
+            acftCtrl.ChangeSpeed(tgtSpd, submenuIsSpeedSpeedUp);
+        }
+        else
+        {
+            // heading and requested heading are equals
+        }
+
+    }
+
+
+
     // Make the contents of the window
     void DoSpeedPopup(int windowID) {
 
@@ -913,90 +1061,34 @@ void DoHeadingPopup(int windowID)
 	     * |_____ACCEPT____|
 	     */
 
-        ushort minSpeed = 100;     // in kts
-        ushort maxSpeed = 500;     // in kts	
-        ushort nDigits = (ushort) maxSpeed.ToString().Length;
-        ushort[] aux = new ushort[nDigits];
-        ushort k = 0;
-        /*
-        var changeNumber = function(variation: short, digit: short){
-            speed = 0;
-            // Convert inputs to number
-            for (k = 0; k < nDigits; k++)
-            {
-                if (k == digit)
-                {
-                    ushort.TryParse(submenuDigits[k], aux[k]);
-                    aux[k] += variation;
-                    //	 			if(aux[k] > maxHeading || aux[k] < minHeading){
-                    //	 				ushort.TryParse(maxHeading.ToString()[k].ToString(), aux[k]);
-                    //	 			}		
-                }
-                else
-                {
-                    ushort.TryParse(submenuDigits[k], aux[k]);
-                }
+        
+        ushort nDigits = (ushort) SPD_MAX.ToString().Length;
 
-                aux[k] = aux[k] * Mathf.Pow(10, nDigits - k - 1);
-
-                speed += aux[k];
-            }
-
-            if (speed < minSpeed)
-                speed = maxSpeed;
-            else if (speed > maxSpeed)
-                speed = minSpeed;
-
-            // Convert number to inputs
-            var str = String.Format("{0:D3}", speed);
-            for (k = 0; k < nDigits; k++)
-            {
-                submenuDigits[k] = str[k].ToString();
-            }
-        }; //changeNumber
-        */
-        /*
-        var acceptPressed = function(){
-            Debug.Log("SPD: " + speed);
-            if (speed != acftCtrl.aircraft.speedIAS)
-            {
-
-                showSpeedPopup = false;
-
-                acftCtrl.ChangeSpeed(speed, submenuIsSpeedSpeedUp);
-                acftCtrl.aircraft.authoSpeed = speed;
-                DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.aircraft);
-
-            }
-            else
-            {
-                // speed and requested speed are equals
-            }
-
-        };
-        */
+        // Show "Speed" text left to inputs
         string asideText = "Speed";                    // text to show at left of inputs				
         GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
         textStyle.alignment = TextAnchor.MiddleCenter;
 
+        // Show aircraft callsign in upper left corner
         GUIStyle acftLabelStyle = new GUIStyle(submenuAsideTextStyle);
         acftLabelStyle.alignment = TextAnchor.UpperLeft;
         acftLabelStyle.fontSize = 9;
-
         GUI.Label(new Rect(3 * popupOffset, popupOffset, 3 * submenuAsideTextSize.x, submenuAsideTextSize.y),
                 acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber(), acftLabelStyle);
 
+        // Set input digits
         GUI.Label(new Rect(popupOffset, popupOffset + submenuSelButtonSize.y,
                     3 * submenuAsideTextSize.x, submenuAsideTextSize.y),
                     asideText, textStyle);
-
-        GUIStyle buttonWithoutPadding = new GUIStyle("Button");
-        buttonWithoutPadding.padding = new RectOffset(4, 4, 4, 4);
-
+                
+        // Set "speed up" button
         submenuIsSpeedSpeedUp = GUI.Toggle(new Rect(popupOffset, popupOffset + submenuSelButtonSize.y + submenuAsideTextSize.y,
                 3 * submenuAsideTextSize.x, submenuAsideTextSize.y - 2 * popupOffset), submenuIsSpeedSpeedUp,
                 "Fast", submenuAcceptButtonStyle);
 
+        // Set input digits
+        GUIStyle buttonWithoutPadding = new GUIStyle("Button");
+        buttonWithoutPadding.padding = new RectOffset(4, 4, 4, 4);
 
         for (ushort i = 0; i < nDigits; i++)
         {
@@ -1005,9 +1097,8 @@ void DoHeadingPopup(int windowID)
             if (GUI.Button(new Rect(popupOffset + 3 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset,
                         submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpIcon, buttonWithoutPadding))
             {
-
-
-                //changeNumber(1, i);
+                Debug.Log("UP_" + i);
+                ChangeNumber_SPD(1, i);
 
             }//if-up button
 
@@ -1027,19 +1118,20 @@ void DoHeadingPopup(int windowID)
             if (GUI.Button(new Rect(popupOffset + 3 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y + submenuInputBoxSize.y,
                         submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownIcon, buttonWithoutPadding))
             {
-
-                //changeNumber(-1, i);
+                Debug.Log("DN_" + i);
+                ChangeNumber_SPD(-1, i);
 
             }//if-down buttons
 
         }//for	
 
+        // Set "Accept" button
         if (GUI.Button(new Rect(popupOffset, popupOffset + 2 * submenuSelButtonSize.y + submenuInputBoxSize.y,
                         submenuSize.x - popupOffset, submenuAcceptButtonSize.y),
                         acceptText, submenuAcceptButtonStyle) /*|| Input.GetButton("Accept")*/)
         {
 
-            //acceptPressed();
+            AcceptPressed_SPD();
 
         }// if-button
 
@@ -1048,7 +1140,7 @@ void DoHeadingPopup(int windowID)
 
         if (e.isKey && e.keyCode != KeyCode.Tab)
         {
-            //changeNumber(0, -1);
+            //ChangeNumber_SPD(0, -1);
             string currentInput = GUI.GetNameOfFocusedControl().Split("_"[0])[1];
             ushort n = 0;
             ushort.TryParse(currentInput, out n);
@@ -1057,11 +1149,19 @@ void DoHeadingPopup(int windowID)
             //		Debug.Log("nextInput: " + inputsName + "_" + n);
             GUI.FocusControl(inputsName + "_" + n);
         }
+        else if ((e.isKey && e.keyCode == KeyCode.Return) || (e.isKey && e.keyCode == KeyCode.KeypadEnter))
+        {
+            ushort n = SPD_MIN;
+            ushort.TryParse(submenuDigits[0].ToString() + submenuDigits[1].ToString() + submenuDigits[2].ToString(), out n);
+            tgtSpd = CheckRange_SPD(n);
+            AcceptPressed_SPD();
+        }
+    
 
         if (setupSubmenu)
         {
             GUI.FocusControl(inputsName + "_0");
-            string currentSpeed = string.Format("{0:D3}", acftCtrl.GetAircraft().GetSpeedIAS());
+            string currentSpeed = string.Format("{0:D3}", acftCtrl.GetAircraft().GetSpeedGS());
             for (var j = 0; j < currentSpeed.Length; j++)
             {
                 submenuDigits[j] = currentSpeed[j].ToString();

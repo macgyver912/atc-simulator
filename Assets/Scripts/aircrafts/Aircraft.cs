@@ -478,7 +478,8 @@ public class Aircraft /*: ScriptableObject*/
 	public void SetHeading(ushort heading) { this.heading = heading; }
 
 	public void SetSpeedGS(ushort speedGS) { this.speedGS = speedGS; }
-	public void SetVS(short verticalSpeed) { this.verticalSpeed = verticalSpeed; }
+    public void SetSpeedIAS(ushort speedIAS) { this.speedIAS = speedIAS; }
+    public void SetVS(short verticalSpeed) { this.verticalSpeed = verticalSpeed; }
 	public void SetAltitude(ushort altitude) { this.altitude = altitude; }
 	public void SetAuthoAltitude(ushort authoAltitude) { this.authoAltitude= authoAltitude; }
 
