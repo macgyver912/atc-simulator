@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
+using static UnityEngine.GraphicsBuffer;
 
 public class AircraftCtrl : MonoBehaviour
 { 
@@ -218,22 +219,38 @@ public class AircraftCtrl : MonoBehaviour
 
     // #### HEADING ####
 
-    public void Turn(ushort targetHeading){
-        // Calculates the shortest difference between two given angles.
-        // E.g. (350, 090) = 100 -> TurnRight
-        // E.g. (150, 090) = -60 -> TurnLeft
+    public void Turn(ushort targetHeading, int side){
         string debugText = "Turn ";
 
-        if (Mathf.DeltaAngle(aircraft.GetHeading(), targetHeading) > 0)
+        if (side == 0)
+        {
+            debugText += "left";
+            StartCoroutine(TurnLeft(targetHeading));
+        }
+        else if (side == 2)
         {
             debugText += "right";
-            TurnRight(targetHeading);
+            StartCoroutine(TurnRight(targetHeading));
         }
         else
         {
-            debugText += "left";
-            TurnLeft(targetHeading);
+            // Calculates the shortest difference between two given angles.
+            // E.g. (350, 090) = 100 -> TurnRight
+            // E.g. (150, 090) = -60 -> TurnLeft
+            if (Mathf.DeltaAngle(aircraft.GetHeading(), targetHeading) > 0)
+            {
+                debugText += "right";
+                //TurnRight(targetHeading);
+                StartCoroutine(TurnRight(targetHeading));
+            }
+            else
+            {
+                debugText += "left";
+                //TurnLeft(targetHeading);
+                StartCoroutine(TurnLeft(targetHeading));
+            }
         }
+       
         debugText += " to heading " + TextUtils.Text2SpellFormat(string.Format("{0:D3}", targetHeading)) + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
 
         //debugText += " to heading " + targetHeading + ", " + aircraft.GetCallsignCode() + aircraft.GetFlightNumber();
@@ -252,13 +269,19 @@ public class AircraftCtrl : MonoBehaviour
 
         if (auxHdg <= targetHeading && prevHdg > targetHeading)
         {
+            // Target heading is reached, stop turn
+            Debug.Log("Target heading is reached, stop turn");
+
             aircraft.SetHeading((ushort) targetHeading);
         }
         else
         {
+            // Target heading is not reached yet, continue turn
+            Debug.Log("Target heading is not reached yet, continue turn");
+
             aircraft.SetHeading((ushort) auxHdg);
             yield return new WaitForSeconds(Config.aircraftDataPeriod);
-            TurnLeft(targetHeading);
+            StartCoroutine(TurnLeft(targetHeading));
         }
     }
 
@@ -273,13 +296,19 @@ public class AircraftCtrl : MonoBehaviour
 
         if (auxHdg >= targetHeading && prevHdg < targetHeading)
         {
+            // Target heading is reached, stop turn
+            Debug.Log("Target heading is reached, stop turn");
+
             aircraft.SetHeading((ushort) targetHeading);
         }
         else
         {
+            // Target heading is not reached yet, continue turn
+            Debug.Log("Target heading is not reached yet, continue turn");
+
             aircraft.SetHeading((ushort) auxHdg);
             yield return new WaitForSeconds(Config.aircraftDataPeriod);
-            TurnRight(targetHeading);
+            StartCoroutine(TurnRight(targetHeading));
         }
     }
 

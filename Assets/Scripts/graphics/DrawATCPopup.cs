@@ -514,22 +514,7 @@ public class DrawATCPopup : MonoBehaviour
             Debug.LogWarning(debugText);
 
             // set commands to the aircraft
-            switch (submenuHeadingToolbarInt)
-            {
-                case 0:
-                    // turn left to desired heading
-                    acftCtrl.TurnLeft(heading);
-                    break;
-                case 1:
-                    // turn by nearest way to desired heading
-                    acftCtrl.Turn(heading);
-                    break;
-                case 2:
-                    // turn right to desired heading
-                    acftCtrl.TurnRight(heading);
-                    break;
-            }
-
+            acftCtrl.Turn(heading, submenuHeadingToolbarInt);
         }
         else
         {
