@@ -214,11 +214,11 @@ public class Aircraft /*: ScriptableObject*/
 	 * @attribute altitude
 	 * @type {ushort}
 	 */
-	ushort altitude;
+	int altitude;
 	/**
 	 * Height is defined as distance between the aircraft and the obstacles below it.
 	 * @attribute height
-	 * @type {ushort}
+	 * @type {int}
 	 */
 	private ushort height;
 	/**
@@ -268,11 +268,11 @@ public class Aircraft /*: ScriptableObject*/
 	 * @attribute authoAltitude
 	 * @type {ushort}
 	 */
-	private ushort authoAltitude;
+	private int authoAltitude;
 	/**
 	 * Authorized speed (in kts).
 	 * @attribute authoSpeed
-	 * @type {ushort}
+	 * @type {int}
 	 */
 	private ushort authoSpeed;
 	/**
@@ -443,7 +443,7 @@ public class Aircraft /*: ScriptableObject*/
 	public ushort GetSpeedIAS() { return this.speedIAS; }
 	public ushort GetSpeedCAS() { return this.speedCAS; }
 	public ushort GetSpeedTAS() { return this.speedTAS; }
-	public ushort GetAltitude() { return this.altitude; }
+	public int GetAltitude() { return this.altitude; }
 	public ushort GetHeight() { return this.height; }
 	public short GetVerticalSpeed() { return this.verticalSpeed; }
 	public ushort GetTurnRate() { return this.turnRate; }
@@ -456,7 +456,7 @@ public class Aircraft /*: ScriptableObject*/
     public Texture2D GetIcon() { return this.icon; }
 	public GameObject GetGO() {	return this.go; }
 	public Aircraft GetScript() { return this.script; }
-	public ushort GetAuthoAltitude() { return this.authoAltitude; }
+	public int GetAuthoAltitude() { return this.authoAltitude; }
 	public ushort GetAuthoSpeed() { return this.authoSpeed; }
 	public string GetAuthoPoint() { return this.authoPoint; }
 	public FlightStatus GetFlightStatus() { return this.flightStatus; }
@@ -480,8 +480,8 @@ public class Aircraft /*: ScriptableObject*/
 	public void SetSpeedGS(ushort speedGS) { this.speedGS = speedGS; }
     public void SetSpeedIAS(ushort speedIAS) { this.speedIAS = speedIAS; }
     public void SetVS(short verticalSpeed) { this.verticalSpeed = verticalSpeed; }
-	public void SetAltitude(ushort altitude) { this.altitude = altitude; }
-	public void SetAuthoAltitude(ushort authoAltitude) { this.authoAltitude= authoAltitude; }
+	public void SetAltitude(int altitude) { this.altitude = altitude; }
+	public void SetAuthoAltitude(int authoAltitude) { this.authoAltitude= authoAltitude; }
 
 	public void SetAuthoPoint(string authoPoint) { this.authoPoint = authoPoint; }
 

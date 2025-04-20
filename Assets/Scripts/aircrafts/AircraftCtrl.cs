@@ -199,14 +199,14 @@ public class AircraftCtrl : MonoBehaviour
 
     // #### ALTITUDE ####
 
-    public void ChangeLevel(ushort targetAltitude, bool fast){
+    public void ChangeLevel(int targetAltitude, bool fast){
         if (targetAltitude > aircraft.GetAltitude())
             Climb(targetAltitude, fast);
         else
             Descend(targetAltitude, fast);
     }
 
-    private IEnumerator Climb(ushort targetAltitude, bool fast) 
+    private IEnumerator Climb(int targetAltitude, bool fast) 
     {
         ushort vsRate = (fast ? aircraft.GetVSRateMax() : aircraft.GetVSRateStd());
         int auxRate = vsRate + Random.Range(-50, 50);       // feet per minute
@@ -228,7 +228,7 @@ public class AircraftCtrl : MonoBehaviour
         }
     }
 
-    private IEnumerator Descend(ushort targetAltitude, bool fast)
+    private IEnumerator Descend(int targetAltitude, bool fast)
     {
         ushort vsRate = (fast ? aircraft.GetVSRateMax() : aircraft.GetVSRateStd());
         int auxRate = -vsRate + Random.Range(-50, 50);       // feet per minute

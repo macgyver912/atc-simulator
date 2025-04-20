@@ -255,7 +255,7 @@ public class DrawRadarScreen : MonoBehaviour
         
         ushort fl;
         string flStr;
-        ushort speed;
+        /*ushort speed;*/
         ushort autAlt;
         string autAltStr;
         

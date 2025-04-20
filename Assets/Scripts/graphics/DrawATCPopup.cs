@@ -444,12 +444,11 @@ public class DrawATCPopup : MonoBehaviour
 
     void ChangeNumber_HDG(short variation, ushort digit)
     {
-        
         Debug.Log("ChangeNumber_HDG(" + variation + ", " + digit + ")");
 
-        ushort k = 0;
-
         tgtHdg = 0;
+
+        ushort k = 0;        
         // Convert inputs to number
         for (k = 0; k<nDigits; k++)
         {
@@ -692,9 +691,11 @@ public class DrawATCPopup : MonoBehaviour
 
 
 
-    void ChangeNumber_ALT(short variation, short digit, ushort nDigits, int[] aux)
+    void ChangeNumber_ALT(short variation, ushort digit)
     {
-        int tgtAlt = 0;
+        Debug.Log("ChangeNumber_HDG(" + variation + ", " + digit + ")");
+        
+        tgtAlt = 0;
 
         ushort k = 0; 
         // Convert inputs to number
@@ -705,8 +706,10 @@ public class DrawATCPopup : MonoBehaviour
                 //if (k < ctrlInputIndex)
                 if (k < nDigits)
                 {
-                    int.TryParse(submenuDigits[k], out aux[k]);
-                    aux[k] += variation;
+                    Debug.Log("k == digit: " + k);
+
+                    ushort.TryParse(submenuDigits[k], out aux[k]);
+                    aux[k] += (ushort) variation;
                 }
                 else
                 {
@@ -715,31 +718,21 @@ public class DrawATCPopup : MonoBehaviour
             }
             else
             {
-                int.TryParse(submenuDigits[k], out aux[k]);
+                Debug.Log("k != digit: " + k);
+
+                ushort.TryParse(submenuDigits[k], out aux[k]);
             }
 
             if (submenuIsAltitude)
-                aux[k] = (int) (aux[k] * Mathf.Pow(10, nDigits - k - 1));
+                aux[k] = (ushort) (aux[k] * Mathf.Pow(10, nDigits - k - 1));
             else
-                aux[k] = (int) (aux[k] * Mathf.Pow(10, (nDigits - k - 1) + 2));
+                aux[k] = (ushort) (aux[k] * Mathf.Pow(10, (nDigits - k - 1) + 2));
 
             tgtAlt += aux[k];
-
-            //			Debug.Log("submenuDigits[" + k + "]: " + submenuDigits[k] + " (" + aux[k] + ")");
+            Debug.Log("tgtAlt: " + tgtAlt);
         }
 
-
-        if (tgtAlt < ALT_MIN)
-        {
-            tgtAlt = ALT_MIN;
-            Debug.Log("alt < min (" + ALT_MIN + ")");
-        }
-        else if (tgtAlt > ALT_MAX)
-        {
-            tgtAlt = ALT_MAX;
-            Debug.Log("alt > max (" + ALT_MAX + ")");
-        }
-
+        tgtAlt = CheckRange_ALT(tgtAlt);
 
         // Convert number to inputs
         int aux_j = (tgtAlt >= 10000 ? 0 : 1);
@@ -753,33 +746,63 @@ public class DrawATCPopup : MonoBehaviour
             Debug.Log("number(" + (j + aux_j) + "): " + submenuDigits[j + aux_j]);
             submenuDigits[j + aux_j] = (currentAltitude.ToString())[j].ToString();
         }
-
-
-        Debug.Log("tgtAlt: " + tgtAlt);
     } // ChangeNumber_ALT
+
+    int CheckRange_ALT(int alt_in)
+    {
+        int alt_out;
+
+        if (alt_in < ALT_MIN)
+            alt_out = ALT_MIN;
+        else if (alt_in > ALT_MAX)
+            alt_out = ALT_MAX;
+        else
+            alt_out = alt_in;
+
+        Debug.Log("CheckRange_ALT: " + alt_out);
+        return alt_out;
+    }
+
     
-    /*
-    void acceptPressed()
+    void AcceptPressed_ALT()
     {
         Debug.Log("ALT: " + tgtAlt);
-
-        if (tgtAlt != acftCtrl.aircraft.GetAltitude())
+        if (tgtAlt != acftCtrl.GetAircraft().GetAltitude())
         {
 
             showAltitudePopup = false;
 
-            acftCtrl.ChangeLevel(tgtAlt, submenuIsAltSpeedUp);
-            acftCtrl.aircraft.SetAuthoAltitude(tgtAlt);
+            // update radar screen tag of this aircraft
+            acftCtrl.GetAircraft().SetAuthoAltitude(tgtAlt);
             DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
 
+            // simulate the communication text between ATC and pilots
+            string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber())
+                + ", " + (submenuIsAltSpeedUp ? "expedite " : " ");
+
+            if (acftCtrl.GetAircraft().GetAltitude() < tgtAlt)
+            {
+                // if aircraft is flying below authorized altitude, climb
+                debugText += "climb to ";
+            }
+            else
+            {
+                // if aircraft is flying above authorized altitude, descend
+                debugText += "descend to ";
+            }
+            debugText += (submenuIsAltitude ? tgtAlt.ToString() + " feet" : " level " + TextUtils.Text2SpellFormat((tgtAlt/100).ToString()));
+            Debug.LogWarning(debugText);
+
+            // set commands to the aircraft
+            acftCtrl.ChangeLevel(tgtAlt, submenuIsAltSpeedUp);
         }
         else
         {
             // altitude and requested altitude are equals
         }
 
-    };
-    */
+    }
+    
 
     // Make the contents of the window
 
@@ -806,7 +829,7 @@ public class DrawATCPopup : MonoBehaviour
 
         string asideText = (submenuIsAltitude ? "ALT" : "FL");                 // text to show at left of inputs
         ushort sizeCtrl = (ushort) (submenuIsAltitude ? 0 : 2 * submenuInputBoxSize.x); // change the size of asideText to fit number of inputs to window
-        string number;                                                // number introduced through inputs
+        /*string number;*/                                                // number introduced through inputs
 
         //	Debug.Log("ctrlInputIndex: " + ctrlInputIndex);					
         GUIStyle toolbarStyle = new GUIStyle("Button");
@@ -850,7 +873,7 @@ public class DrawATCPopup : MonoBehaviour
                         submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpIcon, buttonWithoutPadding))
             {
 
-                //ChangeNumber_ALT(1, i);
+                ChangeNumber_ALT(1, i);
 
             }//if-up button
 
@@ -872,7 +895,7 @@ public class DrawATCPopup : MonoBehaviour
                         submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownIcon, buttonWithoutPadding))
             {
 
-                //ChangeNumber_ALT(-1, i, nDigits);
+                ChangeNumber_ALT(-1, i);
 
             }//if-down buttons
 
@@ -890,7 +913,7 @@ public class DrawATCPopup : MonoBehaviour
         {
 
             //acceptPressed();
-            AcceptPressed_HDG();
+            AcceptPressed_ALT();
 
         }// if-button
 
@@ -900,14 +923,25 @@ public class DrawATCPopup : MonoBehaviour
 
         if (e.isKey && e.keyCode != KeyCode.Tab)
         {
-            //ChangeNumber_ALT(0, -1);
+            //changeNumber(0, -1, nDigits, aux);
             string currentInput = GUI.GetNameOfFocusedControl().Split("_"[0])[1];
             ushort n = 0;
             ushort.TryParse(currentInput, out n);
-            n = (ushort) (n >= 2 ? 0 : ++n);
-            var nextInput = inputsName + "_" + n.ToString();
+            n = (ushort)(n >= nDigits - 1 ? 0 : ++n);
+            string nextInput = inputsName + "_" + n.ToString();
             //		Debug.Log("nextInput: " + inputsName + "_" + n);
             GUI.FocusControl(inputsName + "_" + n);
+        }
+        else if ((e.isKey && e.keyCode == KeyCode.Return) || (e.isKey && e.keyCode == KeyCode.KeypadEnter))
+        {
+            ushort n = 0;
+            if (nDigits == 3)
+                ushort.TryParse(submenuDigits[0].ToString() + submenuDigits[1].ToString() + submenuDigits[2].ToString(), out n);
+            else
+                ushort.TryParse(submenuDigits[0].ToString() + submenuDigits[1].ToString() + submenuDigits[2].ToString() + submenuDigits[3].ToString() + submenuDigits[4].ToString(), out n);
+
+            tgtAlt = CheckRange_ALT(n);
+            AcceptPressed_ALT();
         }
 
         if (setupSubmenu)
@@ -1000,20 +1034,13 @@ public class DrawATCPopup : MonoBehaviour
     {
         ushort spd_out;
         if (spd_in < HDG_MIN)
-        {
             spd_out = HDG_MAX;
-        }
         else if (spd_in > HDG_MAX)
-        {
             spd_out = HDG_MIN;
-        }
         else
-        {
-            spd_out = (ushort)(spd_in % 360);
-        }
-        spd_out = (spd_out == 0 ? (ushort)360 : spd_out);
+            spd_out = spd_in;
 
-        Debug.Log("CheckRange_HDG: " + spd_out);
+        Debug.Log("CheckRange_SPD: " + spd_out);
         return spd_out;
     }
 
@@ -1180,7 +1207,7 @@ public class DrawATCPopup : MonoBehaviour
     void OnGUI()
     {
         // Enable control of key buttons when a TextField is focused
-        Input.eatKeyPressOnTextFieldFocus = false;
+        /*Input.eatKeyPressOnTextFieldFocus = false;*/
 
         if (initGUI)
         {
