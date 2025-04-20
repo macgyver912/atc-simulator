@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.X86;
 using UnityEngine.UIElements.Experimental;
+using UnityEngine.UIElements;
 
 public class DrawATCPopup : MonoBehaviour
 {
@@ -557,7 +558,7 @@ public class DrawATCPopup : MonoBehaviour
         ushort nDigits = (ushort) HDG_MAX.ToString().Length;
 
         // Show "Heading" text left to inputs
-        string asideText = "Heading";                  				
+        string asideText = "Heading [º]";                  				
         GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
         textStyle.alignment = TextAnchor.MiddleCenter;
 
@@ -657,7 +658,7 @@ public class DrawATCPopup : MonoBehaviour
         {
             GUI.FocusControl(inputsName + "_0");
             string currentHdg = string.Format("{0:D3}", acftCtrl.GetAircraft().GetHeading());
-            for (var j = 0; j < currentHdg.Length; j++)
+            for (ushort j = 0; j < currentHdg.Length; j++)
             {
                 submenuDigits[j] = currentHdg[j].ToString();
             }
@@ -694,27 +695,19 @@ public class DrawATCPopup : MonoBehaviour
     void ChangeNumber_ALT(short variation, ushort digit)
     {
         Debug.Log("ChangeNumber_HDG(" + variation + ", " + digit + ")");
-        
-        tgtAlt = 0;
 
-        ushort k = 0; 
+        ushort k = 0;
+     
+        tgtAlt = 0;
         // Convert inputs to number
         for (k = 0; k < nDigits; k++)
         {
             if (k == digit)
             {
-                //if (k < ctrlInputIndex)
-                if (k < nDigits)
-                {
-                    Debug.Log("k == digit: " + k);
+                Debug.Log("k == digit: " + k);
 
-                    ushort.TryParse(submenuDigits[k], out aux[k]);
-                    aux[k] += (ushort) variation;
-                }
-                else
-                {
-                    aux[k] = 0;
-                }//if-ctrlInputIndex
+                ushort.TryParse(submenuDigits[k], out aux[k]);
+                aux[k] += (ushort)variation;
             }
             else
             {
@@ -723,28 +716,21 @@ public class DrawATCPopup : MonoBehaviour
                 ushort.TryParse(submenuDigits[k], out aux[k]);
             }
 
-            if (submenuIsAltitude)
-                aux[k] = (ushort) (aux[k] * Mathf.Pow(10, nDigits - k - 1));
-            else
-                aux[k] = (ushort) (aux[k] * Mathf.Pow(10, (nDigits - k - 1) + 2));
+            aux[k] = (ushort)(aux[k] * Mathf.Pow(10, nDigits - k - 1));
 
-            tgtAlt += aux[k];
+            Debug.Log("aux[k]: " + aux[k]);
+
+            tgtAlt += aux[k] * 100; // FL to ALT
             Debug.Log("tgtAlt: " + tgtAlt);
         }
 
         tgtAlt = CheckRange_ALT(tgtAlt);
 
         // Convert number to inputs
-        int aux_j = (tgtAlt >= 10000 ? 0 : 1);
-        string currentAltitude = (submenuIsAltitude ? tgtAlt.ToString() : tgtAlt.ToString() + "00");
-
-        if (aux_j > 0)
-            submenuDigits[0] = "0";
-        int limit = (submenuIsAltitude ? nDigits - 1 : nDigits);
-        for (ushort j = 0; j < limit; j++)
+        string str = string.Format("{0:D5}", tgtAlt);
+        for (k = 0; k < nDigits; k++)
         {
-            Debug.Log("number(" + (j + aux_j) + "): " + submenuDigits[j + aux_j]);
-            submenuDigits[j + aux_j] = (currentAltitude.ToString())[j].ToString();
+            submenuDigits[k] = str[k].ToString();
         }
     } // ChangeNumber_ALT
 
@@ -790,7 +776,7 @@ public class DrawATCPopup : MonoBehaviour
                 // if aircraft is flying above authorized altitude, descend
                 debugText += "descend to ";
             }
-            debugText += (submenuIsAltitude ? tgtAlt.ToString() + " feet" : " level " + TextUtils.Text2SpellFormat((tgtAlt/100).ToString()));
+            debugText += (tgtAlt < CreateObjects.airport.GetTransAltitude() ? tgtAlt.ToString() + " feet" : "level " + TextUtils.Text2SpellFormat((tgtAlt/100).ToString()));
             Debug.LogWarning(debugText);
 
             // set commands to the aircraft
@@ -816,103 +802,86 @@ public class DrawATCPopup : MonoBehaviour
 	     * |_____ACCEPT____|
 	     */
 
+        ushort nDigits = (ushort) (ALT_MAX / 100).ToString().Length;
 
-        //	submenuIsAltitude = GUI.Toggle(Rect(popupOffset, popupOffset + submenuSelButtonSize.y,
-        //				2*submenuAsideTextSize.x + sizeCtrl, submenuAsideTextSize.y), submenuIsAltitude,
-        //				asideText, submenuAcceptButtonStyle);
-
-        submenuIsAltitude = (tgtAlt <= CreateObjects.airport.GetTransAltitude() ? true : false);
-        // number of digits for input (here to avoid problems with change between A and FL)
-        ushort nDigits = (ushort) (submenuIsAltitude ? 5 : 3);
-
-        ushort ctrlInputIndex = (ushort) (submenuIsAltitude ? nDigits - 2 : nDigits);       // How many input boxs can be modified?
-
-        string asideText = (submenuIsAltitude ? "ALT" : "FL");                 // text to show at left of inputs
-        ushort sizeCtrl = (ushort) (submenuIsAltitude ? 0 : 2 * submenuInputBoxSize.x); // change the size of asideText to fit number of inputs to window
-        /*string number;*/                                                // number introduced through inputs
-
-        //	Debug.Log("ctrlInputIndex: " + ctrlInputIndex);					
-        GUIStyle toolbarStyle = new GUIStyle("Button");
-        toolbarStyle.margin = new RectOffset(0, 0, 0, 0);
-        toolbarStyle.padding = new RectOffset(0, 0, 3, 3);
-
-        submenuIsAltSpeedUp = GUI.Toggle(new Rect(popupOffset, popupOffset + submenuSelButtonSize.y + submenuAsideTextSize.y,
-                2 * submenuAsideTextSize.x + sizeCtrl, submenuAsideTextSize.y - 2 * popupOffset), submenuIsAltSpeedUp,
-                "Fast", submenuAcceptButtonStyle);
-
-
-
-        GUIStyle acftLabelStyle = new GUIStyle(submenuAsideTextStyle);
-        acftLabelStyle.alignment = TextAnchor.UpperLeft;
-        acftLabelStyle.fontSize = 9;
-
-        GUI.Label(new Rect(3 * popupOffset, popupOffset, 3 * submenuAsideTextSize.x, submenuAsideTextSize.y),
-                acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber(), acftLabelStyle);
-
+        // Show "Speed" text left to inputs
+        string asideText = "ALT [ft]";                 // text to show at left of inputs
         GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
         textStyle.alignment = TextAnchor.MiddleCenter;
 
+        // Show aircraft callsign in upper left corner
+        GUIStyle acftLabelStyle = new GUIStyle(submenuAsideTextStyle);
+        acftLabelStyle.alignment = TextAnchor.UpperLeft;
+        acftLabelStyle.fontSize = 9;
+        GUI.Label(new Rect(3 * popupOffset, popupOffset, 3 * submenuAsideTextSize.x, submenuAsideTextSize.y),
+                acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber(), acftLabelStyle);
+
+        // Set input digits
         GUI.Label(new Rect(popupOffset, popupOffset + submenuSelButtonSize.y,
                     2 * submenuAsideTextSize.x, submenuAsideTextSize.y),
                     asideText, textStyle);
 
+        // Set "speed up" button
+        submenuIsAltSpeedUp = GUI.Toggle(new Rect(popupOffset, popupOffset + submenuSelButtonSize.y + submenuAsideTextSize.y,
+                2 * submenuAsideTextSize.x, submenuAsideTextSize.y - 2 * popupOffset), submenuIsAltSpeedUp,
+                "Fast", submenuAcceptButtonStyle);
+
+        // Set input digits
         GUIStyle buttonWithoutPadding = new GUIStyle("Button");
         buttonWithoutPadding.padding = new RectOffset(4, 4, 4, 4);
 
-        //	var nDigits = maxHeading.ToString().Length;
-        int[] aux = new int[ALT_MAX.ToString().Length];
-        
-
-        for (ushort i = 0; i < nDigits; i++)
+        for (ushort i = 0; i < nDigits+2; i++)
         {
 
-            // ##### Up buttons #####
-            //		GUI.DrawTexture(Rect(popupOffset + 2*submenuAsideTextSize.x + sizeCtrl + i*submenuInputBoxSize.x, popupOffset,
-            //					submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpText, ScaleMode.ScaleToFit, true);
-            if (GUI.Button(new Rect(popupOffset + 2 * submenuAsideTextSize.x + sizeCtrl + i * submenuInputBoxSize.x, popupOffset,
-                        submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpIcon, buttonWithoutPadding))
+            if (i < 3)
             {
+                // ##### Up buttons #####
+                if (GUI.Button(new Rect(popupOffset + 2 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset,
+                            submenuSelButtonSize.x, submenuSelButtonSize.y), buttonUpIcon, buttonWithoutPadding))
+                {
+                    Debug.Log("UP_" + i);
+                    ChangeNumber_ALT(1, i);
 
-                ChangeNumber_ALT(1, i);
+                }//if-up button
 
-            }//if-up button
+                // ##### Input boxes #####
+                // Name the input boxes to can be accessed by focus control
+                GUI.SetNextControlName(inputsName + "_" + i);
 
+                submenuDigits[i] = GUI.TextField(new Rect(popupOffset + 2 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y,
+                            submenuInputBoxSize.x, submenuInputBoxSize.y),
+                            submenuDigits[i], 1, submenuInputBoxStyle);
 
-            // ##### Input boxes #####
-            // Name the input boxes to can be accessed by focus control
-            GUI.SetNextControlName(inputsName + "_" + i);
+                // Control only digits
+                submenuDigits[i] = (submenuDigits[i] != "" && char.IsDigit(submenuDigits[i][0]) ? submenuDigits[i] : "0");
 
-            submenuDigits[i] = GUI.TextField(new Rect(popupOffset + 2 * submenuAsideTextSize.x + sizeCtrl + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y,
-                        submenuInputBoxSize.x, submenuInputBoxSize.y),
-                        submenuDigits[i], 1, submenuInputBoxStyle);
-
-
-            // Control only digits
-            submenuDigits[i] = (submenuDigits[i] != "" && char.IsDigit(submenuDigits[i][0]) ? submenuDigits[i] : "0");
-
-            // ##### Down buttons #####
-            if (GUI.Button(new Rect(popupOffset + 2 * submenuAsideTextSize.x + sizeCtrl + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y + submenuInputBoxSize.y,
+                // ##### Down buttons #####
+                if (GUI.Button(new Rect(popupOffset + 2 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y + submenuInputBoxSize.y,
                         submenuSelButtonSize.x, submenuSelButtonSize.y), buttonDownIcon, buttonWithoutPadding))
+                {
+                    Debug.Log("DN_" + i);
+                    ChangeNumber_ALT(-1, i);
+
+                }//if-down buttons
+            }
+            else
             {
+                // Set hundred and tenth of feet to '0' to convert from FL to ALT
+                GUI.Label(new Rect(popupOffset + 2 * submenuAsideTextSize.x + i * submenuInputBoxSize.x, popupOffset + submenuSelButtonSize.y,
+                            submenuInputBoxSize.x, submenuInputBoxSize.y),
+                            "0", submenuInputBoxStyle);
+            }
 
-                ChangeNumber_ALT(-1, i);
-
-            }//if-down buttons
+            
 
         }
 
-        //	number = (submenuIsAltitude ? number : number + "00");	
-        //	
-        //	ushort.TryParse(number, altOrFl);			// Convert String to ushort
-
-        //	GUI.Label(Rect(0, 0, submenuSize.x, 20), altOrFl.ToString() + " ft");
-
+        // Set "Accept" button
         if (GUI.Button(new Rect(popupOffset, popupOffset + 2 * submenuSelButtonSize.y + submenuInputBoxSize.y,
                         submenuSize.x - popupOffset, submenuAcceptButtonSize.y),
                         acceptText, submenuAcceptButtonStyle) /*|| Input.GetButton("Accept")*/)
         {
 
-            //acceptPressed();
             AcceptPressed_ALT();
 
         }// if-button
@@ -923,7 +892,7 @@ public class DrawATCPopup : MonoBehaviour
 
         if (e.isKey && e.keyCode != KeyCode.Tab)
         {
-            //changeNumber(0, -1, nDigits, aux);
+            //ChangeNumber_ALT(0, -1);
             string currentInput = GUI.GetNameOfFocusedControl().Split("_"[0])[1];
             ushort n = 0;
             ushort.TryParse(currentInput, out n);
@@ -935,11 +904,7 @@ public class DrawATCPopup : MonoBehaviour
         else if ((e.isKey && e.keyCode == KeyCode.Return) || (e.isKey && e.keyCode == KeyCode.KeypadEnter))
         {
             ushort n = 0;
-            if (nDigits == 3)
-                ushort.TryParse(submenuDigits[0].ToString() + submenuDigits[1].ToString() + submenuDigits[2].ToString(), out n);
-            else
-                ushort.TryParse(submenuDigits[0].ToString() + submenuDigits[1].ToString() + submenuDigits[2].ToString() + submenuDigits[3].ToString() + submenuDigits[4].ToString(), out n);
-
+            ushort.TryParse(submenuDigits[0].ToString() + submenuDigits[1].ToString() + submenuDigits[2].ToString() + "00", out n);
             tgtAlt = CheckRange_ALT(n);
             AcceptPressed_ALT();
         }
@@ -947,18 +912,12 @@ public class DrawATCPopup : MonoBehaviour
         if (setupSubmenu)
         {
             GUI.FocusControl(inputsName + "_0");
+            string currentAltitude = string.Format("{0:D5}", acftCtrl.GetAircraft().GetAltitude());
 
-            var currentAltitude = acftCtrl.GetAircraft().GetAltitude();
-
-            tgtAlt = currentAltitude;
-
-            var aux_j = (currentAltitude >= 10000 ? 0 : 1);
-            if (aux_j > 0)
-                submenuDigits[0] = "0";
-            var limit = (submenuIsAltitude ? nDigits - 1 : nDigits);
-            for (var j = 0; j < limit; j++)
+            /*for (ushort j = 0; j < currentAltitude.Length; j++)*/
+            for (ushort j = 0; j < nDigits; j++)
             {
-                submenuDigits[j + aux_j] = (currentAltitude.ToString())[j].ToString();
+                submenuDigits[j] = currentAltitude[j].ToString();
             }
             submenuIsAltSpeedUp = false;
 
@@ -1088,11 +1047,10 @@ public class DrawATCPopup : MonoBehaviour
 	     * |_____ACCEPT____|
 	     */
 
-        
         ushort nDigits = (ushort) SPD_MAX.ToString().Length;
 
         // Show "Speed" text left to inputs
-        string asideText = "Speed";                    // text to show at left of inputs				
+        string asideText = "Speed [kt]";                    // text to show at left of inputs				
         GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
         textStyle.alignment = TextAnchor.MiddleCenter;
 
@@ -1172,7 +1130,7 @@ public class DrawATCPopup : MonoBehaviour
             ushort n = 0;
             ushort.TryParse(currentInput, out n);
             n = (ushort) (n >= nDigits - 1 ? 0 : ++n);
-            var nextInput = inputsName + "_" + n.ToString();
+            string nextInput = inputsName + "_" + n.ToString();
             //		Debug.Log("nextInput: " + inputsName + "_" + n);
             GUI.FocusControl(inputsName + "_" + n);
         }
@@ -1189,7 +1147,7 @@ public class DrawATCPopup : MonoBehaviour
         {
             GUI.FocusControl(inputsName + "_0");
             string currentSpeed = string.Format("{0:D3}", acftCtrl.GetAircraft().GetSpeedGS());
-            for (var j = 0; j < currentSpeed.Length; j++)
+            for (ushort j = 0; j < currentSpeed.Length; j++)
             {
                 submenuDigits[j] = currentSpeed[j].ToString();
             }

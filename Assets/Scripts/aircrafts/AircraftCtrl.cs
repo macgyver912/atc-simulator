@@ -199,11 +199,25 @@ public class AircraftCtrl : MonoBehaviour
 
     // #### ALTITUDE ####
 
-    public void ChangeLevel(int targetAltitude, bool fast){
+    public void ChangeLevel(int targetAltitude, bool fast)
+    {
+        string debugText = string.Empty;
+
         if (targetAltitude > aircraft.GetAltitude())
-            Climb(targetAltitude, fast);
+        {
+            debugText += "Climb";
+            StartCoroutine(Climb(targetAltitude, fast));
+        }
         else
-            Descend(targetAltitude, fast);
+        {
+            debugText += "Descend";
+            StartCoroutine(Descend(targetAltitude, fast));
+        }
+
+        debugText += (fast ? " as soon as possible" : "") + " to " 
+            + (targetAltitude < CreateObjects.airport.GetTransAltitude() ? targetAltitude.ToString() + " feet" : "level " + TextUtils.Text2SpellFormat((targetAltitude / 100).ToString())) 
+            + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+        Debug.LogWarning(debugText);
     }
 
     private IEnumerator Climb(int targetAltitude, bool fast) 
@@ -216,15 +230,19 @@ public class AircraftCtrl : MonoBehaviour
 
         if (aircraft.GetAltitude() >= targetAltitude)
         {
+            // Target altitude or flight level is reached, maintain it
+            Debug.Log("Target altitude or flight level is reached, maintain it");
             aircraft.SetVS(0);
             aircraft.SetAltitude(targetAltitude);
         }
         else
         {
+            // Target altitude or flight level is not reached yet, maintain climbing
+            Debug.Log("Target altitude or flight level is not reached yet, maintain climbing");
             aircraft.SetVS((short) auxRate);
 
             yield return new WaitForSeconds(Config.aircraftDataPeriod);
-            Climb(targetAltitude, fast);
+            StartCoroutine(Climb(targetAltitude, fast));
         }
     }
 
@@ -238,15 +256,19 @@ public class AircraftCtrl : MonoBehaviour
 
         if (aircraft.GetAltitude() <= targetAltitude)
         {
+            // Target altitude or flight level is reached, maintain it
+            Debug.Log("Target altitude or flight level is reached, maintain it");
             aircraft.SetVS(0);
             aircraft.SetAltitude(targetAltitude);
         }
         else
         {
+            // Target altitude or flight level is not reached yet, maintain descending
+            Debug.Log("Target altitude or flight level is not reached yet, maintain descending");
             aircraft.SetVS((short) auxRate);
 
             yield return new WaitForSeconds(Config.aircraftDataPeriod);
-            Descend(targetAltitude, fast);
+            StartCoroutine(Descend(targetAltitude, fast));
         }
     }
 
