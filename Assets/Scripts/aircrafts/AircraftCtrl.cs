@@ -215,7 +215,7 @@ public class AircraftCtrl : MonoBehaviour
         }
 
         debugText += (fast ? " as soon as possible" : "") + " to " 
-            + (targetAltitude < CreateObjects.airport.GetTransAltitude() ? targetAltitude.ToString() + " feet" : "level " + TextUtils.Text2SpellFormat((targetAltitude / 100).ToString())) 
+            + (targetAltitude < CreateObjects.airport.GetTransAltitude() ? targetAltitude.ToString() + " feet" : "flight level " + TextUtils.Text2SpellFormat((targetAltitude / 100).ToString())) 
             + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
         Debug.LogWarning(debugText);
     }

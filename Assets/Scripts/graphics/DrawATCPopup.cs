@@ -491,18 +491,8 @@ public class DrawATCPopup : MonoBehaviour
     ushort CheckRange_HDG(ushort hdg_in)
     {
         ushort hdg_out;
-        if (hdg_in < HDG_MIN)
-        {
-            hdg_out = HDG_MAX;
-        }
-        else if (hdg_in > HDG_MAX)
-        {
-            hdg_out = HDG_MIN;
-        }
-        else
-        {
-            hdg_out = (ushort)(hdg_in % 360);
-        }
+
+        hdg_out = (ushort)(hdg_in % 360);
         hdg_out = (hdg_out == 0 ? (ushort)360 : hdg_out);
 
         Debug.Log("CheckRange_HDG: " + hdg_out);
@@ -650,6 +640,7 @@ public class DrawATCPopup : MonoBehaviour
         {
             ushort n = HDG_MIN;
             ushort.TryParse(submenuDigits[0].ToString() + submenuDigits[1].ToString() + submenuDigits[2].ToString(), out n);
+            Debug.Log("n: " + submenuDigits[0].ToString() + submenuDigits[1].ToString() + submenuDigits[2].ToString());
             tgtHdg = CheckRange_HDG(n);
             AcceptPressed_HDG();
         }
@@ -776,7 +767,7 @@ public class DrawATCPopup : MonoBehaviour
                 // if aircraft is flying above authorized altitude, descend
                 debugText += "descend to ";
             }
-            debugText += (tgtAlt < CreateObjects.airport.GetTransAltitude() ? tgtAlt.ToString() + " feet" : "level " + TextUtils.Text2SpellFormat((tgtAlt/100).ToString()));
+            debugText += (tgtAlt < CreateObjects.airport.GetTransAltitude() ? tgtAlt.ToString() + " feet" : "flight level " + TextUtils.Text2SpellFormat((tgtAlt/100).ToString()));
             Debug.LogWarning(debugText);
 
             // set commands to the aircraft
