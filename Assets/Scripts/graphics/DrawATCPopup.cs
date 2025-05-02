@@ -625,7 +625,7 @@ public class DrawATCPopup : MonoBehaviour
         // Keyboard input control
         Event e = Event.current;
 
-        if (e.isKey && e.keyCode != KeyCode.Tab && e.keyCode != KeyCode.Return)
+        if (e.isKey && e.keyCode != KeyCode.Tab && e.keyCode != KeyCode.Return && e.keyCode != KeyCode.KeypadEnter)
         {
             //changeNumber(0, -1, nDigits, aux);
             string currentInput = GUI.GetNameOfFocusedControl().Split("_"[0])[1];
@@ -881,7 +881,7 @@ public class DrawATCPopup : MonoBehaviour
         // Keyboard input control
         Event e = Event.current;
 
-        if (e.isKey && e.keyCode != KeyCode.Tab)
+        if (e.isKey && e.keyCode != KeyCode.Tab && e.keyCode != KeyCode.Return && e.keyCode != KeyCode.KeypadEnter)
         {
             //ChangeNumber_ALT(0, -1);
             string currentInput = GUI.GetNameOfFocusedControl().Split("_"[0])[1];
@@ -1114,7 +1114,7 @@ public class DrawATCPopup : MonoBehaviour
         // Keyboard input control
         Event e = Event.current;
 
-        if (e.isKey && e.keyCode != KeyCode.Tab)
+        if (e.isKey && e.keyCode != KeyCode.Tab && e.keyCode != KeyCode.Return && e.keyCode != KeyCode.KeypadEnter)
         {
             //ChangeNumber_SPD(0, -1);
             string currentInput = GUI.GetNameOfFocusedControl().Split("_"[0])[1];
