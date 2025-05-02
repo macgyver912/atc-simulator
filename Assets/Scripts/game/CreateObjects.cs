@@ -32,7 +32,7 @@ public class CreateObjects : MonoBehaviour
 
     public static void Init()
     {
-        Debug.Log("Hello World!");
+        Debug.Log("Creating objects...");
 
         
         Runway[] rwys = new Runway[4];
