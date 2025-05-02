@@ -755,7 +755,7 @@ public class DrawATCPopup : MonoBehaviour
 
             // simulate the communication text between ATC and pilots
             string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber())
-                + ", " + (submenuIsAltSpeedUp ? "expedite " : " ");
+                + ", " + (submenuIsAltSpeedUp ? "expedite " : "");
 
             if (acftCtrl.GetAircraft().GetAltitude() < tgtAlt)
             {
@@ -1010,7 +1010,7 @@ public class DrawATCPopup : MonoBehaviour
 
             // simulate the communication text between ATC and pilots
             string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) 
-                + ", " + (submenuIsSpeedSpeedUp ? "expedite " : " ") + "speed ";
+                + ", " + (submenuIsSpeedSpeedUp ? "expedite " : "") + "speed ";
             debugText += spdStr + " knots";
             Debug.LogWarning(debugText);
 
