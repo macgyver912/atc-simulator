@@ -134,6 +134,7 @@ public class FIX /*: ScriptableObject*/
 	public float GetLat() { return lat; }
 	public float GetLon() { return lon; }
 	public string GetName() { return name; }
+	public Vector2 GetPosition() { return position; }
 	public Vector2 GetScreenPosition() { return screenPosition; }
 	public GameObject GetGO() { return this.go; }
 

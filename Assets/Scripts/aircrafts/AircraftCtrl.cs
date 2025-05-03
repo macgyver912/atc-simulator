@@ -454,26 +454,39 @@ public class AircraftCtrl : MonoBehaviour
         }
     }
 
-    void FlyTo()
+    public void FlyTo(FIX target)
     {
 
 
-        //		Debug.Log("FlyTo");
+        Debug.Log("FlyTo: " + target.GetName());
+        /*
+        Vector2 dir = target.GetPosition() - (Vector2)aircraft.GetPosition();
+        Debug.Log("dir: " + dir.ToString());
+        Debug.DrawLine(aircraft.GetPosition(), target.GetPosition(), Color.red, Mathf.Infinity);
+        */
+        /*
+        Quaternion targetRotation = Quaternion.LookRotation(target.GetPosition() - (Vector2) aircraft.GetPosition());
+        this.gameObject.transform.rotation = Quaternion.Lerp(this.gameObject.transform.rotation, targetRotation, Config.aircraftDataPeriod);
+        */
+        //this.gameObject.transform.rotation.y = 180;
+        //this.gameObject.transform.rotation.z = 0;
+        
+        this.gameObject.transform.LookAt(target.GetGO().transform);
+        Vector3 eulerAngles = this.gameObject.transform.rotation.eulerAngles;
+        //90 + this.heading, 90, 270
+        //eulerAngles.x = 0;
+        eulerAngles.y = 90;
+        eulerAngles.z = 270;
 
-        //		targetRotation = Quaternion.LookRotation(target.position - this.gameObject.transform.position);
-        //		this.gameObject.transform.rotation = Quaternion.Lerp(this.gameObject.transform.rotation, targetRotation, str);
-        //		str = Mathf.Min(strength * Time.deltaTime, 1);
-        //		this.gameObject.transform.rotation.y = 180;
-        //		this.gameObject.transform.rotation.z = 0;
+        float hdg_fly_to = eulerAngles.x + 90;
+        hdg_fly_to = (ushort)(hdg_fly_to % 360);
+        hdg_fly_to = (hdg_fly_to == 0 ? (ushort)360 : hdg_fly_to);
 
-        //		this.gameObject.transform.LookAt(target);
-        //		var eulerAngles = this.gameObject.transform.rotation.eulerAngles;
-        //		eulerAngles.y = 0;
-        //		eulerAngles.z = 0;
-        ////		
-        //		this.gameObject.transform.rotation = Quaternion.Euler(eulerAngles);
+        Debug.Log("hdg_fly_to: " + hdg_fly_to);
+        aircraft.SetHeading((ushort)hdg_fly_to);
 
-        //	this.gameObject.transform.LookAt(target);
+        this.gameObject.transform.rotation = Quaternion.Euler(eulerAngles);
+        
     }
 
 

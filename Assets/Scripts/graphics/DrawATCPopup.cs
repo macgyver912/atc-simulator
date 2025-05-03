@@ -196,7 +196,7 @@ public class DrawATCPopup : MonoBehaviour
                 acftCtrl.ChangeSpeed(280, true);
                 break;
             case 6:
-                acftCtrl.ChangeSpeed(180, false);
+                acftCtrl.FlyTo(CreateObjects.fixList[0]);
                 break;
             default:
                 showCtrlGUI = false;
