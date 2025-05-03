@@ -34,10 +34,12 @@ public class AircraftCtrl : MonoBehaviour
     private Coroutine coroutine_SPD_Decrease;
     private Coroutine coroutine_ALT_Climb;
     private Coroutine coroutine_ALT_Descend;
+    private Coroutine coroutine_fly_to;
 
     private bool is_changing_hdg;
     private bool is_changing_spd;
     private bool is_changing_alt;
+    private bool is_flying_to;
 
 
     //function Awake(){
@@ -470,22 +472,35 @@ public class AircraftCtrl : MonoBehaviour
         */
         //this.gameObject.transform.rotation.y = 180;
         //this.gameObject.transform.rotation.z = 0;
-        
+
+        // Get position before look at target to set it after look at
+        Vector3 eulerAnglesOld = this.gameObject.transform.rotation.eulerAngles;
+        Debug.Log("eulerAnglesOld = " + eulerAnglesOld.ToString());
+
+        // Look at target to get the heading to that target in axis x
         this.gameObject.transform.LookAt(target.GetGO().transform);
         Vector3 eulerAngles = this.gameObject.transform.rotation.eulerAngles;
-        //90 + this.heading, 90, 270
-        //eulerAngles.x = 0;
-        eulerAngles.y = 90;
-        eulerAngles.z = 270;
-
         float hdg_fly_to = eulerAngles.x + 90;
+        Debug.Log("eulerAngles = " + eulerAngles.ToString());
+
+        this.gameObject.transform.eulerAngles = eulerAnglesOld;
+        /*
+        //eulerAngles.x = 0;    // 90 + this.heading -> set from look at
+        eulerAngles.y = 90;     // 90
+        eulerAngles.z = 270;    // 270
+        */
+
         hdg_fly_to = (ushort)(hdg_fly_to % 360);
         hdg_fly_to = (hdg_fly_to == 0 ? (ushort)360 : hdg_fly_to);
 
         Debug.Log("hdg_fly_to: " + hdg_fly_to);
-        aircraft.SetHeading((ushort)hdg_fly_to);
+        Turn((ushort)hdg_fly_to, 1);
+        //aircraft.SetHeading((ushort)hdg_fly_to);
+        aircraft.SetAuthoPoint(target.GetName());
 
-        this.gameObject.transform.rotation = Quaternion.Euler(eulerAngles);
+        //yield return new WaitForSeconds(Config.aircraftDataPeriod);
+        //coroutine_HDG_Right = StartCoroutine(TurnRight(targetHeading));
+        //this.gameObject.transform.rotation = Quaternion.Euler(eulerAngles);
         
     }
 
