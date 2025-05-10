@@ -263,24 +263,7 @@ public class DrawRadarScreen : MonoBehaviour
         // Aircraft
         foreach (Aircraft acft in CreateObjects.aircraftList)
         {
-            string vsLabel = "=";     // label for vertical speed
-            if (acft.GetVerticalSpeed() != 0)
-                vsLabel = (acft.GetVerticalSpeed() > 0 ? "+" : "-");
-
-            fl = (ushort) Mathf.Ceil(acft.GetAltitude() / 100);
-            flStr = (fl < 100 ? "0" + fl.ToString() : fl.ToString());
-            flStr = (fl < 10 ? flStr + "0" : flStr);
-            autAlt = (ushort) Mathf.Ceil(acft.GetAuthoAltitude() / 100);
-            autAltStr = (autAlt < 100 ? "0" + autAlt.ToString() : autAlt.ToString());
-            //		speed = Mathf.Ceil(acft.speedGS / 10f)*10;
-            //speed = acft.GetSpeedGS();
-
-            acft.SetLabel(acft.GetCallsignCode() + acft.GetFlightNumber() + " " + (acft.GetCategory() == Aircraft.Category.Heavy ? "H" : "") + "\n" +
-                        flStr + vsLabel + " " + autAltStr + "\n" +
-                        acft.GetSpeedGS() + " " + acft.GetAuthoPointName());
-
-
-
+            UpdateAcftAuthLabel(acft);
             DrawLabelLine(acft);
         }
 

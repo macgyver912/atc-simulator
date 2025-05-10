@@ -504,7 +504,7 @@ public class Aircraft /*: ScriptableObject*/
 	public void SetAuthoAltitude(int authoAltitude) { this.authoAltitude= authoAltitude; }
 
 	public void SetAuthoPoint(FIX authoPoint) { this.authoPoint = authoPoint; this.authoPointName = authoPoint.GetName(); }
-	public void SetAuthoHdg(ushort authoHdg) { this.authoHdg = authoHdg; }
+	public void SetAuthoHdg(ushort authoHdg) { this.authoHdg = authoHdg; this.authoPoint = null; }
     public void SetPosition(Vector3 position) { this.position = position; }
 
     public void SetPosition(Vector2 position) { this.position = new Vector3(position.x, position.y, 1.0f); }

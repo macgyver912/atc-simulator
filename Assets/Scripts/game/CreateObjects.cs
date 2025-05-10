@@ -89,7 +89,7 @@ public class CreateObjects : MonoBehaviour
             CreateObjects.fixList[0],
             Aircraft.FlightStatus.Arrival
         ));
-
+        /*
         aircraftList.Add(new Aircraft(
             "Boeing 747-300",
             "B743",
@@ -164,7 +164,7 @@ public class CreateObjects : MonoBehaviour
             CreateObjects.fixList[3],
             Aircraft.FlightStatus.Incoming
         ));
-
+        */
         //var aircraft = ScriptableObject.CreateInstance<Aircraft>();
 
         Debug.Log(companyList[0].GetCompanyName() + " | " + companyList[0].GetCallsign() + " | " + companyList[0].GetCallsignCode());

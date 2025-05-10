@@ -339,9 +339,13 @@ public class AircraftCtrl : MonoBehaviour
     public void Turn(ushort targetHeading, int side){
         string debugText = "Turn ";
 
-        // Cancel previous commands
-        if (is_changing_hdg)
+        if (aircraft.GetAuthoPoint() == null)
         {
+            is_flying_to = false;
+        }
+        // Cancel previous commands
+        //if (is_changing_hdg || is_flying_to)
+        //{
             if (coroutine_HDG_Left != null)
             {
                 StopCoroutine(coroutine_HDG_Left);
@@ -352,7 +356,7 @@ public class AircraftCtrl : MonoBehaviour
                 StopCoroutine(coroutine_HDG_Right);
                 coroutine_HDG_Right = null;
             }
-        }
+        //}
         
         if (side == 0)
         {
@@ -392,6 +396,7 @@ public class AircraftCtrl : MonoBehaviour
     {
 
         // If lateral navigation mode is flying to point, refresh every time to avoid deviation by wind, etc.
+        Debug.Log("is_flying_to: " + is_flying_to);
         if (is_flying_to == true)
         {
             Debug.Log("Refreshing heading to fly to");
@@ -429,7 +434,7 @@ public class AircraftCtrl : MonoBehaviour
         else
         {
             // Target heading is not reached yet, continue turn
-            Debug.Log("Target heading is not reached yet, continue turning left");
+            Debug.Log("Target heading is not reached yet, continue turning left to heading: " + targetHeading);
             is_changing_hdg = true;
 
             aircraft.SetHeading((ushort)auxHdg);
@@ -443,6 +448,7 @@ public class AircraftCtrl : MonoBehaviour
     {
 
         // If lateral navigation mode is flying to point, refresh every time to avoid deviation by wind, etc.
+        Debug.Log("is_flying_to: " + is_flying_to);
         if (is_flying_to == true)
         {
             Debug.Log("Refreshing heading to fly to");
@@ -480,7 +486,7 @@ public class AircraftCtrl : MonoBehaviour
         else
         {
             // Target heading is not reached yet, continue turn
-            Debug.Log("Target heading is not reached yet, continue turning right");
+            Debug.Log("Target heading is not reached yet, continue turning right to heading: " + targetHeading);
             is_changing_hdg = true;
 
             aircraft.SetHeading((ushort)auxHdg);
@@ -492,17 +498,17 @@ public class AircraftCtrl : MonoBehaviour
 
     public void FlyTo(FIX target)
     {
-        Debug.Log("FlyTo: " + target);
-  
+        Debug.Log("FlyTo: " + target.GetName());
+
+        is_flying_to = true;
+        aircraft.SetAuthoPoint(target);
+
         Turn((ushort)GetHeadingToTarget(target), 1);
         //aircraft.SetHeading((ushort)hdg_fly_to);
-        aircraft.SetAuthoPoint(target);
 
         //yield return new WaitForSeconds(Config.aircraftDataPeriod);
         //coroutine_fly_to = StartCoroutine(Turn((ushort) GetHeadingToTarget(target), 1));
-        //this.gameObject.transform.rotation = Quaternion.Euler(eulerAngles);
-
-        is_flying_to = true;
+        //this.gameObject.transform.rotation = Quaternion.Euler(eulerAngles);       
     }
 
 
@@ -512,8 +518,11 @@ public class AircraftCtrl : MonoBehaviour
         Vector3 eulerAnglesOld = this.gameObject.transform.rotation.eulerAngles;
         //Debug.Log("eulerAnglesOld = " + eulerAnglesOld.ToString());
 
-        // Look at target to get the heading to that target in axis x
-        this.gameObject.transform.LookAt(target.GetGO().transform);
+        if (target != null)
+        {
+            // Look at target to get the heading to that target in axis x
+            this.gameObject.transform.LookAt(target.GetGO().transform);
+        }
         Vector3 eulerAngles = this.gameObject.transform.rotation.eulerAngles;
         float hdg_fly_to = eulerAngles.x + 90;
         //Debug.Log("eulerAngles = " + eulerAngles.ToString());
