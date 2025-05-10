@@ -509,11 +509,11 @@ public class DrawATCPopup : MonoBehaviour
             showHeadingPopup = false;
 
             // update radar screen tag of this aircraft
-            string hdgStr = string.Format("{0:D3}", tgtHdg);
-            //acftCtrl.GetAircraft().SetAuthoPoint("H" + hdgStr);
+            acftCtrl.GetAircraft().SetAuthoHdg(tgtHdg);
             DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
 
             // simulate the communication text between ATC and pilots
+            string hdgStr = string.Format("{0:D3}", tgtHdg);
             string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", turn ";
             debugText += (submenuHeadingToolbarInt == 0) ? "left " : (submenuHeadingToolbarInt == 2) ? "right " : "";
             debugText += "to heading " + TextUtils.Text2SpellFormat(hdgStr);

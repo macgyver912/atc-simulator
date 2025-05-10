@@ -297,7 +297,8 @@ public class DrawRadarScreen : MonoBehaviour
         ushort speed;
         ushort autAlt;
         string autAltStr;
-        
+        string authoHdgPoint;
+
         // Aircraft
         string vsLabel = "=";     // label for vertical speed
         if (acft.GetVerticalSpeed() != 0)
@@ -306,14 +307,18 @@ public class DrawRadarScreen : MonoBehaviour
         fl = (ushort) Mathf.Ceil(acft.GetAltitude() / 100.0f);
         flStr = (fl < 100 ? "0" + fl.ToString() : fl.ToString());
         flStr = (fl < 10 ? flStr + "0" : flStr);
+
+        speed = acft.GetSpeedGS();
+
         autAlt = (ushort) Mathf.Ceil(acft.GetAuthoAltitude() / 100.0f);
         autAltStr = (autAlt < 100 ? "0" + autAlt.ToString() : autAlt.ToString());
         //		speed = Mathf.Ceil(acft.speedGS / 10f)*10;
-        speed = acft.GetSpeedGS();
+       
+        authoHdgPoint = (acft.GetAuthoPoint() != null ? acft.GetAuthoPoint().GetName() : string.Format("{0:D3}", "H" + acft.GetAuthoHdg()));
 
         acft.SetLabel(acft.GetCallsignCode() + acft.GetFlightNumber() + " " + (acft.GetCategory() == Aircraft.Category.Heavy ? "H" : "") + "\n" +
                     flStr + vsLabel + " " + autAltStr + "\n" +
-                    speed + " " + acft.GetAuthoPoint()
+                    speed + " " + authoHdgPoint
                     );
 
     }
