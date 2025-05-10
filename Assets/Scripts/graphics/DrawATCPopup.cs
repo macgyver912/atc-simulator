@@ -196,7 +196,7 @@ public class DrawATCPopup : MonoBehaviour
                 acftCtrl.ChangeSpeed(280, true);
                 break;
             case 6:
-                acftCtrl.FlyTo(CreateObjects.fixList[0]);
+                AcceptPressed_Point();
                 break;
             default:
                 showCtrlGUI = false;
@@ -917,6 +917,29 @@ public class DrawATCPopup : MonoBehaviour
 
     }
 
+
+
+    // Sets commands to aircraft when heading is set and 'accept' button is pressed
+    void AcceptPressed_Point()
+    {
+        FIX tgtPoint = CreateObjects.fixList[0];   // TODO: select from list
+
+        //Debug.Log("Point: " + tgtHdg);
+
+        //showPointPopup = false;
+
+        // update radar screen tag of this aircraft
+        acftCtrl.GetAircraft().SetAuthoPoint(tgtPoint);
+        DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
+
+        // simulate the communication text between ATC and pilots
+        string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + tgtPoint.GetName();
+        Debug.LogWarning(debugText);
+
+        // set commands to the aircraft
+        acftCtrl.FlyTo(tgtPoint);
+
+    } // AcceptPressed_HDG
 
 
 

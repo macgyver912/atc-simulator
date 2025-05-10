@@ -337,7 +337,7 @@ public class AircraftCtrl : MonoBehaviour
     // #### HEADING ####
 
     public void Turn(ushort targetHeading, int side){
-        string debugText = "Turn ";
+        string debugText = "";
 
         if (aircraft.GetAuthoPoint() == null)
         {
@@ -360,12 +360,12 @@ public class AircraftCtrl : MonoBehaviour
         
         if (side == 0)
         {
-            debugText += "left";
+            debugText += "Turn left";
             coroutine_HDG_Left = StartCoroutine(TurnLeft(targetHeading));
         }
         else if (side == 2)
         {
-            debugText += "right";
+            debugText += "Turn right";
             coroutine_HDG_Right = StartCoroutine(TurnRight(targetHeading));
         }
         else
@@ -375,17 +375,24 @@ public class AircraftCtrl : MonoBehaviour
             // E.g. (150, 090) = -60 -> TurnLeft
             if (Mathf.DeltaAngle(aircraft.GetHeading(), targetHeading) > 0)
             {
-                debugText += "right";
+                debugText += "Turn right";
                 coroutine_HDG_Right = StartCoroutine(TurnRight(targetHeading));
         }
             else
             {
-                debugText += "left";
+                debugText += "Turn left";
                 coroutine_HDG_Left = StartCoroutine(TurnLeft(targetHeading)); 
             }
         }
-       
-        debugText += " to heading " + TextUtils.Text2SpellFormat(string.Format("{0:D3}", targetHeading)) + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+
+        if (aircraft.GetAuthoPoint() == null)
+        {
+            debugText += " to heading " + TextUtils.Text2SpellFormat(string.Format("{0:D3}", targetHeading)) + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+        }
+        else
+        {
+            debugText += " to fly to " + aircraft.GetAuthoPoint().GetName() + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+        }
 
         //debugText += " to heading " + targetHeading + ", " + aircraft.GetCallsignCode() + aircraft.GetFlightNumber();
         Debug.LogWarning(debugText);
@@ -396,10 +403,10 @@ public class AircraftCtrl : MonoBehaviour
     {
 
         // If lateral navigation mode is flying to point, refresh every time to avoid deviation by wind, etc.
-        Debug.Log("is_flying_to: " + is_flying_to);
+        //Debug.Log("is_flying_to: " + is_flying_to);
         if (is_flying_to == true)
         {
-            Debug.Log("Refreshing heading to fly to");
+            //Debug.Log("Refreshing heading to fly to");
             targetHeading = (ushort)GetHeadingToTarget(aircraft.GetAuthoPoint());
         }
 
@@ -412,13 +419,13 @@ public class AircraftCtrl : MonoBehaviour
         // Target heading is reached, set heading as target heading
         if (auxHdg <= targetHeading && prevHdg > targetHeading)
         {
-            Debug.Log("Target heading is reached");
+            //Debug.Log("Target heading is reached");
 
             aircraft.SetHeading((ushort)targetHeading);
 
             if (coroutine_HDG_Left != null && is_flying_to == false)
             {
-                Debug.Log("NAV mode is HDG, then stop coroutine");
+                //Debug.Log("NAV mode is HDG, then stop coroutine");
                 StopCoroutine(coroutine_HDG_Left);
                 coroutine_HDG_Left = null;
 
@@ -426,7 +433,7 @@ public class AircraftCtrl : MonoBehaviour
             }
             else if (is_flying_to)
             {
-                Debug.Log("NAV mode is flying to, not turn but maintain coroutine");
+                //Debug.Log("NAV mode is flying to, not turn but maintain coroutine");
                 // TODO: implement to get corrections by wind...
             }
 
@@ -434,7 +441,7 @@ public class AircraftCtrl : MonoBehaviour
         else
         {
             // Target heading is not reached yet, continue turn
-            Debug.Log("Target heading is not reached yet, continue turning left to heading: " + targetHeading);
+            //Debug.Log("Target heading is not reached yet, continue turning left to heading: " + targetHeading);
             is_changing_hdg = true;
 
             aircraft.SetHeading((ushort)auxHdg);
@@ -448,10 +455,10 @@ public class AircraftCtrl : MonoBehaviour
     {
 
         // If lateral navigation mode is flying to point, refresh every time to avoid deviation by wind, etc.
-        Debug.Log("is_flying_to: " + is_flying_to);
+        //Debug.Log("is_flying_to: " + is_flying_to);
         if (is_flying_to == true)
         {
-            Debug.Log("Refreshing heading to fly to");
+            //Debug.Log("Refreshing heading to fly to");
             targetHeading = (ushort)GetHeadingToTarget(aircraft.GetAuthoPoint());
         }
 
@@ -464,13 +471,13 @@ public class AircraftCtrl : MonoBehaviour
         // Target heading is reached, set heading as target heading
         if ((auxHdg >= targetHeading && prevHdg < targetHeading))
         {
-            Debug.Log("Target heading is reached");
+            //Debug.Log("Target heading is reached");
 
             aircraft.SetHeading((ushort)targetHeading);
 
             if (coroutine_HDG_Right != null && is_flying_to == false)
             {
-                Debug.Log("NAV mode is HDG, then stop coroutine");
+                //Debug.Log("NAV mode is HDG, then stop coroutine");
                 StopCoroutine(coroutine_HDG_Right);
                 coroutine_HDG_Right = null;
 
@@ -478,7 +485,7 @@ public class AircraftCtrl : MonoBehaviour
             }
             else if (is_flying_to)
             {
-                Debug.Log("NAV mode is flying to, not turn but maintain coroutine");
+                //Debug.Log("NAV mode is flying to, not turn but maintain coroutine");
                 // TODO: implement to get corrections by wind...
             }
 
@@ -486,7 +493,7 @@ public class AircraftCtrl : MonoBehaviour
         else
         {
             // Target heading is not reached yet, continue turn
-            Debug.Log("Target heading is not reached yet, continue turning right to heading: " + targetHeading);
+            //Debug.Log("Target heading is not reached yet, continue turning right to heading: " + targetHeading);
             is_changing_hdg = true;
 
             aircraft.SetHeading((ushort)auxHdg);
@@ -498,17 +505,18 @@ public class AircraftCtrl : MonoBehaviour
 
     public void FlyTo(FIX target)
     {
-        Debug.Log("FlyTo: " + target.GetName());
+        //Debug.Log("FlyTo: " + target.GetName());
 
         is_flying_to = true;
         aircraft.SetAuthoPoint(target);
 
-        Turn((ushort)GetHeadingToTarget(target), 1);
-        //aircraft.SetHeading((ushort)hdg_fly_to);
+        // simulate the communication text between ATC and pilots
+        //string debugText = aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber()) + ", fly to " + target.GetName();
+        //Debug.LogWarning(debugText);
 
-        //yield return new WaitForSeconds(Config.aircraftDataPeriod);
-        //coroutine_fly_to = StartCoroutine(Turn((ushort) GetHeadingToTarget(target), 1));
-        //this.gameObject.transform.rotation = Quaternion.Euler(eulerAngles);       
+        // set commands to the aircraft
+        Turn((ushort)GetHeadingToTarget(target), 1);
+         
     }
 
 
@@ -532,7 +540,7 @@ public class AircraftCtrl : MonoBehaviour
         hdg_fly_to = (ushort)(hdg_fly_to % 360);
         hdg_fly_to = (hdg_fly_to == 0 ? (ushort)360 : hdg_fly_to);
 
-        Debug.Log("hdg_fly_to: " + hdg_fly_to);
+        //Debug.Log("hdg_fly_to: " + hdg_fly_to);
         return hdg_fly_to;
     }
 

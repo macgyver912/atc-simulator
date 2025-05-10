@@ -297,7 +297,7 @@ public class DrawRadarScreen : MonoBehaviour
         autAltStr = (autAlt < 100 ? "0" + autAlt.ToString() : autAlt.ToString());
         //		speed = Mathf.Ceil(acft.speedGS / 10f)*10;
        
-        authoHdgPoint = (acft.GetAuthoPoint() != null ? acft.GetAuthoPoint().GetName() : string.Format("{0:D3}", "H" + acft.GetAuthoHdg()));
+        authoHdgPoint = (acft.GetAuthoPoint() != null ? acft.GetAuthoPoint().GetName() : "H" + string.Format("{0:D3}", acft.GetAuthoHdg()));
 
         acft.SetLabel(acft.GetCallsignCode() + acft.GetFlightNumber() + " " + (acft.GetCategory() == Aircraft.Category.Heavy ? "H" : "") + "\n" +
                     flStr + vsLabel + " " + autAltStr + "\n" +
