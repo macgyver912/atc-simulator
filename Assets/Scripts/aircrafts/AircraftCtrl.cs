@@ -506,7 +506,7 @@ public class AircraftCtrl : MonoBehaviour
     }
 
 
-    float GetHeadingToTarget(FIX target)
+    public float GetHeadingToTarget(FIX target)
     {
         // Get position before look at target to set it after look at
         Vector3 eulerAnglesOld = this.gameObject.transform.rotation.eulerAngles;

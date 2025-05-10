@@ -276,6 +276,12 @@ public class Aircraft /*: ScriptableObject*/
 	 */
 	private ushort authoSpeed;
     /**
+	 * Authorized heading
+	 * @attribute authoHdg
+	 * @type {ushort}
+	 */
+    private ushort authoHdg;
+    /**
 	 * Authorized FIX, VOR, etc.
 	 * @attribute authoPoint
 	 * @type {FIX}
@@ -358,14 +364,16 @@ public class Aircraft /*: ScriptableObject*/
 		this.speedCAS = speedCAS;
 		this.speedTAS = speedTAS;
 		this.altitude = altitude;
-		this.height = height;
+		this.height	= height;
 		this.verticalSpeed = verticalSpeed;
 
 		this.authoAltitude = authoAltitude;
 		this.authoSpeed = authoSpeed;
 		this.authoPoint = authoPoint;
+		this.authoPointName = this.authoPoint.GetName();
 
-		this.flightStatus = flightStatus;
+
+        this.flightStatus = flightStatus;
 
 
 		//this.labelPos = DrawRadarScreen.prefAcftLabelPos;
@@ -377,9 +385,9 @@ public class Aircraft /*: ScriptableObject*/
 		this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
 		//this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
 		this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
-		//		this.go.renderer.material.color = new Color(1,1,1,1);
-		//this.go.GetComponent<Renderer>().material.color.a = 1;
-		this.go.transform.rotation = Quaternion.Euler(90 + this.heading, 90, 270);
+        //		this.go.renderer.material.color = new Color(1,1,1,1);
+        //this.go.GetComponent<Renderer>().material.color.a = 1;
+        this.go.transform.rotation = Quaternion.Euler(90 + this.heading, 90, 270);
 		//this.go.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
 		this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_acf;
 		
@@ -421,7 +429,11 @@ public class Aircraft /*: ScriptableObject*/
 			this.speedRate_Air_Std = (ushort) SpeedRate_Air_Std.AcftHeavy;
 			this.speedRate_Air_Max = (ushort) SpeedRate_Air_Max.AcftHeavy;
 		}
-	}
+
+        if (this.authoPoint != null)
+            this.go.GetComponent<AircraftCtrl>().FlyTo(this.authoPoint);
+
+    }
 
 	public void SetGameObjectPos()
 	{
@@ -464,7 +476,8 @@ public class Aircraft /*: ScriptableObject*/
 	public Aircraft GetScript() { return this.script; }
 	public int GetAuthoAltitude() { return this.authoAltitude; }
 	public ushort GetAuthoSpeed() { return this.authoSpeed; }
-	public FIX GetAuthoPoint() { return this.authoPoint; }
+    public ushort GetAuthoHdg() { return this.authoHdg; }
+    public FIX GetAuthoPoint() { return this.authoPoint; }
     public string GetAuthoPointName() { return this.authoPoint.GetName(); }
     public FlightStatus GetFlightStatus() { return this.flightStatus; }
 	public string GetLabel() { return this.label; }
@@ -490,8 +503,8 @@ public class Aircraft /*: ScriptableObject*/
 	public void SetAltitude(int altitude) { this.altitude = altitude; }
 	public void SetAuthoAltitude(int authoAltitude) { this.authoAltitude= authoAltitude; }
 
-	public void SetAuthoPoint(FIX authoPoint) { this.authoPoint = authoPoint; }
-
+	public void SetAuthoPoint(FIX authoPoint) { this.authoPoint = authoPoint; this.authoPointName = authoPoint.GetName(); }
+	public void SetAuthoHdg(ushort authoHdg) { this.authoHdg = authoHdg; }
     public void SetPosition(Vector3 position) { this.position = position; }
 
     public void SetPosition(Vector2 position) { this.position = new Vector3(position.x, position.y, 1.0f); }
