@@ -277,7 +277,7 @@ public class DrawRadarScreen : MonoBehaviour
 
             acft.SetLabel(acft.GetCallsignCode() + acft.GetFlightNumber() + " " + (acft.GetCategory() == Aircraft.Category.Heavy ? "H" : "") + "\n" +
                         flStr + vsLabel + " " + autAltStr + "\n" +
-                        acft.GetSpeedGS() + " " + acft.GetAuthoPoint());
+                        acft.GetSpeedGS() + " " + acft.GetAuthoPointName());
 
 
 

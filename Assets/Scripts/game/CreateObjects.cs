@@ -86,7 +86,7 @@ public class CreateObjects : MonoBehaviour
             0,
             15000,
             220,
-            "PDT",
+            CreateObjects.fixList[0],
             Aircraft.FlightStatus.Arrival
         ));
 
@@ -111,7 +111,7 @@ public class CreateObjects : MonoBehaviour
             0,
             7000,
             200,
-            "TOBEK",
+            CreateObjects.fixList[1],
             Aircraft.FlightStatus.Departure
         ));
 
@@ -136,7 +136,7 @@ public class CreateObjects : MonoBehaviour
             0,
             4000,
             230,
-            "PDT",
+            CreateObjects.fixList[2],
             Aircraft.FlightStatus.Transferred
         ));
 
@@ -161,7 +161,7 @@ public class CreateObjects : MonoBehaviour
             0,
             6000,
             240,
-            "ASBIN",
+            CreateObjects.fixList[3],
             Aircraft.FlightStatus.Incoming
         ));
 

@@ -275,12 +275,18 @@ public class Aircraft /*: ScriptableObject*/
 	 * @type {int}
 	 */
 	private ushort authoSpeed;
-	/**
+    /**
+	 * Authorized FIX, VOR, etc.
+	 * @attribute authoPoint
+	 * @type {FIX}
+	 */
+    private FIX authoPoint;
+    /**
 	 * Name of authorized FIX, VOR, etc.
 	 * @attribute authoPoint
 	 * @type {string}
 	 */
-	private string authoPoint;
+    private string authoPointName;
 	/**
 	 * Indicates if traffic is incoming (Arrival) or outcoming (Departure)
 	 * @attribute flightStatus
@@ -332,7 +338,7 @@ public class Aircraft /*: ScriptableObject*/
 				string flightNumber, string registration, ushort squawk, float lat, float lon,
 				ushort heading, ushort track, ushort speedGS, ushort speedIAS, ushort speedCAS,
 				ushort speedTAS, ushort altitude, ushort height, short verticalSpeed,
-				ushort authoAltitude, ushort authoSpeed, string authoPoint, FlightStatus flightStatus)
+				ushort authoAltitude, ushort authoSpeed, FIX authoPoint, FlightStatus flightStatus)
 	{
 		this.aircraftModelName = modelName;
 		this.aircraftModelCode = modelCode;
@@ -458,8 +464,9 @@ public class Aircraft /*: ScriptableObject*/
 	public Aircraft GetScript() { return this.script; }
 	public int GetAuthoAltitude() { return this.authoAltitude; }
 	public ushort GetAuthoSpeed() { return this.authoSpeed; }
-	public string GetAuthoPoint() { return this.authoPoint; }
-	public FlightStatus GetFlightStatus() { return this.flightStatus; }
+	public FIX GetAuthoPoint() { return this.authoPoint; }
+    public string GetAuthoPointName() { return this.authoPoint.GetName(); }
+    public FlightStatus GetFlightStatus() { return this.flightStatus; }
 	public string GetLabel() { return this.label; }
     public DrawRadarScreen.AcftLabelPos GetLabelPos() { return this.labelPos; }
     public Vector3 GetLabelScreenPos() { return this.labelScreenPos; }
@@ -483,7 +490,7 @@ public class Aircraft /*: ScriptableObject*/
 	public void SetAltitude(int altitude) { this.altitude = altitude; }
 	public void SetAuthoAltitude(int authoAltitude) { this.authoAltitude= authoAltitude; }
 
-	public void SetAuthoPoint(string authoPoint) { this.authoPoint = authoPoint; }
+	public void SetAuthoPoint(FIX authoPoint) { this.authoPoint = authoPoint; }
 
     public void SetPosition(Vector3 position) { this.position = position; }
 

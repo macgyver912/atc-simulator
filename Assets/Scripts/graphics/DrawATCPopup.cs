@@ -510,7 +510,7 @@ public class DrawATCPopup : MonoBehaviour
 
             // update radar screen tag of this aircraft
             string hdgStr = string.Format("{0:D3}", tgtHdg);
-            acftCtrl.GetAircraft().SetAuthoPoint("H" + hdgStr);
+            //acftCtrl.GetAircraft().SetAuthoPoint("H" + hdgStr);
             DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
 
             // simulate the communication text between ATC and pilots
