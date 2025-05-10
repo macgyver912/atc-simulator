@@ -65,6 +65,8 @@ public class MngScreen : MonoBehaviour
         var pxDegreeRatio = CalculateRatioPx4Degree();
         ratio = new Vector2(pxDegreeRatio * latLonRatio, pxDegreeRatio) * pixelRatio;
 
+        Debug.Log("pixelRatio: " + pixelRatio);
+
 #if DEBUG_MODE
 	        Debug.Log("maxDistance: " + maxDistance);
 	        Debug.Log("safeMargin (�): " + safeMargin);

@@ -25,12 +25,12 @@ public class DrawRadarScreen : MonoBehaviour
     };
     public enum AcftLabelPos
     {
-        UpperLeft = 0,
-        UpperCenter = 1,
-        UpperRight = 2,
-        BottomRight = 3,
-        BottomCenter = 4,
-        BottomLeft = 5
+        UpperCenter = 0,
+        UpperRight = 1,
+        BottomRight = 2,
+        BottomCenter = 3,
+        BottomLeft = 4,
+        UpperLeft = 5
     };
     public enum AcftLabelFontSize
     {
@@ -42,6 +42,7 @@ public class DrawRadarScreen : MonoBehaviour
     static AcftLabelPos prefAcftLabelPos;
     Rect acftLabelRect;
     float acftLabelHeight;
+    float acftLabelWidth;
     //static ushort acftLabelFontSize;
     static AcftLabelFontSize acftLabelFontSize;
 
@@ -78,7 +79,7 @@ public class DrawRadarScreen : MonoBehaviour
     //var lengthOfLineRenderer : int = 2;
     private static Material defaultMaterial;
 
-    static Vector3 airportPosition = new Vector3(-3.560833f, 40.472222f, 2000.0f);
+    static Vector3 airportPosition; //= new Vector3(-3.560833f, 40.472222f, 2000.0f);
     static float minAltitude = airportPosition.z;
 
     private static int ringsSeparation;
@@ -100,7 +101,11 @@ public class DrawRadarScreen : MonoBehaviour
             labelStyle_aircrafts.GetStyle("Label").fontSize = (int) acftLabelFontSize;
 
             defCallsignSize = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX"));
+            acftLabelWidth = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent(CreateObjects.aircraftList[0].GetLabel())).x;
             acftLabelHeight = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent(CreateObjects.aircraftList[0].GetLabel())).y;
+
+            Debug.Log("acftLabelWidth: " + acftLabelWidth);
+            Debug.Log("acftLabelHeight: " + acftLabelHeight);
             
             fixGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixList[0]).GetGO());
             /*
@@ -251,15 +256,7 @@ public class DrawRadarScreen : MonoBehaviour
     void UpdateRadarScreen()
     {
         // ######### Show aircrafts labels #########
-
-        
-        ushort fl;
-        string flStr;
-        /*ushort speed;*/
-        ushort autAlt;
-        string autAltStr;
-        
-
+       
         // Aircraft
         foreach (Aircraft acft in CreateObjects.aircraftList)
         {
@@ -313,10 +310,10 @@ public class DrawRadarScreen : MonoBehaviour
         if (acft.GetGO().GetComponentsInChildren<LineRenderer>().Length == 0)
         {
             GameObject lineGO = new GameObject("LineLabel_" + acft.GetCallsignCode() + acft.GetFlightNumber());
-            LineRenderer lr = lineGO.AddComponent<LineRenderer>() as LineRenderer;
+            LineRenderer auxLineRenderer = lineGO.AddComponent<LineRenderer>() as LineRenderer;
             lineGO.transform.parent = acft.GetGO().transform;
 
-            LineRenderer auxLineRenderer = lineGO.GetComponent<LineRenderer>() as LineRenderer;
+            //LineRenderer auxLineRenderer = lineGO.GetComponent<LineRenderer>() as LineRenderer;
             Color c1 = labelLineColor;
             auxLineRenderer.material = defaultMaterial;
             auxLineRenderer.material.color = c1;
@@ -329,12 +326,12 @@ public class DrawRadarScreen : MonoBehaviour
         lineRenderer = acft.GetGO().GetComponentsInChildren<LineRenderer>()[0];
 
         lineRenderer.SetPosition(0, MngScreen.RadarScreenPosRelToAirport(acft.GetPosition()));
-        //lineRenderer.SetPosition(1, acft.GetLabelScreenPos() + acft.GetLabelLineOffset());
         lineRenderer.SetPosition(1, new Vector3(
             acft.GetLabelScreenPos().x + acft.GetLabelLineOffset().x,
             acft.GetLabelScreenPos().y + acft.GetLabelLineOffset().y,
             acft.GetLabelScreenPos().z
             ));
+        
 
     }
     
@@ -642,49 +639,59 @@ public class DrawRadarScreen : MonoBehaviour
         // label position
         if (pos == AcftLabelPos.UpperLeft)
         {
-            acftLabelRect = new Rect(-defCallsignSize.x,
-                                -acftGOSize.y / 3f - acftLabelHeight,
-                                 defCallsignSize.x,
-                                 defCallsignSize.y);
-            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4f, -labelSize.y));
+            acftLabelRect = new Rect(
+                            -acftLabelWidth * 1.5f,
+                            -acftGOSize.y - acftLabelHeight * 1.5f,
+                            acftLabelWidth,
+                            acftLabelHeight);
+            acft.SetLabelLineOffset(new Vector2(acftLabelWidth, -acftLabelHeight) * MngScreen.GetPixelRatio());
         }
         else if (pos == AcftLabelPos.UpperCenter)
         {
-            acftLabelRect = new Rect(-defCallsignSize.x / 2f,
-                            -acftGOSize.y / 2f - acftLabelHeight,
-                             defCallsignSize.x,
-                             defCallsignSize.y);
+            acftLabelRect = new Rect(
+                            -(acftLabelWidth / 2f) ,
+                            -acftGOSize.y - acftLabelHeight * 1.5f,
+                             acftLabelWidth,
+                             acftLabelHeight);
+            acft.SetLabelLineOffset(new Vector2(acftLabelWidth / 2f, -acftLabelHeight) * MngScreen.GetPixelRatio());
+
         }
         else if (pos == AcftLabelPos.UpperRight)
         {
-            acftLabelRect = new Rect(defCallsignSize.x / 4f,
-                            -acftGOSize.y / 3f - acftLabelHeight,
-                             defCallsignSize.x,
-                             defCallsignSize.y);
+            acftLabelRect = new Rect(
+                            -acftLabelWidth + acftLabelWidth * 1.5f,
+                            -acftGOSize.y - acftLabelHeight * 1.5f,
+                             acftLabelWidth,
+                             acftLabelHeight);
+            acft.SetLabelLineOffset(new Vector2(0, -acftLabelHeight) * MngScreen.GetPixelRatio());
+
         }
         else if (pos == AcftLabelPos.BottomLeft)
         {
-            acftLabelRect = new Rect(-defCallsignSize.x,
-                            acftGOSize.y + defCallsignSize.y / 2f,
-                             defCallsignSize.x,
-                             defCallsignSize.y);
-            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4f, defCallsignSize.y * 0.5f));
+            acftLabelRect = new Rect(
+                            -acftLabelWidth * 1.5f,
+                            +acftGOSize.y + acftLabelHeight / 2f * 1.5f,
+                            acftLabelWidth,
+                            acftLabelHeight);
+            acft.SetLabelLineOffset(new Vector2(acftLabelWidth, 0) * MngScreen.GetPixelRatio());
         }
         else if (pos == AcftLabelPos.BottomCenter)
         {
-            acftLabelRect = new Rect(-defCallsignSize.x / 2f,
-                            acftGOSize.y + defCallsignSize.y,
-                             defCallsignSize.x,
-                             defCallsignSize.y);
-            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4f, defCallsignSize.y * 0.5f));
+            acftLabelRect = new Rect(
+                            -(acftLabelWidth / 2f),
+                            +acftGOSize.y + acftLabelHeight / 2f * 1.5f,
+                            acftLabelWidth,
+                            acftLabelHeight);
+            acft.SetLabelLineOffset(new Vector2(acftLabelWidth / 2f, 0) * MngScreen.GetPixelRatio());
         }
         else if (pos == AcftLabelPos.BottomRight)
         {
-            acftLabelRect = new Rect(defCallsignSize.x / 4f,
-                        acftGOSize.y + defCallsignSize.y / 2f,
-                         defCallsignSize.x,
-                         defCallsignSize.y);
-            acft.SetLabelLineOffset(new Vector2(defCallsignSize.x / 4f, defCallsignSize.y * 0.5f));
+            acftLabelRect = new Rect(
+                            -acftLabelWidth + acftLabelWidth * 1.5f,
+                            +acftGOSize.y + acftLabelHeight / 2f * 1.5f,
+                            acftLabelWidth,
+                            acftLabelHeight);
+            acft.SetLabelLineOffset(new Vector2(0, 0) * MngScreen.GetPixelRatio());
         }
 
         DrawLabelLine(acft);
@@ -694,7 +701,7 @@ public class DrawRadarScreen : MonoBehaviour
     public static AcftLabelPos ChangeAcftLabelPos(AcftLabelPos pos)
     {
         AcftLabelPos newPos;
-        if(pos < AcftLabelPos.BottomLeft)
+        if(pos < AcftLabelPos.UpperLeft)
         {
 		    newPos = pos+1;
 	    }
