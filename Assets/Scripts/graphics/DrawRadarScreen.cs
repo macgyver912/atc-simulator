@@ -84,7 +84,7 @@ public class DrawRadarScreen : MonoBehaviour
 
     private static int ringsSeparation;
     private static int gridSeparation;
-    private static ushort ringsVertexs = 48;
+    private static ushort ringsVertexs = 120;
     private static uint twr_app_limit;
     private static uint app_ctr_limit;
 
@@ -98,16 +98,16 @@ public class DrawRadarScreen : MonoBehaviour
         {
             initGUI = false;
 
-            labelStyle_aircrafts.GetStyle("Label").fontSize = (int) acftLabelFontSize;
+            //labelStyle_aircrafts.GetStyle("Label").fontSize = (int) acftLabelFontSize;
 
-            defCallsignSize = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX"));
+            defCallsignSize = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX H"));
             acftLabelWidth = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent(CreateObjects.aircraftList[0].GetLabel())).x;
             acftLabelHeight = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent(CreateObjects.aircraftList[0].GetLabel())).y;
-
-            Debug.Log("acftLabelWidth: " + acftLabelWidth);
-            Debug.Log("acftLabelHeight: " + acftLabelHeight);
             
             fixGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixList[0]).GetGO());
+            vorRoseGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.vorList[0]).GetGO());
+            //vorGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixList[0]).GetGO());
+            vorGOSize = vorRoseGOSize;
             /*
             VOR auxVor = CreateObjects.vorList.Find(function(_vor: VOR){ return _vor.hasDME == false; });
             if (auxVor != null)
@@ -120,7 +120,6 @@ public class DrawRadarScreen : MonoBehaviour
             acftGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.aircraftList[0]).go);
             */
             //		SetAcftLabelPos();
-
         }// if initGUI
 
         if (showGUI)
@@ -133,7 +132,7 @@ public class DrawRadarScreen : MonoBehaviour
                 labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(fix.GetName()));
                 Vector2 fixPos = MngScreen.ScreenPosAbsolute(fix.GetScreenPosition());
                 // Below GameObject
-                GUI.Label(new Rect(fixPos.x - labelSize.x / 2f, fixPos.y + fixGOSize.y / 2f, labelSize.x, labelSize.y), fix.GetName(), labelStyle_navaids.GetStyle("Label"));
+                GUI.Label(new Rect(fixPos.x - labelSize.x / 2f, fixPos.y + fixGOSize.y / 2f, labelSize.x, labelSize.y * 1.5f), fix.GetName(), labelStyle_navaids.GetStyle("Label"));
             }//for
 
             // VOR
@@ -145,10 +144,10 @@ public class DrawRadarScreen : MonoBehaviour
                 // Below GameObject
                 if (vor.HasDME())
                     //				GUI.Label(Rect(vorPos.x-labelSize.x/2, vorPos.y+vorRoseGOSize.y/2, labelSize.x, labelSize.y), vor.id, labelStyle_navaids.GetStyle("Label"));
-                    GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y - vorRoseGOSize.y / 2f - labelSize.y, labelSize.x, labelSize.y), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
+                    GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y + vorRoseGOSize.y * 0.4f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
                 else
                     //				GUI.Label(Rect(vorPos.x-labelSize.x/2, vorPos.y+vorGOSize.y/2, labelSize.x, labelSize.y), vor.id, labelStyle_navaids.GetStyle("Label"));
-                    GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y - vorGOSize.y / 2f - labelSize.y, labelSize.x, labelSize.y), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
+                    GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y + vorGOSize.y * 0.4f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
             }
 
             // ######### Show aircrafts labels #########
@@ -246,8 +245,8 @@ public class DrawRadarScreen : MonoBehaviour
 
     public static void StartDraw()
     {
-        rwyWidth = 0.7f * MngScreen.GetPixelRatio();
-        //	Debug.Log("rwyWidth: " + rwyWidth);
+        rwyWidth = 1.5f * MngScreen.GetPixelRatio();
+        Debug.Log("rwyWidth: " + rwyWidth);
         DrawAirport();
         showGUI = true;
         instance.InvokeRepeating("UpdateRadarScreen", 0, Config.radarPeriod);
@@ -316,6 +315,7 @@ public class DrawRadarScreen : MonoBehaviour
             //LineRenderer auxLineRenderer = lineGO.GetComponent<LineRenderer>() as LineRenderer;
             Color c1 = labelLineColor;
             auxLineRenderer.material = defaultMaterial;
+            auxLineRenderer.material.shader = Shader.Find("Unlit/Color");
             auxLineRenderer.material.color = c1;
             auxLineRenderer.startColor = c1;
             auxLineRenderer.endColor = c1;
@@ -366,6 +366,7 @@ public class DrawRadarScreen : MonoBehaviour
         //	Debug.Log("Runway 1: " + rwys[1].GetThrLon() + " - " + rwys[1].GetThrLat());
         Color c1 = _color_runways;
         lineRenderer.material = defaultMaterial;
+        lineRenderer.material.shader = Shader.Find("Unlit/Color");
         lineRenderer.material.color = c1;
         lineRenderer.startColor = c1;
         lineRenderer.endColor = c1;
@@ -427,7 +428,8 @@ public class DrawRadarScreen : MonoBehaviour
 
         LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
         Color c1 = _color_circles;
-        lineRenderer.material = new Material(defaultMaterial);
+        lineRenderer.material = defaultMaterial;
+        lineRenderer.material.shader = Shader.Find("Unlit/Color");
         lineRenderer.material.color = c1;
         lineRenderer.startColor = c1;
         lineRenderer.endColor = c1;
@@ -498,7 +500,8 @@ public class DrawRadarScreen : MonoBehaviour
 
         LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
         Color c1 = _color_limit_circles;
-        lineRenderer.material = new Material(defaultMaterial);
+        lineRenderer.material = defaultMaterial;
+        lineRenderer.material.shader = Shader.Find("Unlit/Color");
         lineRenderer.material.color = c1;
         lineRenderer.startColor = c1;
         lineRenderer.endColor = c1;
@@ -583,7 +586,8 @@ public class DrawRadarScreen : MonoBehaviour
 
         LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
         Color c1 = _color_grid;
-        lineRenderer.material = new Material(defaultMaterial);
+        lineRenderer.material = defaultMaterial;
+        lineRenderer.material.shader = Shader.Find("Unlit/Color");
         lineRenderer.material.color = c1;
         lineRenderer.startColor = c1;
         lineRenderer.endColor = c1;
