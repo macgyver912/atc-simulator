@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\airports\Airport.cs" />
+    <Compile Include="Assets\Scripts\navaids\Navaid.cs" />
     <Compile Include="Assets\Scripts\graphics\DrawRadarScreen.cs" />
     <Compile Include="Assets\Scripts\companies\Company.cs" />
     <Compile Include="Assets\Scripts\graphics\ATCPopupCtrl.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Assets\Scripts\graphics\MngScreen.cs" />
     <Compile Include="Assets\Scripts\utils\TextUtils.cs" />
     <Compile Include="Assets\Scripts\game\CreateObjects.cs" />
+    <Compile Include="Assets\Scripts\navaids\VOR2.cs" />
     <Compile Include="Assets\Scripts\game\Config.cs" />
     <Compile Include="Assets\Scripts\airports\Runway.cs" />
     <Compile Include="Assets\Scripts\graphics\DrawGUI.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Assets\Scripts\general\General.cs" />
     <Compile Include="Assets\Scripts\utils\Measurement.cs" />
     <Compile Include="Assets\Scripts\navaids\VOR.cs" />
+    <Compile Include="Assets\Scripts\navaids\FIX2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\shaders\Normal-Diffuse.shader" />
