@@ -933,7 +933,7 @@ public class DrawATCPopup : MonoBehaviour
         DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
 
         // simulate the communication text between ATC and pilots
-        string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + tgtPoint.GetName();
+        string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + tgtPoint.GetId();
         Debug.LogWarning(debugText);
 
         // set commands to the aircraft

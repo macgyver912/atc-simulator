@@ -12,18 +12,18 @@ using UnityEngine;
  * @author Jaime Valle Alonso
  */
 
-public class Navaid : ScriptableObject
+public class Navaid /*: ScriptableObject*/
 {
 
     
 
     /**
-	 * Name of this FIX.
-	 * For example: <i>ASBIN</i> FIX.
-	 * @attribute name
+	 * Identifier of this FIX.
+	 * For example: <i>ASBIN</i>.
+	 * @attribute id
 	 * @type {string}
 	 */
-    public string name;
+    public string id;
     /**
 	 * Latitude coordinates in degrees.
 	 * @attribute lat
@@ -64,19 +64,14 @@ public class Navaid : ScriptableObject
 	/**
 	 * @class FIX
 	 * @constructor
-	 * @param {string} id Three letters identifier for this FIX.
-	 * @param {string} name Name of this FIX.
-	 * @param {float} frequency Frequency in MHz of this FIX.
-	 * @param {string} morseCode Morse identifier of this FIX.
+	 * @param {string} id Three or Five letters identifier for this VOR or FIX.
 	 * @param {float} lat Latitude coordinates in degrees.
 	 * @param {float} lon Longitude coordinates in degrees.
-	 * @param {ushort} elevation Elevation in feet of airport field referred to measured sea level (MSL).
-	 * @param {FixTypes} type Type of fix: mandatory or informative.
 	 */
-	public Navaid(string name, float lat, float lon)
+	public Navaid(string id, float lat, float lon)
     {
 
-        this.name = name;
+        this.id = id;
         this.lat = lat;
         this.lon = lon;
         this.position = new Vector2(lat, lon);
@@ -109,7 +104,7 @@ public class Navaid : ScriptableObject
 	*/
     public float GetLat() { return lat; }
 	public float GetLon() { return lon; }
-	public string GetName() { return name; }
+	public string GetId() { return id; }
 	public Vector2 GetPosition() { return position; }
 	public Vector2 GetScreenPosition() { return screenPosition; }
 	public GameObject GetGO() { return this.go; }

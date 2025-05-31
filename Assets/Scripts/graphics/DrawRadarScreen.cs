@@ -129,16 +129,16 @@ public class DrawRadarScreen : MonoBehaviour
             // FIX
             foreach (FIX fix in CreateObjects.fixList)
             {
-                labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(fix.GetName()));
+                labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(fix.GetId()));
                 Vector2 fixPos = MngScreen.ScreenPosAbsolute(fix.GetScreenPosition());
                 // Below GameObject
-                GUI.Label(new Rect(fixPos.x - labelSize.x / 2f, fixPos.y + fixGOSize.y / 2f, labelSize.x, labelSize.y * 1.5f), fix.GetName(), labelStyle_navaids.GetStyle("Label"));
+                GUI.Label(new Rect(fixPos.x - labelSize.x / 2f, fixPos.y + fixGOSize.y / 2f, labelSize.x, labelSize.y * 1.5f), fix.GetId(), labelStyle_navaids.GetStyle("Label"));
             }//for
 
             // VOR
             foreach (VOR vor in CreateObjects.vorList)
             {
-                labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(vor.GetName()));
+                labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(vor.GetId()));
 
                 Vector2 vorPos = MngScreen.ScreenPosAbsolute(vor.GetScreenPosition());
                 // Below GameObject
@@ -293,7 +293,7 @@ public class DrawRadarScreen : MonoBehaviour
         autAltStr = (autAlt < 100 ? "0" + autAlt.ToString() : autAlt.ToString());
         //		speed = Mathf.Ceil(acft.speedGS / 10f)*10;
        
-        authoHdgPoint = (acft.GetAuthoPoint() != null ? acft.GetAuthoPoint().GetName() : "H" + string.Format("{0:D3}", acft.GetAuthoHdg()));
+        authoHdgPoint = (acft.GetAuthoPoint() != null ? acft.GetAuthoPoint().GetId() : "H" + string.Format("{0:D3}", acft.GetAuthoHdg()));
 
         acft.SetLabel(acft.GetCallsignCode() + acft.GetFlightNumber() + " " + (acft.GetCategory() == Aircraft.Category.Heavy ? "H" : "") + "\n" +
                     flStr + vsLabel + " " + autAltStr + "\n" +

@@ -10,6 +10,9 @@ public class CreateObjects : MonoBehaviour
     public static List<Aircraft> aircraftList;
     public static List<FIX> fixList;
     public static List<VOR> vorList;
+    public static List<Navaid> navaidList;
+
+    public static List<STAR> starsList;
 
     Quaternion fromRotation;
 
@@ -43,6 +46,7 @@ public class CreateObjects : MonoBehaviour
 
         airport = new Airport("Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20f), Measurement.DMS2DD(-3, 33, 39f), 2000f, "Madrid", "Spain", 13000, 140, rwys);
 
+        
         fixList = new List<FIX>();
       
         fixList.Add(new FIX("ASBIN", Measurement.DMS2DD(40, 15, 18f), Measurement.DMS2DD(-3, 10, 35f), FIX.FixTypes.Compulsory));
@@ -59,7 +63,18 @@ public class CreateObjects : MonoBehaviour
         vorList.Add(new VOR("PDT", "Perales", 116.75f, null, true, Measurement.DMS2DD(40, 15, 10f), Measurement.DMS2DD(-3, 20, 52f), 0));
         // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-7, 00, 00), 0));
         // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-3, 33, 39)+3.439167, 0));
-        
+
+        /*
+
+        navaidList = new List<Navaid>();
+        navaidList.Add(fixList.Find((x) => x.id == "ASBIN"));
+        navaidList.Add(fixList.Find((x) => x.id == "PDT"));
+        starsList.Add(new STAR("SOTUK3C", navaidList));
+        starsList.Add(new STAR("SOTUK1A", navaidList));
+        */
+
+
+
         companyList = new List<Company>();
         aircraftList = new List<Aircraft>();
 

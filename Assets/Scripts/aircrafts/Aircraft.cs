@@ -1,6 +1,7 @@
 
 
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /**
  * Aircraft characteristics and flight data.
@@ -284,15 +285,15 @@ public class Aircraft /*: ScriptableObject*/
     /**
 	 * Authorized FIX, VOR, etc.
 	 * @attribute authoPoint
-	 * @type {FIX}
+	 * @type {Navaid}
 	 */
-    private FIX authoPoint;
+    private Navaid authoPoint;
     /**
-	 * Name of authorized FIX, VOR, etc.
+	 * Identifier of authorized FIX, VOR, etc.
 	 * @attribute authoPoint
 	 * @type {string}
 	 */
-    private string authoPointName;
+    private string authoPointId;
 	/**
 	 * Indicates if traffic is incoming (Arrival) or outcoming (Departure)
 	 * @attribute flightStatus
@@ -337,14 +338,14 @@ public class Aircraft /*: ScriptableObject*/
  	 * @param {short} verticalSpeed VS or Vertical Speed is the climb or descent rate in feet per minute of aircraft.
  	 * @param {short} authoAltitude Authorized altitude (in feet).
  	 * @param {short} authoSpeed Authorized speed (in kts).
- 	 * @param {String} authoPoint Name of authorized FIX, VOR, etc.
+ 	 * @param {Navaid} authoPoint Authorized point (FIX, VOR, etc).
  	 * @param {FlightStatus} flightStatus Indicates if traffic is incoming (Arrival) or outcoming (Departure).
 	 */
 	public Aircraft(string modelName, string modelCode, Category category, Company company,
 				string flightNumber, string registration, ushort squawk, float lat, float lon,
 				ushort heading, ushort track, ushort speedGS, ushort speedIAS, ushort speedCAS,
 				ushort speedTAS, ushort altitude, ushort height, short verticalSpeed,
-				ushort authoAltitude, ushort authoSpeed, FIX authoPoint, FlightStatus flightStatus)
+				ushort authoAltitude, ushort authoSpeed, Navaid authoPoint, FlightStatus flightStatus)
 	{
 		this.aircraftModelName = modelName;
 		this.aircraftModelCode = modelCode;
@@ -369,8 +370,11 @@ public class Aircraft /*: ScriptableObject*/
 
 		this.authoAltitude = authoAltitude;
 		this.authoSpeed = authoSpeed;
-		this.authoPoint = authoPoint;
-		this.authoPointName = this.authoPoint.GetName();
+		if (authoPoint.id.Length > 3)
+			this.authoPoint = authoPoint as FIX;
+		else
+            this.authoPoint = authoPoint as VOR;
+        this.authoPointId = this.authoPoint.GetId();
 
 
         this.flightStatus = flightStatus;
@@ -477,8 +481,8 @@ public class Aircraft /*: ScriptableObject*/
 	public int GetAuthoAltitude() { return this.authoAltitude; }
 	public ushort GetAuthoSpeed() { return this.authoSpeed; }
     public ushort GetAuthoHdg() { return this.authoHdg; }
-    public FIX GetAuthoPoint() { return this.authoPoint; }
-    public string GetAuthoPointName() { return this.authoPoint.GetName(); }
+    public Navaid GetAuthoPoint() { return this.authoPoint; }
+    public string GetAuthoPointId() { return this.authoPoint.GetId(); }
     public FlightStatus GetFlightStatus() { return this.flightStatus; }
 	public string GetLabel() { return this.label; }
     public DrawRadarScreen.AcftLabelPos GetLabelPos() { return this.labelPos; }
@@ -503,7 +507,7 @@ public class Aircraft /*: ScriptableObject*/
 	public void SetAltitude(int altitude) { this.altitude = altitude; }
 	public void SetAuthoAltitude(int authoAltitude) { this.authoAltitude= authoAltitude; }
 
-	public void SetAuthoPoint(FIX authoPoint) { this.authoPoint = authoPoint; this.authoPointName = authoPoint.GetName(); }
+	public void SetAuthoPoint(Navaid authoPoint) { this.authoPoint = authoPoint; this.authoPointId = authoPoint.GetId(); }
 	public void SetAuthoHdg(ushort authoHdg) { this.authoHdg = authoHdg; this.authoPoint = null; }
     public void SetPosition(Vector3 position) { this.position = position; }
 

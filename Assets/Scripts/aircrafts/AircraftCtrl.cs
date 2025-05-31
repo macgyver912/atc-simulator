@@ -391,7 +391,7 @@ public class AircraftCtrl : MonoBehaviour
         }
         else
         {
-            debugText += " to fly to " + aircraft.GetAuthoPoint().GetName() + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+            debugText += " to fly to " + aircraft.GetAuthoPoint().GetId() + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
         }
 
         //debugText += " to heading " + targetHeading + ", " + aircraft.GetCallsignCode() + aircraft.GetFlightNumber();
@@ -503,7 +503,7 @@ public class AircraftCtrl : MonoBehaviour
         
     }
 
-    public void FlyTo(FIX target)
+    public void FlyTo(Navaid target)
     {
         //Debug.Log("FlyTo: " + target.GetName());
 
@@ -520,7 +520,7 @@ public class AircraftCtrl : MonoBehaviour
     }
 
 
-    public float GetHeadingToTarget(FIX target)
+    public float GetHeadingToTarget(Navaid target)
     {
         // Get position before look at target to set it after look at
         Vector3 eulerAnglesOld = this.gameObject.transform.rotation.eulerAngles;
