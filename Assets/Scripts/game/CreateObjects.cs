@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,9 +9,9 @@ public class CreateObjects : MonoBehaviour
     public static Airport airport;
     public static List<Company> companyList;
     public static List<Aircraft> aircraftList;
-    public static List<FIX> fixList;
-    public static List<VOR> vorList;
-    public static List<Navaid> navaidList;
+    public static Dictionary<string, FIX> fixList;
+    public static Dictionary<string, VOR> vorList;
+    public static Dictionary<string, Navaid> navaidList;
 
     public static List<STAR> starsList;
 
@@ -47,20 +48,20 @@ public class CreateObjects : MonoBehaviour
         airport = new Airport("Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20f), Measurement.DMS2DD(-3, 33, 39f), 2000f, "Madrid", "Spain", 13000, 140, rwys);
 
         
-        fixList = new List<FIX>();
+        fixList = new Dictionary<string, FIX>();
       
-        fixList.Add(new FIX("ASBIN", Measurement.DMS2DD(40, 15, 18f), Measurement.DMS2DD(-3, 10, 35f), FIX.FixTypes.Compulsory));
-        fixList.Add(new FIX("TOBEK", Measurement.DMS2DD(40, 11, 47f), Measurement.DMS2DD(-3, 25, 28f), FIX.FixTypes.Compulsory));
-        fixList.Add(new FIX("PRADO", Measurement.DMS2DD(40, 08, 51f), Measurement.DMS2DD(-2, 00, 37f), FIX.FixTypes.Compulsory));
-        fixList.Add(new FIX("MORAL", Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-3, 32, 32f), FIX.FixTypes.Compulsory));
-        fixList.Add(new FIX("RIDAV", Measurement.DMS2DD(40, 32, 07f), Measurement.DMS2DD(-5, 48, 30f), FIX.FixTypes.Compulsory));
+        fixList.Add("ASBIN", new FIX("ASBIN", Measurement.DMS2DD(40, 15, 18f), Measurement.DMS2DD(-3, 10, 35f), FIX.FixTypes.Compulsory));
+        fixList.Add("TOBEK", new FIX("TOBEK", Measurement.DMS2DD(40, 11, 47f), Measurement.DMS2DD(-3, 25, 28f), FIX.FixTypes.Compulsory));
+        fixList.Add("PRADO", new FIX("PRADO", Measurement.DMS2DD(40, 08, 51f), Measurement.DMS2DD(-2, 00, 37f), FIX.FixTypes.Compulsory));
+        fixList.Add("MORAL", new FIX("MORAL", Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-3, 32, 32f), FIX.FixTypes.Compulsory));
+        fixList.Add("RIDAV", new FIX("RIDAV", Measurement.DMS2DD(40, 32, 07f), Measurement.DMS2DD(-5, 48, 30f), FIX.FixTypes.Compulsory));
 
-        fixList.Add(new FIX("AUX1", Measurement.DMS2DD(40, 00, 00f), Measurement.DMS2DD(-4, 00, 00f), FIX.FixTypes.OnRequest));
-        fixList.Add(new FIX("AUX2", Measurement.DMS2DD(40, 00, 00f), Measurement.DMS2DD(-3, 00, 00f), FIX.FixTypes.OnRequest));
-        fixList.Add(new FIX("AUX3", Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-3, 00, 00f), FIX.FixTypes.OnRequest));
+        fixList.Add("AUX1", new FIX("AUX1", Measurement.DMS2DD(40, 00, 00f), Measurement.DMS2DD(-4, 00, 00f), FIX.FixTypes.OnRequest));
+        fixList.Add("AUX2", new FIX("AUX2", Measurement.DMS2DD(40, 00, 00f), Measurement.DMS2DD(-3, 00, 00f), FIX.FixTypes.OnRequest));
+        fixList.Add("AUX3", new FIX("AUX3", Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-3, 00, 00f), FIX.FixTypes.OnRequest));
 
-        vorList = new List<VOR>();
-        vorList.Add(new VOR("PDT", "Perales", 116.75f, null, true, Measurement.DMS2DD(40, 15, 10f), Measurement.DMS2DD(-3, 20, 52f), 0));
+        vorList = new Dictionary<string, VOR>();
+        vorList.Add("PDT", new VOR("PDT", "Perales", 116.75f, null, true, Measurement.DMS2DD(40, 15, 10f), Measurement.DMS2DD(-3, 20, 52f), 0));
         // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-7, 00, 00), 0));
         // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-3, 33, 39)+3.439167, 0));
 
@@ -101,7 +102,7 @@ public class CreateObjects : MonoBehaviour
             0,
             15000,
             220,
-            CreateObjects.fixList[0],
+            CreateObjects.fixList.ElementAt(0).Value,
             Aircraft.FlightStatus.Arrival
         ));
         /*
@@ -210,12 +211,12 @@ public class CreateObjects : MonoBehaviour
             aircraft.SetGameObjectPos();
         }
         
-        foreach (FIX fix in fixList)
+        foreach (FIX fix in fixList.Values)
         {
             fix.SetGameObjectPos();
         }
 
-        foreach (VOR vor in vorList)
+        foreach (VOR vor in vorList.Values)
         {
             vor.SetGameObjectPos();
         }

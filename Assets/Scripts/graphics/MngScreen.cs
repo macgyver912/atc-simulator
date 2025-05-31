@@ -46,13 +46,13 @@ public class MngScreen : MonoBehaviour
         //	Debug.Log("DrawGUI.windowFPSWidth: " + DrawGUI.windowFPSWidth);
         //	Debug.Log("radarScreenSize.x: " + (Screen.width - DrawGUI.windowFPSWidth));
 
-        foreach (FIX fix in CreateObjects.fixList)
+        foreach (FIX fix in CreateObjects.fixList.Values)
         {
             lats.Add(fix.GetLat());
             lons.Add(fix.GetLon());
         }
 
-        foreach (VOR vor in CreateObjects.vorList)
+        foreach (VOR vor in CreateObjects.vorList.Values)
         {
             lats.Add(vor.GetLat());
             lons.Add(vor.GetLon());

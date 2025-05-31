@@ -6,6 +6,7 @@ using UnityEngine;
 using static Unity.Burst.Intrinsics.X86;
 using UnityEngine.UIElements.Experimental;
 using UnityEngine.UIElements;
+using System.Linq;
 
 public class DrawATCPopup : MonoBehaviour
 {
@@ -922,7 +923,7 @@ public class DrawATCPopup : MonoBehaviour
     // Sets commands to aircraft when heading is set and 'accept' button is pressed
     void AcceptPressed_Point()
     {
-        FIX tgtPoint = CreateObjects.fixList[0];   // TODO: select from list
+        FIX tgtPoint = CreateObjects.fixList.ElementAt(0).Value;   // TODO: select from list
 
         //Debug.Log("Point: " + tgtHdg);
 

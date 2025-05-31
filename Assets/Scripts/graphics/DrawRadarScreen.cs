@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static DrawRadarScreen;
 
@@ -103,11 +104,17 @@ public class DrawRadarScreen : MonoBehaviour
             defCallsignSize = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX H"));
             acftLabelWidth = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent(CreateObjects.aircraftList[0].GetLabel())).x;
             acftLabelHeight = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent(CreateObjects.aircraftList[0].GetLabel())).y;
-            
+
+            fixGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixList.ElementAt(0).Value).GetGO());
+            vorRoseGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.vorList.ElementAt(0).Value).GetGO());
+            //vorGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixList[0]).GetGO());
+            vorGOSize = vorRoseGOSize;
+            /*
             fixGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixList[0]).GetGO());
             vorRoseGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.vorList[0]).GetGO());
             //vorGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixList[0]).GetGO());
             vorGOSize = vorRoseGOSize;
+            */
             /*
             VOR auxVor = CreateObjects.vorList.Find(function(_vor: VOR){ return _vor.hasDME == false; });
             if (auxVor != null)
@@ -127,7 +134,7 @@ public class DrawRadarScreen : MonoBehaviour
             // ######### Show name of navaids #########
 
             // FIX
-            foreach (FIX fix in CreateObjects.fixList)
+            foreach (FIX fix in CreateObjects.fixList.Values)
             {
                 labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(fix.GetId()));
                 Vector2 fixPos = MngScreen.ScreenPosAbsolute(fix.GetScreenPosition());
@@ -136,7 +143,7 @@ public class DrawRadarScreen : MonoBehaviour
             }//for
 
             // VOR
-            foreach (VOR vor in CreateObjects.vorList)
+            foreach (VOR vor in CreateObjects.vorList.Values)
             {
                 labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(vor.GetId()));
 
