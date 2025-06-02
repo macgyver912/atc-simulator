@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,7 +12,13 @@ public class CreateObjects : MonoBehaviour
     public static List<Aircraft> aircraftList;
     public static Dictionary<string, FIX> fixList;
     public static Dictionary<string, VOR> vorList;
-    public static Dictionary<string, Navaid> navaidList;
+    public static List<Navaid> navaidList;
+
+    private static FIX aux_fix;
+    private static VOR aux_vor;
+    private static Navaid aux_navaid;
+    private static string id_str;
+    private static STAR aux_star;
 
     public static List<STAR> starsList;
 
@@ -65,14 +72,18 @@ public class CreateObjects : MonoBehaviour
         // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-7, 00, 00), 0));
         // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-3, 33, 39)+3.439167, 0));
 
-        /*
-
         navaidList = new List<Navaid>();
-        navaidList.Add(fixList.Find((x) => x.id == "ASBIN"));
-        navaidList.Add(fixList.Find((x) => x.id == "PDT"));
-        starsList.Add(new STAR("SOTUK3C", navaidList));
-        starsList.Add(new STAR("SOTUK1A", navaidList));
-        */
+        id_str = "ASBIN";
+        if (fixList.TryGetValue(id_str, out aux_fix))
+        {
+            navaidList.Add(aux_fix);
+        }
+        aux_star = new STAR("SOTUK3C", navaidList);
+        starsList = new List<STAR>();
+        starsList.Add(aux_star);
+        Debug.Log(starsList.Count);
+
+
 
 
 
