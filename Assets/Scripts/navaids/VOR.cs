@@ -51,7 +51,7 @@ public class VOR : Navaid /*: ScriptableObject*/
 	 * @attribute elevation
 	 * @type {float}
 	 */
-    private short elevation;
+    //private short elevation;
     /**
 	 * Position: latitude, longitude (in degrees).
 	 * @attribute position
@@ -72,14 +72,14 @@ public class VOR : Navaid /*: ScriptableObject*/
 	 * @param {ushort} elevation Elevation in feet of airport field referred to measured sea level (MSL).
 	 */
     public VOR(string id, string name, float frequency, string morseCode, bool hasDME,
-                float lat, float lon, short elevation) : base(id, lat, lon)
+                float lat, float lon) : base(id, lat, lon)
     {
 
         this.id = id;
         this.frequency = frequency;
         this.morseCode = morseCode;
         this.hasDME = hasDME;
-        this.elevation = elevation;
+        //this.elevation = elevation;
         //this.position = new Vector3(lat, lon, elevation);
 
         string iconName;
