@@ -117,6 +117,14 @@ public class VOR : Navaid /*: ScriptableObject*/
         {
             this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_vor;
         }
+
+        // Locate GameObject inside "VORs" GameObject
+        GameObject parentGO = GameObject.Find("VORs");
+        if (parentGO == null)
+        {
+            parentGO = new GameObject("VORs");
+        }
+        this.go.transform.parent = parentGO.transform;
     }
 
     public string GetID() { return id; }

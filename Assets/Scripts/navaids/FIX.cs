@@ -42,10 +42,8 @@ public class FIX : Navaid /*: ScriptableObject*/
 	 * @param {FixTypes} type Type of fix: mandatory or informative.
 	 */
 	public FIX(string id, float lat, float lon, FixTypes type) : base(id, lat, lon)
-    {
-
+	{
         this.type = type;
-		
         if (this.type == FixTypes.Compulsory)
         {
             this.icon = DrawRadarScreen.icons["fix_filled"];
@@ -70,6 +68,14 @@ public class FIX : Navaid /*: ScriptableObject*/
         this.go.transform.rotation = Quaternion.Euler(90f, 180f, 0f);
         //this.go.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
         this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_fix;
+
+		// Locate GameObject inside "FIXs" GameObject
+		GameObject parentGO = GameObject.Find("FIXs");
+        if (parentGO == null)
+        {
+            parentGO = new GameObject("FIXs");
+		}
+		this.go.transform.parent = parentGO.transform;
     }
 
  

@@ -141,8 +141,8 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("FAFEQ"));
 
         starList.Add(new STAR("TLD3C", temp_navaid_list));
-        Debug.Log(temp_navaid_list.Count);
-        temp_navaid_list.Clear();
+        //Debug.Log(temp_navaid_list.Count);
+        //temp_navaid_list.Clear();
 
 
 

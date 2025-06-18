@@ -385,8 +385,9 @@ public class Aircraft /*: ScriptableObject*/
 		this.icon = DrawRadarScreen.icons["aircraft"];
 
 		this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
-		this.go.name = this.GetType() + "_" /*+ this.company.callsignCode*/ + this.flightNumber;
-		this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
+        //this.go.name = this.GetType() + "_" /*+ this.company.callsignCode*/ + this.flightNumber;
+        this.go.name = this.company.GetCallsignCode() + this.GetFlightNumber();
+        this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
 		//this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
 		this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
         //		this.go.renderer.material.color = new Color(1,1,1,1);
@@ -436,6 +437,15 @@ public class Aircraft /*: ScriptableObject*/
 
         if (this.authoPoint != null)
             this.go.GetComponent<AircraftCtrl>().FlyTo(this.authoPoint);
+
+
+        // Locate GameObject inside "Aircrafts" GameObject
+        GameObject parentGO = GameObject.Find("Aircrafts");
+        if (parentGO == null)
+        {
+            parentGO = new GameObject("Aircrafts");
+        }
+        this.go.transform.parent = parentGO.transform;
 
     }
 

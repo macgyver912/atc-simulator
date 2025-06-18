@@ -64,6 +64,14 @@ public class AircraftCtrl : MonoBehaviour
         GameObject trailsGO = new GameObject(aircraft.GetGO().name + "_Trails");
         //trailsGO.transform.parent = aircraft.GetGO().transform;
 
+        // Locate GameObject inside "Trails" GameObject
+        GameObject parentGO = GameObject.Find("Trails");
+        if (parentGO == null)
+        {
+            parentGO = new GameObject("Trails");
+        }
+        trailsGO.transform.parent = parentGO.transform;
+
         //	trailsList = new List.<GameObject>();
         //	positionsList = new List.<Vector2>();
 
