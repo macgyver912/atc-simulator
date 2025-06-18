@@ -39,7 +39,7 @@ public class SID /*: ScriptableObject*/
 
     public string GetName() { return name; }
     public List<Navaid> GetNavaids() { return navaids; }
-
+    public ushort GetNumberOfPoints() { return (ushort)this.GetNavaids().Count; }
 
 }
 

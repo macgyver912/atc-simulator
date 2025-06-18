@@ -29,6 +29,8 @@ public class Config : MonoBehaviour
     public Color _color_limit_circles;
     public Color _color_grid;
     public Color _color_runways;
+    public Color _color_sid;
+    public Color _color_star;
     public IconsColorEnum _defIconsColor_navaids;
     public IconsColorEnum _defIconsColor_aircrafts;
     public Shader _object_shader;    
@@ -38,6 +40,8 @@ public class Config : MonoBehaviour
     public static Color color_limit_circles;
     public static Color color_grid;
     public static Color color_runways;
+    public static Color color_sid;
+    public static Color color_star;
     public static IconsColorEnum defIconsColor_navaids;
     public static IconsColorEnum defIconsColor_aircrafts;
     public static Shader object_shader;
@@ -80,6 +84,8 @@ public class Config : MonoBehaviour
         color_limit_circles = _color_limit_circles;
         color_grid = _color_grid;
         color_runways = _color_runways;
+        color_sid = _color_sid;
+        color_star = _color_star;
         object_shader = _object_shader;
         defIconsColor_navaids = _defIconsColor_navaids;
         defIconsColor_aircrafts = _defIconsColor_aircrafts;

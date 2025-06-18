@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static DrawRadarScreen;
+using static Unity.Burst.Intrinsics.X86.Sse4_2;
 using static UnityEditor.PlayerSettings;
 
 /**
@@ -74,6 +75,8 @@ public class DrawRadarScreen : MonoBehaviour
     private static Color _color_limit_circles;
     private static Color _color_grid;
     private static Color _color_runways;
+    private static Color _color_sid;
+    private static Color _color_star;
 
     private static GUISkin labelStyle_navaids;
     private static GUISkin labelStyle_aircrafts;
@@ -186,6 +189,8 @@ public class DrawRadarScreen : MonoBehaviour
         _color_limit_circles = Config.color_limit_circles;
         _color_grid = Config.color_grid;
         _color_runways = Config.color_runways;
+        _color_sid = Config.color_sid;
+        _color_star = Config.color_star;
 
         _defIconsColor_navaids = Config.defIconsColor_navaids;
         _defIconsColor_aircrafts = Config.defIconsColor_aircrafts;
@@ -256,6 +261,7 @@ public class DrawRadarScreen : MonoBehaviour
         rwyWidth = 1.5f * MngScreen.GetPixelRatio();
         //Debug.Log("rwyWidth: " + rwyWidth);
         DrawAirport();
+        DrawSIDs();
         DrawSTARs();
         showGUI = true;
         instance.InvokeRepeating("UpdateRadarScreen", 0, Config.radarPeriod);
@@ -542,6 +548,41 @@ public class DrawRadarScreen : MonoBehaviour
 
     }
 
+    public static void DrawSIDs()
+    {
+        GameObject starsGO = new GameObject("SIDs");
+
+        foreach (SID sid_procedure in CreateObjects.sidList)
+        {
+
+            GameObject newGO = new GameObject(sid_procedure.GetName() + "_line");
+            newGO.transform.parent = GameObject.Find("SIDs").gameObject.transform;
+
+            LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
+            Color c1 = _color_sid;
+            lineRenderer.material = defaultMaterial;
+            lineRenderer.material.shader = Shader.Find("Unlit/Color");
+            lineRenderer.material.color = c1;
+            lineRenderer.startColor = c1;
+            lineRenderer.endColor = c1;
+            lineRenderer.startWidth = 0.5f;
+            lineRenderer.endWidth = 0.5f;
+            lineRenderer.positionCount = sid_procedure.GetNumberOfPoints();
+
+
+            Debug.Log(sid_procedure.GetNumberOfPoints());
+            Debug.Log(sid_procedure.GetNavaids().ToString());
+
+            ushort i = 0;
+            foreach (Navaid navaid in sid_procedure.GetNavaids())
+            {
+                Debug.Log(i);
+                lineRenderer.SetPosition(i, navaid.position);
+                i++;
+            }
+        }
+    }
+
     public static void DrawSTARs()
     {
         GameObject starsGO = new GameObject("STARs");
@@ -553,7 +594,7 @@ public class DrawRadarScreen : MonoBehaviour
             newGO.transform.parent = GameObject.Find("STARs").gameObject.transform;
 
             LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
-            Color c1 = _color_grid;
+            Color c1 = _color_star;
             lineRenderer.material = defaultMaterial;
             lineRenderer.material.shader = Shader.Find("Unlit/Color");
             lineRenderer.material.color = c1;

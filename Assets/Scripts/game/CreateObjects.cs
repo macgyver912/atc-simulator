@@ -131,6 +131,7 @@ public class CreateObjects : MonoBehaviour
         // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-7, 00, 00), 0));
         // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-3, 33, 39)+3.439167, 0));
 
+        // STARs
         starList = new List<STAR>();
         // STAR - TLD3C
         temp_navaid_list.Add(GetVOR("TLD"));
@@ -142,7 +143,21 @@ public class CreateObjects : MonoBehaviour
 
         starList.Add(new STAR("TLD3C", temp_navaid_list));
         //Debug.Log(temp_navaid_list.Count);
-        //temp_navaid_list.Clear();
+        temp_navaid_list.Clear();
+
+
+
+
+        // SIDs
+        sidList = new List<SID>();
+        // SID - PINAR2R
+        temp_navaid_list.Add(GetVOR("CNR"));
+        temp_navaid_list.Add(GetFIX("PINAR"));
+        temp_navaid_list.Add(GetFIX("AVILA"));
+
+        sidList.Add(new SID("PINAR2R", temp_navaid_list));
+        //Debug.Log(temp_navaid_list.Count);
+        temp_navaid_list.Clear();
 
 
 
