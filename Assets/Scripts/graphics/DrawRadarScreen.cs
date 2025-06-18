@@ -336,6 +336,7 @@ public class DrawRadarScreen : MonoBehaviour
             auxLineRenderer.endColor = c1;
             auxLineRenderer.startWidth = 0.5f;
             auxLineRenderer.endWidth = 0.5f;
+            auxLineRenderer.sortingLayerName = "GUI";
         }
 
         lineRenderer = acft.GetGO().GetComponentsInChildren<LineRenderer>()[0];
@@ -387,6 +388,7 @@ public class DrawRadarScreen : MonoBehaviour
         lineRenderer.endColor = c1;
         lineRenderer.startWidth = rwyWidth;
         lineRenderer.endWidth = rwyWidth;
+        lineRenderer.sortingLayerName = "Runways";
 
         //	lineRenderer.SetPosition(0, MngScreen.ScreenPosRelToAirport(rwys[0].GetThrLon(), rwys[0].GetThrLat(), CreateObjects.airport.GetPosition().z/100));
         //	lineRenderer.SetPosition(1, MngScreen.ScreenPosRelToAirport(rwys[1].GetThrLon(), rwys[1].GetThrLat(), CreateObjects.airport.GetPosition().z/100));
@@ -451,6 +453,7 @@ public class DrawRadarScreen : MonoBehaviour
         lineRenderer.startWidth = 0.5f;
         lineRenderer.endWidth = 0.5f;
         lineRenderer.positionCount = vertexCount + 1;
+        lineRenderer.sortingLayerName = "GUI";
 
         float deltaTheta = (2.0f * Mathf.PI) / vertexCount;
         float theta = 0;
@@ -523,6 +526,7 @@ public class DrawRadarScreen : MonoBehaviour
         lineRenderer.startWidth = 0.5f;
         lineRenderer.endWidth = 0.5f;
         lineRenderer.positionCount = vertexCount + 1;
+        lineRenderer.sortingLayerName = "GUI";
 
         float deltaTheta = (2.0f * Mathf.PI) / vertexCount;
         float theta = 0;
@@ -568,15 +572,16 @@ public class DrawRadarScreen : MonoBehaviour
             lineRenderer.startWidth = 0.5f;
             lineRenderer.endWidth = 0.5f;
             lineRenderer.positionCount = sid_procedure.GetNumberOfPoints();
+            lineRenderer.sortingLayerName = "SID_STAR_lines";
 
 
-            Debug.Log(sid_procedure.GetNumberOfPoints());
-            Debug.Log(sid_procedure.GetNavaids().ToString());
+            //Debug.Log(sid_procedure.GetNumberOfPoints());
+            //Debug.Log(sid_procedure.GetNavaids().ToString());
 
             ushort i = 0;
             foreach (Navaid navaid in sid_procedure.GetNavaids())
             {
-                Debug.Log(i);
+                //Debug.Log(i);
                 lineRenderer.SetPosition(i, navaid.position);
                 i++;
             }
@@ -603,6 +608,7 @@ public class DrawRadarScreen : MonoBehaviour
             lineRenderer.startWidth = 0.5f;
             lineRenderer.endWidth = 0.5f;        
             lineRenderer.positionCount = star_procedure.GetNumberOfPoints();
+            lineRenderer.sortingLayerName = "SID_STAR_lines";
 
 
             //Debug.Log(star_procedure.GetNumberOfPoints());
