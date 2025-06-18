@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static DrawRadarScreen;
+using static UnityEditor.PlayerSettings;
 
 /**
  * Manages and draws graphical icons and others.
@@ -133,7 +134,7 @@ public class DrawRadarScreen : MonoBehaviour
         {
             // ######### Show name of navaids #########
 
-            // FIX
+            // FIX names
             foreach (FIX fix in CreateObjects.fixList.Values)
             {
                 labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(fix.GetId()));
@@ -142,7 +143,7 @@ public class DrawRadarScreen : MonoBehaviour
                 GUI.Label(new Rect(fixPos.x - labelSize.x / 2f, fixPos.y + fixGOSize.y / 2f, labelSize.x, labelSize.y * 1.5f), fix.GetId(), labelStyle_navaids.GetStyle("Label"));
             }//for
 
-            // VOR
+            // VOR names
             foreach (VOR vor in CreateObjects.vorList.Values)
             {
                 labelSize = labelStyle_navaids.GetStyle("Label").CalcSize(new GUIContent(vor.GetId()));
@@ -158,7 +159,7 @@ public class DrawRadarScreen : MonoBehaviour
             }
 
             // ######### Show aircrafts labels #########
-            // Aircraft
+            // Aircraft labels
             foreach (Aircraft acft in CreateObjects.aircraftList)
             {
                 SetAcftLabelPos(acft);
@@ -253,8 +254,9 @@ public class DrawRadarScreen : MonoBehaviour
     public static void StartDraw()
     {
         rwyWidth = 1.5f * MngScreen.GetPixelRatio();
-        Debug.Log("rwyWidth: " + rwyWidth);
+        //Debug.Log("rwyWidth: " + rwyWidth);
         DrawAirport();
+        DrawSTARs();
         showGUI = true;
         instance.InvokeRepeating("UpdateRadarScreen", 0, Config.radarPeriod);
     }
@@ -540,6 +542,40 @@ public class DrawRadarScreen : MonoBehaviour
 
     }
 
+    public static void DrawSTARs()
+    {
+        GameObject starsGO = new GameObject("STARs");
+
+        foreach (STAR star_procedure in CreateObjects.starList)
+        {
+
+            GameObject newGO = new GameObject(star_procedure.GetName() + "_line");
+            newGO.transform.parent = GameObject.Find("STARs").gameObject.transform;
+
+            LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
+            Color c1 = _color_grid;
+            lineRenderer.material = defaultMaterial;
+            lineRenderer.material.shader = Shader.Find("Unlit/Color");
+            lineRenderer.material.color = c1;
+            lineRenderer.startColor = c1;
+            lineRenderer.endColor = c1;
+            lineRenderer.startWidth = 0.5f;
+            lineRenderer.endWidth = 0.5f;        
+            lineRenderer.positionCount = star_procedure.GetNumberOfPoints();
+
+
+            Debug.Log(star_procedure.GetNumberOfPoints());
+            Debug.Log(star_procedure.GetNavaids().ToString());
+
+            ushort i = 0;
+            foreach (Navaid navaid in star_procedure.GetNavaids())
+            {
+                Debug.Log(i);
+                lineRenderer.SetPosition(i, navaid.position);
+                i++;
+            }
+        }
+    }
 
     public static void DrawGrid()
     {
