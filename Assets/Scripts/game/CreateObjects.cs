@@ -125,6 +125,7 @@ public class CreateObjects : MonoBehaviour
         vorList.Add("CNR", new VOR("CNR", "Colmenar Viejo", 117.30f, "-.-. -. .-.", true, 40.3846f, -3.4409f));
         vorList.Add("PDT", new VOR("PDT", "Perales", 116.75f, ".--. -.. -", true, Measurement.DMS2DD(40, 15, 10f), Measurement.DMS2DD(-3, 20, 52f)));
         vorList.Add("TLD", new VOR("TLD", "Toledo", 113.20f, "- .-.. -..", true, 39.58100f, -4.2015f));
+        vorList.Add("RBO", new VOR("RBO", "Robledillo", 113.95f, ".-. -... ---", true, 40.51143f, -3.14474f));
 
 
 
@@ -141,7 +142,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("YUNYE"));
         temp_navaid_list.Add(GetFIX("FAFEQ"));
 
-        starList.Add(new STAR("TLD3C", temp_navaid_list));
+        starList.Add(new STAR("TLD3C", new List<Navaid>(temp_navaid_list)));
         //Debug.Log(temp_navaid_list.Count);
         temp_navaid_list.Clear();
 
@@ -150,12 +151,11 @@ public class CreateObjects : MonoBehaviour
 
         // SIDs
         sidList = new List<SID>();
-        // SID - PINAR2R
-        temp_navaid_list.Add(GetVOR("CNR"));
+        // SID - PINAR4N
+        temp_navaid_list.Add(GetVOR("RBO"));
         temp_navaid_list.Add(GetFIX("PINAR"));
-        temp_navaid_list.Add(GetFIX("AVILA"));
 
-        sidList.Add(new SID("PINAR2R", temp_navaid_list));
+        sidList.Add(new SID("PINAR2R", new List<Navaid>(temp_navaid_list)));
         //Debug.Log(temp_navaid_list.Count);
         temp_navaid_list.Clear();
 

@@ -605,13 +605,12 @@ public class DrawRadarScreen : MonoBehaviour
             lineRenderer.positionCount = star_procedure.GetNumberOfPoints();
 
 
-            Debug.Log(star_procedure.GetNumberOfPoints());
-            Debug.Log(star_procedure.GetNavaids().ToString());
+            //Debug.Log(star_procedure.GetNumberOfPoints());
+            //Debug.Log(star_procedure.GetNavaids().ToString());
 
             ushort i = 0;
             foreach (Navaid navaid in star_procedure.GetNavaids())
             {
-                Debug.Log(i);
                 lineRenderer.SetPosition(i, navaid.position);
                 i++;
             }
