@@ -134,7 +134,8 @@ public class Runway
             // Debug.Log("RWY HDG: " + this.heading);
 
             this.ILS_Instance.transform.localRotation = Quaternion.Euler(0, 0, -this.heading);
-            float scale = Config.ils_range * Measurement.GetNM_Degree().y * MngScreen.GetRatio().y / MngScreen.GetPixelRatio();
+            //float scale = Config.ils_range * Measurement.GetNM_Degree().y * MngScreen.GetRatio().y / MngScreen.GetPixelRatio();
+            float scale = Config.ils_range * Measurement.GetNM_Degree().y * MngScreen.GetRatio().y;
             Debug.Log("scale: " + scale);
             Debug.Log("Measurement.GetNM_Degree().y: " + Measurement.GetNM_Degree().y);
             Debug.Log("MngScreen.GetRatio().y: " + MngScreen.GetRatio().y);
