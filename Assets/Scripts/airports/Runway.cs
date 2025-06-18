@@ -65,20 +65,26 @@ public class Runway
 	 * @type {Vector3}
 	 */
 	Vector3 screenPosition;
-//	/**
-//	 * GameObject to represent the ILS.
-//	 * @attribute ILS_GO
-//	 * @type {GameObject}
-//	 */	
-//	var ILS_GO : GameObject;
-	/**
+    /**
+     * Indicates if runway has ILS.
+     * @attribute hasILS
+     * @type {bool}
+     */
+    bool hasILS;
+    //	/**
+    //	 * GameObject to represent the ILS.
+    //	 * @attribute ILS_GO
+    //	 * @type {GameObject}
+    //	 */	
+    //	var ILS_GO : GameObject;
+    /**
 	 * Transform of prefab instance of ILS.
 	 * @attribute ILS_Instance
 	 * @type {Transform}
-	 */	
-	Transform ILS_Instance;
-	
-	/**
+	 */
+    Transform ILS_Instance;
+
+    /**
 	 * @class Runway
 	 * @constructor
 	 * @param {String} id Identifier number and letter of runway.
@@ -87,8 +93,9 @@ public class Runway
 	 * @param {float} thrLat Latitude coordinates in degrees of runway threshold.
 	 * @param {float} thrLon Longitude coordinates in degrees of runway threshold.
 	 * @param {float} elevation Elevation in feet of airport field referred to measured sea level (MSL).
+	 * @param {bool} hasILS Indicates if runway has ILS.
 	 */
-	public Runway(string id, ushort heading, ushort length, float thrLat, float thrLon, float elevation)
+    public Runway(string id, ushort heading, ushort length, float thrLat, float thrLon, float elevation, bool hasILS)
     {
         this.id = id;
         this.heading = heading;
@@ -97,87 +104,96 @@ public class Runway
         this.thrLon = thrLon;
         this.elevation = elevation;
         this.thrPosition = new Vector3(thrLon, thrLat, elevation);
+        this.hasILS = hasILS;
 
-        this.ILS_Instance = CreateInstance.CreateILSInstance();
-        //		this.ILS_Instance = Instantiate(this.ILS_Instance, Vector3.zero, Quaternion.identity);
-        this.ILS_Instance.transform.gameObject.name = this.id;
+        if (this.hasILS)
+        {
+            this.ILS_Instance = CreateInstance.CreateILSInstance();
+            //		this.ILS_Instance = Instantiate(this.ILS_Instance, Vector3.zero, Quaternion.identity);
+            this.ILS_Instance.transform.gameObject.name = "ILS_" + this.id;
+        }
     }
 
     public void SetGameObjectPos()
     {
-        GameObject parentGO = GameObject.Find("ILSs");
-        if (parentGO == null)
+        if (this.hasILS) 
         {
-            parentGO = new GameObject("ILSs");
-            parentGO.transform.parent = CreateObjects.airport.GetGO().transform;
-        }
-        this.ILS_Instance.transform.parent = parentGO.transform;
+            //		this.screenPosition = MngScreen.ScreenPosRelToAirport(this.lon, this.lat, -1);
+            this.screenPosition = MngScreen.RadarScreenPosRelToAirport(this.thrLon, this.thrLat, 0);
 
-        //		this.screenPosition = MngScreen.ScreenPosRelToAirport(this.lon, this.lat, -1);
-        this.screenPosition = MngScreen.RadarScreenPosRelToAirport(this.thrLon, this.thrLat, 0);
+            GameObject parentGO = GameObject.Find("ILSs");
+            if (parentGO == null)
+            {
+                parentGO = new GameObject("ILSs");
+                parentGO.transform.parent = CreateObjects.airport.GetGO().transform;
+            }
+            this.ILS_Instance.transform.parent = parentGO.transform;
+            this.ILS_Instance.transform.position = this.screenPosition;
+            // this.thrPosition = this.ILS_Instance.transform.position;
 
-        this.ILS_Instance.transform.position = this.screenPosition;
-        //		this.thrPosition = this.ILS_Instance.transform.position;
+            // Debug.Log("RWY HDG: " + this.heading);
 
-        //		Debug.LogWarning("RWY HDG: " + this.heading);
+            this.ILS_Instance.transform.localRotation = Quaternion.Euler(0, 0, -this.heading);
+            float scale = Config.ils_range * Measurement.GetNM_Degree().y * MngScreen.GetRatio().y / MngScreen.GetPixelRatio();
+            Debug.Log("scale: " + scale);
+            Debug.Log("Measurement.GetNM_Degree().y: " + Measurement.GetNM_Degree().y);
+            Debug.Log("MngScreen.GetRatio().y: " + MngScreen.GetRatio().y);
+            Debug.Log("MngScreen.GetPixelRatio(): " + MngScreen.GetPixelRatio());
+            this.ILS_Instance.transform.localScale = new Vector3(0.3f, scale, 1.0f);
 
-        this.ILS_Instance.transform.localRotation = Quaternion.Euler(0, 0, -this.heading);
-        float scale = Config.ils_range * Measurement.GetNM_Degree().y * MngScreen.GetRatio().y / MngScreen.GetPixelRatio();
-        //		Debug.LogWarning("scale: " + scale);
-        this.ILS_Instance.transform.localScale = new Vector3(0.3f, scale, 1.0f);
 
+            // Center ILS to RWY from ILS size (bounds.extents)	
+            int sign_x;
+            int sign_y;
+            if (this.heading == 0 || this.heading == 360)
+            {
+                sign_x = 0;
+                sign_y = -1;
+            }
+            else if (this.heading == 90)
+            {
+                sign_x = -1;
+                sign_y = 0;
+            }
+            else if (this.heading == 180)
+            {
+                sign_x = 0;
+                sign_y = 1;
+            }
+            else if (this.heading == 270)
+            {
+                sign_x = 1;
+                sign_y = 0;
+            }
+            else if (this.heading > 0 && this.heading < 90)
+            {
+                sign_x = -1;
+                sign_y = -1;
+            }
+            else if (this.heading > 90 && this.heading < 180)
+            {
+                sign_x = -1;
+                sign_y = 1;
+            }
+            else if (this.heading > 180 && this.heading < 270)
+            {
+                sign_x = 1;
+                sign_y = 1;
+            }
+            else
+            {
+                sign_x = 1;
+                sign_y = -1;
+            }
 
-        // Center ILS to RWY from ILS size (bounds.extents)	
-        int sign_x;
-        int sign_y;
-        if (this.heading == 0 || this.heading == 360)
-        {
-            sign_x = 0;
-            sign_y = -1;
-        }
-        else if (this.heading == 90)
-        {
-            sign_x = -1;
-            sign_y = 0;
-        }
-        else if (this.heading == 180)
-        {
-            sign_x = 0;
-            sign_y = 1;
-        }
-        else if (this.heading == 270)
-        {
-            sign_x = 1;
-            sign_y = 0;
-        }
-        else if (this.heading > 0 && this.heading < 90)
-        {
-            sign_x = -1;
-            sign_y = -1;
-        }
-        else if (this.heading > 90 && this.heading < 180)
-        {
-            sign_x = -1;
-            sign_y = 1;
-        }
-        else if (this.heading > 180 && this.heading < 270)
-        {
-            sign_x = 1;
-            sign_y = 1;
-        }
-        else
-        {
-            sign_x = 1;
-            sign_y = -1;
-        }
-
-        //this.ILS_Instance.transform.localPosition.x += sign_x * this.ILS_Instance.gameObject.GetComponent<Renderer>().bounds.extents.x;
-        //this.ILS_Instance.transform.localPosition.y += sign_y * this.ILS_Instance.gameObject.GetComponent<Renderer>().bounds.extents.y;
-        Vector3 prev_pos = this.ILS_Instance.transform.localPosition;
-        this.ILS_Instance.transform.localPosition = new Vector3(
-             prev_pos.x + sign_x * this.ILS_Instance.gameObject.GetComponent<Renderer>().bounds.extents.x,
-             prev_pos.y + sign_y * this.ILS_Instance.gameObject.GetComponent<Renderer>().bounds.extents.y, 
-             0);
+            //this.ILS_Instance.transform.localPosition.x += sign_x * this.ILS_Instance.gameObject.GetComponent<Renderer>().bounds.extents.x;
+            //this.ILS_Instance.transform.localPosition.y += sign_y * this.ILS_Instance.gameObject.GetComponent<Renderer>().bounds.extents.y;
+            Vector3 prev_pos = this.ILS_Instance.transform.localPosition;
+            this.ILS_Instance.transform.localPosition = new Vector3(
+                 prev_pos.x + sign_x * this.ILS_Instance.gameObject.GetComponent<Renderer>().bounds.extents.x,
+                 prev_pos.y + sign_y * this.ILS_Instance.gameObject.GetComponent<Renderer>().bounds.extents.y,
+                 0);
+        }//hasILS
     }
 
     public string GetID() { return this.id; }

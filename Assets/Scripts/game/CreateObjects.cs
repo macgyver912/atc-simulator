@@ -49,17 +49,19 @@ public class CreateObjects : MonoBehaviour
 
         // Runways
         Runway[] rwys = new Runway[8];
-        rwys[0] = new Runway("14R", 143, 13083, 40.290550f, -3.343364f, 2000f);
-        rwys[1] = new Runway("32L", 323, 13083, 40.274710f, -3.331402f, 2000f);
+        
+        rwys[0] = new Runway("14R", 143, 13083, 40.290550f, -3.343364f, 2000f, false);
+        rwys[1] = new Runway("32L", 323, 13083, 40.274710f, -3.331402f, 2000f, true);
 
-        rwys[2] = new Runway("14L", 143, 11482, 40.294171f, -3.332833f, 2000f);
-        rwys[3] = new Runway("32R", 323, 11482, 40.282485f, -3.321030f, 2000f);
+        rwys[2] = new Runway("14L", 143, 11482, 40.294171f, -3.332833f, 2000f, false);
+        rwys[3] = new Runway("32R", 323, 11482, 40.282485f, -3.321030f, 2000f, true);
 
-        rwys[4] = new Runway("36L", 360, 11482, 40.293332f, -3.342864f, 2000f);
-        rwys[5] = new Runway("18R", 180, 11482, 40.312240f, -3.342927f, 2000f);
+        rwys[4] = new Runway("36L", 360, 11482, 40.293332f, -3.342864f, 2000f, false);
+        rwys[5] = new Runway("18R", 180, 11482, 40.312240f, -3.342927f, 2000f, true);
 
-        rwys[6] = new Runway("36R", 360, 11482, 40.300397f, -3.333315f, 2000f);
-        rwys[7] = new Runway("18L", 180, 11482, 40.314122f, -3.333368f, 2000f);
+        rwys[6] = new Runway("36R", 360, 11482, 40.300397f, -3.333315f, 2000f, false);
+        rwys[7] = new Runway("18L", 180, 11482, 40.314122f, -3.333368f, 2000f, true);
+
 
         // Airport
         //airport = new Airport("Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20f), Measurement.DMS2DD(-3, 33, 39f), 2000f, "Madrid", "Spain", 13000, 140, rwys);
