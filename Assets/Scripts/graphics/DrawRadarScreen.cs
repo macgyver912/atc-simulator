@@ -597,6 +597,7 @@ public class DrawRadarScreen : MonoBehaviour
             foreach (Navaid navaid in sid_procedure.GetNavaids())
             {
                 //Debug.Log(i);
+                Debug.Log(navaid.id);
                 lineRenderer.SetPosition(i, navaid.position);
                 i++;
             }
