@@ -85,12 +85,20 @@ public class CreateObjects : MonoBehaviour
         fixList.Add("AUX3", new FIX("AUX3", Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-3, 00, 00f), FIX.FixTypes.OnRequest));
 
         */
-
-        // LEMD - STAR 3 RNAV
+        // ### FIX LIST ###
+        // LEMD - FIX LIST - STAR 3 RNAV (NORTH CONFIGURATION)
         fixList.Add("AVILA", new FIX("AVILA", Measurement.DMS2DD(40, 37, 28.6f), Measurement.DMS2DD(-4, 32, 59.6f), FIX.FixTypes.OnRequest, true));
         fixList.Add("BUREX", new FIX("BUREX", Measurement.DMS2DD(39, 48, 39.8f), Measurement.DMS2DD(-3, 56, 21.5f), FIX.FixTypes.Compulsory, true));
         fixList.Add("DAQSE", new FIX("DAQSE", Measurement.DMS2DD(40, 20, 35.1f), Measurement.DMS2DD(-4, 08, 48.1f), FIX.FixTypes.Compulsory, true));
         fixList.Add("FAFEQ", new FIX("FAFEQ", Measurement.DMS2DD(40, 10, 09.8f), Measurement.DMS2DD(-3, 27, 38.5f), FIX.FixTypes.Compulsory, true));
+        fixList.Add("MD430", new FIX("MD430", Measurement.DMS2DD(40, 31, 30.6f), Measurement.DMS2DD(-4, 14, 24.3f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD435", new FIX("MD435", Measurement.DMS2DD(40, 52, 06.1f), Measurement.DMS2DD(-4, 13, 10.1f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD440", new FIX("MD440", Measurement.DMS2DD(39, 55, 18.5f), Measurement.DMS2DD(-3, 47, 32.0f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD445", new FIX("MD445", Measurement.DMS2DD(39, 50, 05.4f), Measurement.DMS2DD(-4, 07, 19.4f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD450", new FIX("MD450", Measurement.DMS2DD(39, 41, 13.7f), Measurement.DMS2DD(-4, 06, 10.9f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD455", new FIX("MD455", Measurement.DMS2DD(40, 11, 08.7f), Measurement.DMS2DD(-4, 53, 27.7f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD460", new FIX("MD460", Measurement.DMS2DD(39, 31, 07.9f), Measurement.DMS2DD(-4, 19, 26.3f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD465", new FIX("MD465", Measurement.DMS2DD(39, 25, 20.8f), Measurement.DMS2DD(-3, 53, 07.4f), FIX.FixTypes.OnRequest, false));
         fixList.Add("MORAL", new FIX("MORAL", Measurement.DMS2DD(39, 00, 00.0f), Measurement.DMS2DD(-3, 32, 31.8f), FIX.FixTypes.OnRequest, true));
         fixList.Add("NONTU", new FIX("NONTU", Measurement.DMS2DD(41, 30, 01.1f), Measurement.DMS2DD(-4, 10, 08.4f), FIX.FixTypes.OnRequest, true));
         fixList.Add("ORBIS", new FIX("ORBIS", Measurement.DMS2DD(41, 15, 56.6f), Measurement.DMS2DD(-4, 11, 43.2f), FIX.FixTypes.OnRequest, true));
@@ -98,17 +106,16 @@ public class CreateObjects : MonoBehaviour
         fixList.Add("SOTUK", new FIX("SOTUK", Measurement.DMS2DD(39, 11, 37.2f), Measurement.DMS2DD(-4, 44, 47.0f), FIX.FixTypes.OnRequest, true));
         fixList.Add("URRIF", new FIX("URRIF", Measurement.DMS2DD(40, 14, 32.3f), Measurement.DMS2DD(-3, 44, 46.7f), FIX.FixTypes.OnRequest, true));
         fixList.Add("YUNYE", new FIX("YUNYE", Measurement.DMS2DD(40, 02, 38.7f), Measurement.DMS2DD(-3, 37, 44.2f), FIX.FixTypes.OnRequest, true));
-
-
-        //vorList.Add("ZMR", new VOR("ZMR", "Zamora", 0.0f, null, true, Measurement.DMS2DD(41, 31, 48.2f), Measurement.DMS2DD(-5, 38, 23.1f)));
-
-
-
-
-        // LEMD - STAR 4 RNAV
+        // LEMD - FIX LIST - STAR 4 RNAV (NORTH CONFIGURATION)
         fixList.Add("ADUXO", new FIX("ADUXO", Measurement.DMS2DD(40, 30, 44.4f), Measurement.DMS2DD(-2, 03, 51.4f), FIX.FixTypes.OnRequest, true));
         fixList.Add("BANEV", new FIX("BANEV", Measurement.DMS2DD(41, 30, 09.4f), Measurement.DMS2DD(-2, 30, 52.3f), FIX.FixTypes.OnRequest, true));
         fixList.Add("RUDBI", new FIX("RUDBI", Measurement.DMS2DD(40, 15, 29.4f), Measurement.DMS2DD(-3, 08, 10.0f), FIX.FixTypes.Compulsory, true));
+        fixList.Add("MD001", new FIX("MD001", Measurement.DMS2DD(40, 23, 30.0f), Measurement.DMS2DD(-2, 19, 20.0f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD530", new FIX("MD530", Measurement.DMS2DD(40, 24, 58.0f), Measurement.DMS2DD(-3, 00, 35.8f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD535", new FIX("MD535", Measurement.DMS2DD(40, 47, 07.2f), Measurement.DMS2DD(-2, 38, 41.3f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD540", new FIX("MD540", Measurement.DMS2DD(40, 45, 20.7f), Measurement.DMS2DD(-2, 23, 37.3f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD545", new FIX("MD545", Measurement.DMS2DD(40, 49, 45.9f), Measurement.DMS2DD(-2, 35, 08.9f), FIX.FixTypes.OnRequest, false));
+        fixList.Add("MD550", new FIX("MD550", Measurement.DMS2DD(40, 15, 44.1f), Measurement.DMS2DD(-2, 16, 56.4f), FIX.FixTypes.OnRequest, false));
         fixList.Add("NOSKO", new FIX("NOSKO", Measurement.DMS2DD(40, 39, 22.8f), Measurement.DMS2DD(-2, 49, 00.2f), FIX.FixTypes.Compulsory, true));
         fixList.Add("PINAR", new FIX("PINAR", Measurement.DMS2DD(40, 58, 49.1f), Measurement.DMS2DD(-2, 35, 57.0f), FIX.FixTypes.OnRequest, true));
         fixList.Add("PRADO", new FIX("PRADO", Measurement.DMS2DD(40, 08, 51.0f), Measurement.DMS2DD(-2, 00, 37.2f), FIX.FixTypes.OnRequest, true));
@@ -116,6 +123,8 @@ public class CreateObjects : MonoBehaviour
         fixList.Add("TERSA", new FIX("TERSA", Measurement.DMS2DD(40, 43, 30.1f), Measurement.DMS2DD(-2, 08, 16.2f), FIX.FixTypes.OnRequest, true));
         fixList.Add("VILLA", new FIX("VILLA", Measurement.DMS2DD(40, 13, 58.6f), Measurement.DMS2DD(-2, 24, 37.6f), FIX.FixTypes.OnRequest, true));
 
+
+        // ### VOR LIST ###
         // LEMD - VOR   
         vorList.Add("SSY", new VOR("SSY", "San Sebastian de los Reyes", 117.85f, "... ... -.--", true, Measurement.DMS2DD(40, 32, 47.1f), Measurement.DMS2DD(-3, 34, 30.7f), false));
         vorList.Add("BRA", new VOR("BRA", "Barajas", 116.45f, "-... .-. .-", true, Measurement.DMS2DD(40, 28, 08.9f), Measurement.DMS2DD(-3, 33, 27.1f), false));
@@ -123,12 +132,25 @@ public class CreateObjects : MonoBehaviour
         vorList.Add("PDT", new VOR("PDT", "Perales", 116.75f, ".--. -.. -", true, Measurement.DMS2DD(40, 15, 10f), Measurement.DMS2DD(-3, 20, 52f), true));
         vorList.Add("TLD", new VOR("TLD", "Toledo", 113.20f, "- .-.. -..", true, Measurement.DMS2DD(39, 58, 10.1f), Measurement.DMS2DD(-4, 20, 14.6f), true));
         vorList.Add("RBO", new VOR("RBO", "Robledillo", 113.95f, ".-. -... ---", true, Measurement.DMS2DD(40, 51, 13.9f), Measurement.DMS2DD(-3, 14, 47.9f), true));
+        vorList.Add("ZMR", new VOR("ZMR", "Zamora", 117.10f, "--.. -- .-.", true, Measurement.DMS2DD(41, 31, 48.2f), Measurement.DMS2DD(-5, 38, 23.1f), true));
+        vorList.Add("BAN", new VOR("BAN", "Barahona", 112.80f, "-... .- -.", true, Measurement.DMS2DD(41, 19, 24.8f), Measurement.DMS2DD(-2, 37, 47.2F), true));
 
         // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-7, 00, 00), 0));
         // 	vorList.Add(new VOR("INV", "Inventado", 116.75, null, false, Measurement.DMS2DD(40, 00, 00), Measurement.DMS2DD(-3, 33, 39)+3.439167, 0));
 
-        // STARs
+        // ### STAR LIST ###
         starList = new List<STAR>();
+        // LEMD - STAR LIST - STAR 3 RNAV (NORTH CONFIGURATION)
+        // STAR - MORAL5C
+
+        // STAR - NONTU4C
+
+        // STAR - RIDAV4C
+
+        // STAR - SOTUK4C
+
+
+
         // STAR - TLD3C
         temp_navaid_list.Add(GetVOR("TLD"));
         //temp_navaid_list.Add(GetFIX("MD445"));
@@ -138,13 +160,28 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("FAFEQ"));
 
         starList.Add(new STAR("TLD3C", new List<Navaid>(temp_navaid_list)));
-        //Debug.Log(temp_navaid_list.Count);
         temp_navaid_list.Clear();
 
+        // STAR - ZMR5C
+
+        // LEMD - FIX LIST - STAR 4 RNAV (NORTH CONFIGURATION)
+        // STAR - ADUXO2D
+
+
+        // STAR - BANEV4D
+
+
+        // STAR - PRADO3D
+
+
+        // STAR - TERSA3Z
+
+
+        // STAR - VILLA3D
 
 
 
-        // SIDs
+        // ### SID LIST ###
         sidList = new List<SID>();
         // SID - PINAR4N
         temp_navaid_list.Add(GetVOR("RBO"));
