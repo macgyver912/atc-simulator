@@ -584,8 +584,8 @@ public class DrawRadarScreen : MonoBehaviour
             lineRenderer.material.color = c1;
             lineRenderer.startColor = c1;
             lineRenderer.endColor = c1;
-            lineRenderer.startWidth = 0.2f;
-            lineRenderer.endWidth = 0.2f;
+            lineRenderer.startWidth = 0.3f;
+            lineRenderer.endWidth = 0.3f;
             lineRenderer.positionCount = sid_procedure.GetNumberOfPoints();
             lineRenderer.sortingLayerName = "SID_STAR_lines";
 
@@ -620,8 +620,8 @@ public class DrawRadarScreen : MonoBehaviour
             lineRenderer.material.color = c1;
             lineRenderer.startColor = c1;
             lineRenderer.endColor = c1;
-            lineRenderer.startWidth = 0.2f;
-            lineRenderer.endWidth = 0.2f;        
+            lineRenderer.startWidth = 0.3f;
+            lineRenderer.endWidth = 0.3f;        
             lineRenderer.positionCount = star_procedure.GetNumberOfPoints();
             lineRenderer.sortingLayerName = "SID_STAR_lines";
 

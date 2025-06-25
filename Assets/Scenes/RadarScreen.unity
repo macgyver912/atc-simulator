@@ -348,8 +348,8 @@ MonoBehaviour:
   _color_limit_circles: {r: 0.3529412, g: 0, b: 0, a: 1}
   _color_grid: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
   _color_runways: {r: 1, g: 0.64705884, b: 0, a: 1}
-  _color_sid: {r: 0.39215687, g: 0.39215687, b: 1, a: 1}
-  _color_star: {r: 0.39215687, g: 1, b: 0.39215687, a: 1}
+  _color_sid: {r: 0.25882354, g: 0.5647059, b: 0.7176471, a: 1}
+  _color_star: {r: 0.22352941, g: 0.47843137, b: 0.16862746, a: 1}
   _defIconsColor_navaids: 0
   _defIconsColor_aircrafts: 2
   _object_shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
