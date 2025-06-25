@@ -145,11 +145,11 @@ public class DrawRadarScreen : MonoBehaviour
                 Vector2 fixPos = MngScreen.ScreenPosAbsolute(fix.GetScreenPosition());
                 if (fix.IsVisible())    // Below GameObject
                 {
-                    GUI.Label(new Rect(fixPos.x - labelSize.x / 2f, fixPos.y + fixGOSize.y * 0.5f, labelSize.x, labelSize.y * 1.5f), fix.GetId(), labelStyle_navaids.GetStyle("Label"));
+                    GUI.Label(new Rect(fixPos.x - labelSize.x * 0.5f, fixPos.y + fixGOSize.y * 0.5f, labelSize.x, labelSize.y * 1.5f), fix.GetId(), labelStyle_navaids.GetStyle("Label"));
                 }
                 else    // Centered in GameObject
                 {
-                    GUI.Label(new Rect(fixPos.x - labelSize.x / 2f, fixPos.y - fixGOSize.y * 0.5f + labelSize.y * 0.25f, labelSize.x, labelSize.y * 1.5f), fix.GetId(), labelStyle_navaids.GetStyle("Label"));
+                    GUI.Label(new Rect(fixPos.x - labelSize.x * 0.5f, fixPos.y - fixGOSize.y * 0.5f + labelSize.y * 0.25f, labelSize.x, labelSize.y * 1.5f), fix.GetId(), labelStyle_navaids.GetStyle("Label"));
                 }
             }//for
 
@@ -163,9 +163,9 @@ public class DrawRadarScreen : MonoBehaviour
                 if (vor.IsVisible())    // Below GameObject
                 {
                     if (vor.HasDME())
-                        GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y + vorRoseGOSize.y * 0.4f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
+                        GUI.Label(new Rect(vorPos.x - labelSize.x * 0.5f, vorPos.y + vorRoseGOSize.y * 0.4f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
                     else
-                        GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y + vorGOSize.y * 0.4f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
+                        GUI.Label(new Rect(vorPos.x - labelSize.x * 0.5f, vorPos.y + vorGOSize.y * 0.4f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
                 }
                 else    // Centered in GameObject
                 {

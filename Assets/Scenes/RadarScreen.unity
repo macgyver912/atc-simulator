@@ -358,7 +358,7 @@ MonoBehaviour:
   _scale_vor: 0.3
   _scale_vor_rose: 0.3
   _scale_fix: 0.3
-  _scale_acf: 0.75
+  _scale_acf: 0.65
 --- !u!114 &606412724
 MonoBehaviour:
   m_ObjectHideFlags: 0
