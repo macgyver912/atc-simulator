@@ -45,46 +45,31 @@ public class CreateObjects : MonoBehaviour
 
     public static void Init()
     {
-        Debug.Log("Creating objects...");
-
-        // Runways
-        Runway[] rwys = new Runway[8];
-        
-        rwys[0] = new Runway("14R", 143, 13083, Measurement.DMS2DD(40, 29, 05.50f), Measurement.DMS2DD(-3, 34, 33.64f), 2000f, false);
-        rwys[1] = new Runway("32L", 323, 13083, Measurement.DMS2DD(40, 27, 47.10f), Measurement.DMS2DD(-3, 33, 14.02f), 2000f, true);
-
-        rwys[2] = new Runway("14L", 143, 11482, Measurement.DMS2DD(40, 29, 41.71f), Measurement.DMS2DD(-3, 33, 28.33f), 2000f, false);
-        rwys[3] = new Runway("32R", 323, 11482, Measurement.DMS2DD(40, 28, 24.85f), Measurement.DMS2DD(-3, 32, 10.30f), 2000f, true);
-
-        rwys[4] = new Runway("36L", 360, 11482, Measurement.DMS2DD(40, 29, 33.32f), Measurement.DMS2DD(-3, 34, 28.64f), 2000f, false);
-        rwys[5] = new Runway("18R", 180, 11482, Measurement.DMS2DD(40, 31, 22.40f), Measurement.DMS2DD(-3, 34, 29.27f), 2000f, true);
-
-        rwys[6] = new Runway("36R", 360, 11482, Measurement.DMS2DD(40, 30, 03.97f), Measurement.DMS2DD(-3, 33, 33.15f), 2000f, false);
-        rwys[7] = new Runway("18L", 180, 11482, Measurement.DMS2DD(40, 31, 41.22f), Measurement.DMS2DD(-3, 33, 33.68f), 2000f, true);
-
-
-        // Airport
-        airport = new Airport("Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20f), Measurement.DMS2DD(-3, 33, 39f), 2000f, "Madrid", "Spain", 13000, 140, rwys);
-
-
         fixList = new Dictionary<string, FIX>();
         vorList = new Dictionary<string, VOR>();
 
         temp_navaid_list = new List<Navaid>();
 
-        // Testing
-        /*
-        fixList.Add("ASBIN", new FIX("ASBIN", Measurement.DMS2DD(40, 15, 18f), Measurement.DMS2DD(-3, 10, 35f), FIX.FixTypes.Compulsory));
-        fixList.Add("TOBEK", new FIX("TOBEK", Measurement.DMS2DD(40, 11, 47f), Measurement.DMS2DD(-3, 25, 28f), FIX.FixTypes.Compulsory));
-        fixList.Add("PRADO", new FIX("PRADO", Measurement.DMS2DD(40, 08, 51f), Measurement.DMS2DD(-2, 00, 37f), FIX.FixTypes.Compulsory));
-        fixList.Add("MORAL", new FIX("MORAL", Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-3, 32, 32f), FIX.FixTypes.Compulsory));
-        fixList.Add("RIDAV", new FIX("RIDAV", Measurement.DMS2DD(40, 32, 07f), Measurement.DMS2DD(-5, 48, 30f), FIX.FixTypes.Compulsory));
-        
-        fixList.Add("AUX1", new FIX("AUX1", Measurement.DMS2DD(40, 00, 00f), Measurement.DMS2DD(-4, 00, 00f), FIX.FixTypes.OnRequest));
-        fixList.Add("AUX2", new FIX("AUX2", Measurement.DMS2DD(40, 00, 00f), Measurement.DMS2DD(-3, 00, 00f), FIX.FixTypes.OnRequest));
-        fixList.Add("AUX3", new FIX("AUX3", Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-3, 00, 00f), FIX.FixTypes.OnRequest));
+        Debug.Log("Creating objects...");
 
-        */
+        // Runways
+        Runway[] rwys = new Runway[8];
+        
+        rwys[0] = new Runway("14R", 143, 3988, Measurement.DMS2DD(40, 29, 05.50f), Measurement.DMS2DD(-3, 34, 33.64f), 2000f, false);
+        rwys[1] = new Runway("32L", 323, 3988, Measurement.DMS2DD(40, 27, 47.10f), Measurement.DMS2DD(-3, 33, 14.02f), 2000f, true);
+
+        rwys[2] = new Runway("14L", 143, 3500, Measurement.DMS2DD(40, 29, 41.71f), Measurement.DMS2DD(-3, 33, 28.33f), 2000f, false);
+        rwys[3] = new Runway("32R", 323, 3500, Measurement.DMS2DD(40, 28, 24.85f), Measurement.DMS2DD(-3, 32, 10.30f), 2000f, true);
+
+        rwys[4] = new Runway("36L", 360, 4179, Measurement.DMS2DD(40, 29, 33.32f), Measurement.DMS2DD(-3, 34, 28.64f), 2000f, false);
+        rwys[5] = new Runway("18R", 180, 4179, Measurement.DMS2DD(40, 31, 22.40f), Measurement.DMS2DD(-3, 34, 29.27f), 2000f, true);
+
+        rwys[6] = new Runway("36R", 360, 3500, Measurement.DMS2DD(40, 30, 03.97f), Measurement.DMS2DD(-3, 33, 33.15f), 2000f, false);
+        rwys[7] = new Runway("18L", 180, 3500, Measurement.DMS2DD(40, 31, 41.22f), Measurement.DMS2DD(-3, 33, 33.68f), 2000f, true);
+
+        // Airport
+        airport = new Airport("Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20f), Measurement.DMS2DD(-3, 33, 39f), 2000f, "Madrid", "Spain", 13000, 140, rwys);
+     
         // ### FIX LIST ###
         // LEMD - FIX LIST - STAR 3 RNAV (NORTH CONFIGURATION)
         fixList.Add("AVILA", new FIX("AVILA", Measurement.DMS2DD(40, 37, 28.6f), Measurement.DMS2DD(-4, 32, 59.6f), FIX.FixTypes.OnRequest, true));
