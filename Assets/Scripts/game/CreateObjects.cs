@@ -119,7 +119,7 @@ public class CreateObjects : MonoBehaviour
         fixList.Add("TERSA", new FIX("TERSA", 40.43301f, -2.08162f, FIX.FixTypes.OnRequest, true));
         fixList.Add("VILLA", new FIX("VILLA", 40.13586f, -2.24376f, FIX.FixTypes.OnRequest, true));
 
-        // LEMD - VOR
+        // LEMD - VOR   
         vorList.Add("SSY", new VOR("SSY", "San Sebastian de los Reyes", 117.85f, "... ... -.--", true, 40.3247f, -3.3431f, false));
         vorList.Add("BRA", new VOR("BRA", "Barajas", 116.45f, "-... .-. .-", true, 40.2809f, -3.3327f, false));
         vorList.Add("CNR", new VOR("CNR", "Colmenar Viejo", 117.30f, "-.-. -. .-.", true, 40.3846f, -3.4409f, true));

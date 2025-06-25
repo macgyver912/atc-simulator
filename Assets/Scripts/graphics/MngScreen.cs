@@ -37,9 +37,9 @@ public class MngScreen : MonoBehaviour
         lats = new List<float>();
         lons = new List<float>();
 
-    //	radarScreenSize = new Vector2(Screen.width*radarScreenScale.x, Screen.height*radarScreenScale.y);
-    //	radarScreenOffset = new Vector2(Screen.width * (1-radarScreenScale.x), Screen.height * (1-radarScreenScale.y));
-    radarScreenSize = new Vector2(Screen.width - DrawGUI.GetWindowFPSWidth(), Screen.height);
+        //	radarScreenSize = new Vector2(Screen.width*radarScreenScale.x, Screen.height*radarScreenScale.y);
+        //	radarScreenOffset = new Vector2(Screen.width * (1-radarScreenScale.x), Screen.height * (1-radarScreenScale.y));
+        radarScreenSize = new Vector2(Screen.width - DrawGUI.GetWindowFPSWidth(), Screen.height);
         radarScreenOffset = new Vector2(DrawGUI.GetWindowFPSWidth(), 0);
 
         //	Debug.Log("Screen.width: " + Screen.width);

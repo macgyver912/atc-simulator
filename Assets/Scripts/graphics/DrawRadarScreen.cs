@@ -154,12 +154,20 @@ public class DrawRadarScreen : MonoBehaviour
 
                 Vector2 vorPos = MngScreen.ScreenPosAbsolute(vor.GetScreenPosition());
                 // Below GameObject
-                if (vor.HasDME())
-                    //				GUI.Label(Rect(vorPos.x-labelSize.x/2, vorPos.y+vorRoseGOSize.y/2, labelSize.x, labelSize.y), vor.id, labelStyle_navaids.GetStyle("Label"));
-                    GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y + vorRoseGOSize.y * 0.4f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
+                if (vor.IsVisible())
+                {
+                    if (vor.HasDME())
+                        GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y + vorRoseGOSize.y * 0.4f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
+                    else
+                        GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y + vorGOSize.y * 0.4f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
+                }
                 else
-                    //				GUI.Label(Rect(vorPos.x-labelSize.x/2, vorPos.y+vorGOSize.y/2, labelSize.x, labelSize.y), vor.id, labelStyle_navaids.GetStyle("Label"));
-                    GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y + vorGOSize.y * 0.4f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
+                {
+                    if (vor.HasDME())
+                        GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y - vorRoseGOSize.y * 0.5f + labelSize.y * 0.25f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
+                    else
+                        GUI.Label(new Rect(vorPos.x - labelSize.x / 2f, vorPos.y - vorGOSize.y * 0.5f + labelSize.y * 0.25f, labelSize.x, labelSize.y * 1.5f), vor.GetID(), labelStyle_navaids.GetStyle("Label"));
+                }
             }
 
             // ######### Show aircrafts labels #########

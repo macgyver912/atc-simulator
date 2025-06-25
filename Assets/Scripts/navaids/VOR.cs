@@ -94,13 +94,10 @@ public class VOR : Navaid /*: ScriptableObject*/
         this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
         this.go.name = this.GetType() + "_" + this.id;
 
-        if (this.IsVisible())
-        {
-            this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
-            this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
-            this.go.transform.rotation = Quaternion.Euler(90, 180, 0);
-        }
-        
+        this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
+        this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
+        this.go.GetComponent<Renderer>().enabled = this.IsVisible();
+        this.go.transform.rotation = Quaternion.Euler(90, 180, 0);
 
         if (iconName.Contains("rose"))
         {

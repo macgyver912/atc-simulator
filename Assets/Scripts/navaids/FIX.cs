@@ -56,15 +56,12 @@ public class FIX : Navaid /*: ScriptableObject*/
         this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
         UnityEngine.Object.Destroy(this.go.GetComponent<Collider>());
 		this.go.name = this.GetType() + "_" + this.id;
-		if (this.IsVisible())
-		{
-			this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
-			this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
-            this.go.transform.rotation = Quaternion.Euler(90f, 180f, 0f);
-            this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_fix;
-        }
-        
-
+		this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
+		this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
+        this.go.GetComponent<Renderer>().enabled = this.IsVisible();
+        this.go.transform.rotation = Quaternion.Euler(90f, 180f, 0f);
+        this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_fix;
+       
         // Locate GameObject inside "FIXs" GameObject
         GameObject parentGO = GameObject.Find("FIX_List");
         if (parentGO == null)
