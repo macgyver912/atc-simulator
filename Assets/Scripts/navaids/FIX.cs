@@ -41,7 +41,7 @@ public class FIX : Navaid /*: ScriptableObject*/
 	 * @param {float} lon Longitude coordinates in degrees.
 	 * @param {FixTypes} type Type of fix: mandatory or informative.
 	 */
-	public FIX(string id, float lat, float lon, FixTypes type) : base(id, lat, lon)
+	public FIX(string id, float lat, float lon, FixTypes type, bool isVisible) : base(id, lat, lon, isVisible)
 	{
         this.type = type;
         if (this.type == FixTypes.Compulsory)
@@ -56,24 +56,20 @@ public class FIX : Navaid /*: ScriptableObject*/
         this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
         UnityEngine.Object.Destroy(this.go.GetComponent<Collider>());
 		this.go.name = this.GetType() + "_" + this.id;
-        this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
-        //this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
-        this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
-        //this.go.GetComponent<Renderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1f);
-		/*
-        Color auxColor = this.go.GetComponent<Renderer>().material.color;
-		auxColor.a = 1f;
-		this.go.GetComponent<Renderer>().material.color = auxColor;
-		*/
-        this.go.transform.rotation = Quaternion.Euler(90f, 180f, 0f);
-        //this.go.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-        this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_fix;
+		if (this.IsVisible())
+		{
+			this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
+			this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
+            this.go.transform.rotation = Quaternion.Euler(90f, 180f, 0f);
+            this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_fix;
+        }
+        
 
-		// Locate GameObject inside "FIXs" GameObject
-		GameObject parentGO = GameObject.Find("FIXs");
+        // Locate GameObject inside "FIXs" GameObject
+        GameObject parentGO = GameObject.Find("FIX_List");
         if (parentGO == null)
         {
-            parentGO = new GameObject("FIXs");
+            parentGO = new GameObject("FIX_List");
 		}
 		this.go.transform.parent = parentGO.transform;
     }

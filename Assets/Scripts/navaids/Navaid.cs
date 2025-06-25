@@ -60,21 +60,28 @@ public class Navaid /*: ScriptableObject*/
 	 * @type {GameObject}
 	 */
     public GameObject go;
+    /**
+	 * Indicates if this VOR should to be renderer or be hidden to avoid occlusion of an airport for example.
+	 * @attribute isVisible
+	 * @type {boolean}
+	 */
+    private bool isVisible;
 
-	/**
+    /**
 	 * @class FIX
 	 * @constructor
 	 * @param {string} id Three or Five letters identifier for this VOR or FIX.
 	 * @param {float} lat Latitude coordinates in degrees.
 	 * @param {float} lon Longitude coordinates in degrees.
 	 */
-	public Navaid(string id, float lat, float lon)
+    public Navaid(string id, float lat, float lon, bool isVisible)
     {
 
         this.id = id;
         this.lat = lat;
         this.lon = lon;
         this.position = new Vector2(lat, lon);
+		this.isVisible = isVisible;
 		
 		/*
         this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -108,6 +115,7 @@ public class Navaid /*: ScriptableObject*/
 	public Vector2 GetPosition() { return position; }
 	public Vector2 GetScreenPosition() { return screenPosition; }
 	public GameObject GetGO() { return this.go; }
+	public bool IsVisible() { return this.isVisible; }
 
 }
 

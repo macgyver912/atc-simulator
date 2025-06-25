@@ -229,6 +229,7 @@ GameObject:
   - component: {fileID: 606412719}
   - component: {fileID: 606412718}
   - component: {fileID: 606412725}
+  - component: {fileID: 606412726}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -346,18 +347,18 @@ MonoBehaviour:
   _color_circles: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
   _color_limit_circles: {r: 0.3529412, g: 0, b: 0, a: 1}
   _color_grid: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
-  _color_runways: {r: 0, g: 1, b: 0, a: 1}
-  _color_sid: {r: 0.39215687, g: 0.39215687, b: 1, a: 0}
-  _color_star: {r: 0.39215687, g: 1, b: 0.39215687, a: 0}
+  _color_runways: {r: 1, g: 0.64705884, b: 0, a: 1}
+  _color_sid: {r: 0.39215687, g: 0.39215687, b: 1, a: 1}
+  _color_star: {r: 0.39215687, g: 1, b: 0.39215687, a: 1}
   _defIconsColor_navaids: 0
   _defIconsColor_aircrafts: 2
   _object_shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
   _labelStyle_navaids: {fileID: 11400000, guid: 0e0e1166fa3baed47b8c2705d9b00c7b, type: 2}
   _labelStyle_aircrafts: {fileID: 11400000, guid: 29490564915073341b6cf6aad5a0122b, type: 2}
-  _scale_vor: 0.5
-  _scale_vor_rose: 0.5
-  _scale_fix: 0.4
-  _scale_acf: 1
+  _scale_vor: 0.3
+  _scale_vor_rose: 0.3
+  _scale_fix: 0.3
+  _scale_acf: 0.75
 --- !u!114 &606412724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,6 +392,18 @@ MonoBehaviour:
   turnLeftIcon: {fileID: 2800000, guid: 8e0fc9ba6cd3f5648b5b8196e01d01d3, type: 3}
   turnIcon: {fileID: 2800000, guid: 5ef5de898797afc45a996b62fc335264, type: 3}
   turnRightIcon: {fileID: 2800000, guid: 29ed53effbbcdd34799221853a6eaefe, type: 3}
+--- !u!210 &606412726
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606412714}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

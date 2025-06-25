@@ -24,7 +24,7 @@ public class VOR : Navaid /*: ScriptableObject*/
 	 * @attribute id
 	 * @type {string}
 	 */
-    private string id;
+    //private string id;
     /**
 	 * Frequency in MHz of this VOR.
 	 * For example: <i>116.95</i> for <i>Perales - PDT</i> VOR.
@@ -72,10 +72,10 @@ public class VOR : Navaid /*: ScriptableObject*/
 	 * @param {ushort} elevation Elevation in feet of airport field referred to measured sea level (MSL).
 	 */
     public VOR(string id, string name, float frequency, string morseCode, bool hasDME,
-                float lat, float lon) : base(id, lat, lon)
+                float lat, float lon, bool isVisible) : base(id, lat, lon, isVisible)
     {
 
-        this.id = id;
+        //this.id = id;
         this.frequency = frequency;
         this.morseCode = morseCode;
         this.hasDME = hasDME;
@@ -85,10 +85,6 @@ public class VOR : Navaid /*: ScriptableObject*/
         string iconName;
 
         if (this.hasDME)
-            //TODO:
-            //if (PlayerPreferences.dme_rose)
-            //    iconName = "vor_dme_rose";
-            //else
             iconName = "vor_dme";
         else
             iconName = "vor";
@@ -97,16 +93,14 @@ public class VOR : Navaid /*: ScriptableObject*/
 
         this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
         this.go.name = this.GetType() + "_" + this.id;
-        this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
-        //this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
-        this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
-        //this.go.GetComponent<Renderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1f);
-        /*
-        Color auxColor = this.go.GetComponent<Renderer>().material.color;
-        auxColor.a = 1f;
-        this.go.GetComponent<Renderer>().material.color = auxColor;
-		*/
-        this.go.transform.rotation = Quaternion.Euler(90, 180, 0);
+
+        if (this.IsVisible())
+        {
+            this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
+            this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
+            this.go.transform.rotation = Quaternion.Euler(90, 180, 0);
+        }
+        
 
         if (iconName.Contains("rose"))
         {
@@ -119,10 +113,10 @@ public class VOR : Navaid /*: ScriptableObject*/
         }
 
         // Locate GameObject inside "VORs" GameObject
-        GameObject parentGO = GameObject.Find("VORs");
+        GameObject parentGO = GameObject.Find("VOR_List");
         if (parentGO == null)
         {
-            parentGO = new GameObject("VORs");
+            parentGO = new GameObject("VOR_List");
         }
         this.go.transform.parent = parentGO.transform;
     }

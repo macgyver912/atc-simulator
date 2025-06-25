@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using static DrawRadarScreen;
 using static Unity.Burst.Intrinsics.X86.Sse4_2;
@@ -450,8 +451,8 @@ public class DrawRadarScreen : MonoBehaviour
         lineRenderer.material.color = c1;
         lineRenderer.startColor = c1;
         lineRenderer.endColor = c1;
-        lineRenderer.startWidth = 0.5f;
-        lineRenderer.endWidth = 0.5f;
+        lineRenderer.startWidth = 0.25f;
+        lineRenderer.endWidth = 0.25f;
         lineRenderer.positionCount = vertexCount + 1;
         lineRenderer.sortingLayerName = "GUI";
 
@@ -523,8 +524,8 @@ public class DrawRadarScreen : MonoBehaviour
         lineRenderer.material.color = c1;
         lineRenderer.startColor = c1;
         lineRenderer.endColor = c1;
-        lineRenderer.startWidth = 0.5f;
-        lineRenderer.endWidth = 0.5f;
+        lineRenderer.startWidth = 0.25f;
+        lineRenderer.endWidth = 0.25f;
         lineRenderer.positionCount = vertexCount + 1;
         lineRenderer.sortingLayerName = "GUI";
 
@@ -569,8 +570,8 @@ public class DrawRadarScreen : MonoBehaviour
             lineRenderer.material.color = c1;
             lineRenderer.startColor = c1;
             lineRenderer.endColor = c1;
-            lineRenderer.startWidth = 0.5f;
-            lineRenderer.endWidth = 0.5f;
+            lineRenderer.startWidth = 0.2f;
+            lineRenderer.endWidth = 0.2f;
             lineRenderer.positionCount = sid_procedure.GetNumberOfPoints();
             lineRenderer.sortingLayerName = "SID_STAR_lines";
 
@@ -605,8 +606,8 @@ public class DrawRadarScreen : MonoBehaviour
             lineRenderer.material.color = c1;
             lineRenderer.startColor = c1;
             lineRenderer.endColor = c1;
-            lineRenderer.startWidth = 0.5f;
-            lineRenderer.endWidth = 0.5f;        
+            lineRenderer.startWidth = 0.2f;
+            lineRenderer.endWidth = 0.2f;        
             lineRenderer.positionCount = star_procedure.GetNumberOfPoints();
             lineRenderer.sortingLayerName = "SID_STAR_lines";
 

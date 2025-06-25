@@ -90,17 +90,17 @@ public class CreateObjects : MonoBehaviour
         */
 
         // LEMD - STAR 3 RNAV
-        fixList.Add("AVILA", new FIX("AVILA", 40.37286f, -4.32596f, FIX.FixTypes.OnRequest));
-        fixList.Add("BUREX", new FIX("BUREX", 39.48398f, -3.56215f, FIX.FixTypes.Compulsory));
-        fixList.Add("DAQSE", new FIX("DAQSE", 40.20351f, -4.08481f, FIX.FixTypes.Compulsory));
-        fixList.Add("FAFEQ", new FIX("FAFEQ", 40.10098f, -3.27385f, FIX.FixTypes.Compulsory));
-        fixList.Add("MORAL", new FIX("MORAL", 39.00000f, -3.32318f, FIX.FixTypes.OnRequest));
-        fixList.Add("NONTU", new FIX("NONTU", 41.30011f, -4.10084f, FIX.FixTypes.OnRequest));
-        fixList.Add("ORBIS", new FIX("ORBIS", 41.15566f, -4.11432f, FIX.FixTypes.OnRequest));
-        fixList.Add("RIDAV", new FIX("RIDAV", 40.32069f, -5.48298f, FIX.FixTypes.OnRequest));
-        fixList.Add("SOTUK", new FIX("SOTUK", 39.11372f, -4.44470f, FIX.FixTypes.OnRequest));
-        fixList.Add("URRIF", new FIX("URRIF", 40.14323f, -3.44467f, FIX.FixTypes.OnRequest));
-        fixList.Add("YUNYE", new FIX("YUNYE", 40.02387f, -3.37442f, FIX.FixTypes.OnRequest));
+        fixList.Add("AVILA", new FIX("AVILA", 40.37286f, -4.32596f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("BUREX", new FIX("BUREX", 39.48398f, -3.56215f, FIX.FixTypes.Compulsory, true));
+        fixList.Add("DAQSE", new FIX("DAQSE", 40.20351f, -4.08481f, FIX.FixTypes.Compulsory, true));
+        fixList.Add("FAFEQ", new FIX("FAFEQ", 40.10098f, -3.27385f, FIX.FixTypes.Compulsory, true));
+        fixList.Add("MORAL", new FIX("MORAL", 39.00000f, -3.32318f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("NONTU", new FIX("NONTU", 41.30011f, -4.10084f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("ORBIS", new FIX("ORBIS", 41.15566f, -4.11432f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("RIDAV", new FIX("RIDAV", 40.32069f, -5.48298f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("SOTUK", new FIX("SOTUK", 39.11372f, -4.44470f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("URRIF", new FIX("URRIF", 40.14323f, -3.44467f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("YUNYE", new FIX("YUNYE", 40.02387f, -3.37442f, FIX.FixTypes.OnRequest, true));
 
         
         //vorList.Add("ZMR", new VOR("ZMR", "Zamora", 0.0f, null, true, 41.31482f, -5.38231f));
@@ -109,23 +109,24 @@ public class CreateObjects : MonoBehaviour
 
 
         // LEMD - STAR 4 RNAV
-        fixList.Add("ADUXO", new FIX("ADUXO", 40.30444f, -2.03514f, FIX.FixTypes.OnRequest));
-        fixList.Add("BANEV", new FIX("BANEV", 41.30094f, -2.30523f, FIX.FixTypes.OnRequest));
-        fixList.Add("RUDBI", new FIX("RUDBI", 40.15294f, -3.08100f, FIX.FixTypes.Compulsory));
-        fixList.Add("NOSKO", new FIX("NOSKO", 40.39228f, -2.49002f, FIX.FixTypes.Compulsory));
-        fixList.Add("PINAR", new FIX("PINAR", 40.58491f, -2.35570f, FIX.FixTypes.OnRequest));
-        fixList.Add("PRADO", new FIX("PRADO", 40.08510f, -2.00372f, FIX.FixTypes.OnRequest));
-        fixList.Add("SIRGU", new FIX("SIRGU", 40.15378f, -2.36005f, FIX.FixTypes.Compulsory));
-        fixList.Add("TERSA", new FIX("TERSA", 40.43301f, -2.08162f, FIX.FixTypes.OnRequest));
-        fixList.Add("VILLA", new FIX("VILLA", 40.13586f, -2.24376f, FIX.FixTypes.OnRequest));
+        fixList.Add("ADUXO", new FIX("ADUXO", 40.30444f, -2.03514f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("BANEV", new FIX("BANEV", 41.30094f, -2.30523f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("RUDBI", new FIX("RUDBI", 40.15294f, -3.08100f, FIX.FixTypes.Compulsory, true));
+        fixList.Add("NOSKO", new FIX("NOSKO", 40.39228f, -2.49002f, FIX.FixTypes.Compulsory, true));
+        fixList.Add("PINAR", new FIX("PINAR", 40.58491f, -2.35570f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("PRADO", new FIX("PRADO", 40.08510f, -2.00372f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("SIRGU", new FIX("SIRGU", 40.15378f, -2.36005f, FIX.FixTypes.Compulsory, true));
+        fixList.Add("TERSA", new FIX("TERSA", 40.43301f, -2.08162f, FIX.FixTypes.OnRequest, true));
+        fixList.Add("VILLA", new FIX("VILLA", 40.13586f, -2.24376f, FIX.FixTypes.OnRequest, true));
 
         // LEMD - VOR
-        vorList.Add("SSY", new VOR("SSY", "San Sebastian de los Reyes", 117.85f, "... ... -.--", true, 40.3247f, -3.3431f));
-        vorList.Add("BRA", new VOR("BRA", "Barajas", 116.45f, "-... .-. .-", true, 40.2809f, -3.3327f));
-        vorList.Add("CNR", new VOR("CNR", "Colmenar Viejo", 117.30f, "-.-. -. .-.", true, 40.3846f, -3.4409f));
-        vorList.Add("PDT", new VOR("PDT", "Perales", 116.75f, ".--. -.. -", true, Measurement.DMS2DD(40, 15, 10f), Measurement.DMS2DD(-3, 20, 52f)));
-        vorList.Add("TLD", new VOR("TLD", "Toledo", 113.20f, "- .-.. -..", true, 39.58100f, -4.2015f));
-        vorList.Add("RBO", new VOR("RBO", "Robledillo", 113.95f, ".-. -... ---", true, 40.51143f, -3.14474f));
+        vorList.Add("SSY", new VOR("SSY", "San Sebastian de los Reyes", 117.85f, "... ... -.--", true, 40.3247f, -3.3431f, false));
+        vorList.Add("BRA", new VOR("BRA", "Barajas", 116.45f, "-... .-. .-", true, 40.2809f, -3.3327f, false));
+        vorList.Add("CNR", new VOR("CNR", "Colmenar Viejo", 117.30f, "-.-. -. .-.", true, 40.3846f, -3.4409f, true));
+        //vorList.Add("PDTx", new VOR("PDTx", "Perales", 116.75f, ".--. -.. -", true, Measurement.DMS2DD(40, 15, 10f), Measurement.DMS2DD(-3, 20, 52f), true));
+        vorList.Add("PDT", new VOR("PDT", "Perales", 116.75f, ".--. -.. -", true, 40.1510f, -3.2053f, true));
+        vorList.Add("TLD", new VOR("TLD", "Toledo", 113.20f, "- .-.. -..", true, 39.58100f, -4.2015f, true));
+        vorList.Add("RBO", new VOR("RBO", "Robledillo", 113.95f, ".-. -... ---", true, 40.51143f, -3.14474f, true));
 
 
 
