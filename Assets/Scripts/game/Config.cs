@@ -33,7 +33,9 @@ public class Config : MonoBehaviour
     public Color _color_star;
     public IconsColorEnum _defIconsColor_navaids;
     public IconsColorEnum _defIconsColor_aircrafts;
-    public Shader _object_shader;    
+    public Material _custom_material;
+    public Shader _object_shader;
+    public Shader _line_shader;
 
     public static Color background_color;
     public static Color color_circles;
@@ -44,7 +46,36 @@ public class Config : MonoBehaviour
     public static Color color_star;
     public static IconsColorEnum defIconsColor_navaids;
     public static IconsColorEnum defIconsColor_aircrafts;
+    public static Material custom_material;
     public static Shader object_shader;
+    public static Shader line_shader;
+
+    [Header("Icons")]
+    public Texture2D _icon_aircraft;
+    public Texture2D _icon_aerodrome_civil;
+    public Texture2D _icon_aerodrome_civil_no_facilities;
+    public Texture2D _icon_aerodrome_gorvernment_civil;
+    public Texture2D _icon_aerodrome_gorvernment;
+    public Texture2D _icon_vor;
+    public Texture2D _icon_vor_dme;
+    public Texture2D _icon_vor_dme_rose;
+    public Texture2D _icon_dme;
+    public Texture2D _icon_fix_empty;
+    public Texture2D _icon_fix_filled;
+
+    public static Texture2D icon_aircraft;
+    public static Texture2D icon_aerodrome_civil;
+    public static Texture2D icon_aerodrome_civil_no_facilities;
+    public static Texture2D icon_aerodrome_gorvernment_civil;
+    public static Texture2D icon_aerodrome_gorvernment;
+    public static Texture2D icon_vor;
+    public static Texture2D icon_vor_dme;
+    public static Texture2D icon_vor_dme_rose;
+    public static Texture2D icon_dme;
+    public static Texture2D icon_fix_empty;
+    public static Texture2D icon_fix_filled;
+
+    
 
     [Header("Text style")]
     public GUISkin _labelStyle_navaids;
@@ -87,11 +118,26 @@ public class Config : MonoBehaviour
         color_sid = _color_sid;
         color_star = _color_star;
         object_shader = _object_shader;
+        line_shader = _line_shader;
         defIconsColor_navaids = _defIconsColor_navaids;
         defIconsColor_aircrafts = _defIconsColor_aircrafts;
+        custom_material = _custom_material;
 
-        // Text style
-        labelStyle_navaids = _labelStyle_navaids;
+        // Icons
+        icon_aircraft = _icon_aircraft;
+        icon_aerodrome_civil = _icon_aerodrome_civil;
+        icon_aerodrome_civil_no_facilities = _icon_aerodrome_civil_no_facilities;
+        icon_aerodrome_gorvernment_civil = _icon_aerodrome_gorvernment_civil;
+        icon_aerodrome_gorvernment = _icon_aerodrome_gorvernment;
+        icon_vor = _icon_vor;
+        icon_vor_dme = _icon_vor_dme;
+        icon_vor_dme_rose = _icon_vor_dme_rose;
+        icon_dme = _icon_dme;
+        icon_fix_empty = _icon_fix_empty;
+        icon_fix_filled = _icon_fix_filled;
+
+    // Text style
+    labelStyle_navaids = _labelStyle_navaids;
         labelStyle_aircrafts = _labelStyle_aircrafts;
 
         // Scale

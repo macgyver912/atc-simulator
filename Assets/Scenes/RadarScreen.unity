@@ -190,7 +190,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
@@ -353,7 +353,20 @@ MonoBehaviour:
   _color_star: {r: 0.22352941, g: 0.47843137, b: 0.16862746, a: 1}
   _defIconsColor_navaids: 0
   _defIconsColor_aircrafts: 2
+  _custom_material: {fileID: 2100000, guid: 5da1618d86f69a94d8097175c3c94cbe, type: 2}
   _object_shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
+  _line_shader: {fileID: 10755, guid: 0000000000000000f000000000000000, type: 0}
+  _icon_aircraft: {fileID: 2800000, guid: 558b43eda08ffda4b8aad8edf271795d, type: 3}
+  _icon_aerodrome_civil: {fileID: 2800000, guid: 16d80362dc7b4054886cd825373c3148, type: 3}
+  _icon_aerodrome_civil_no_facilities: {fileID: 2800000, guid: 34d4323a68bc3cd4bb27941af7b2fada, type: 3}
+  _icon_aerodrome_gorvernment_civil: {fileID: 2800000, guid: 895f6e45febe3bb4890e3cf834931c35, type: 3}
+  _icon_aerodrome_gorvernment: {fileID: 2800000, guid: 93899edef3347ae4aabdff324824c1d3, type: 3}
+  _icon_vor: {fileID: 2800000, guid: 1d688d4e7b9360145af6a01576ea1954, type: 3}
+  _icon_vor_dme: {fileID: 2800000, guid: cb299ba6015798b40a80fc85dfdf52bb, type: 3}
+  _icon_vor_dme_rose: {fileID: 2800000, guid: 65e1c173f5ead8b4ab255169542c0551, type: 3}
+  _icon_dme: {fileID: 2800000, guid: 3084d62d4e410c4419dedae30e35171e, type: 3}
+  _icon_fix_empty: {fileID: 2800000, guid: 1c2def1e04ff8f24babd538ff68e9df7, type: 3}
+  _icon_fix_filled: {fileID: 2800000, guid: 7d4f90536d21dc646aa36d87740bb0af, type: 3}
   _labelStyle_navaids: {fileID: 11400000, guid: 0e0e1166fa3baed47b8c2705d9b00c7b, type: 2}
   _labelStyle_aircrafts: {fileID: 11400000, guid: 29490564915073341b6cf6aad5a0122b, type: 2}
   _scale_vor: 0.3

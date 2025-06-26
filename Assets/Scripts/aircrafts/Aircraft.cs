@@ -248,9 +248,9 @@ public class Aircraft /*: ScriptableObject*/
 	/**
 	 * Icon to represent objects of this class.
 	 * @attribute icon
-	 * @type {Texture2D}
+	 * @type {Texture}
 	 */
-	Texture2D icon;
+	Texture icon;
 	/**
 	 * GameObject to represent graphically this class.
 	 * @attribute go
@@ -387,6 +387,7 @@ public class Aircraft /*: ScriptableObject*/
 		this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
         //this.go.name = this.GetType() + "_" /*+ this.company.callsignCode*/ + this.flightNumber;
         this.go.name = this.company.GetCallsignCode() + this.GetFlightNumber();
+        this.go.GetComponent<Renderer>().material = Config.custom_material;
         this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
 		//this.go.GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
 		this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
@@ -485,7 +486,7 @@ public class Aircraft /*: ScriptableObject*/
     public ushort GetSpeedRateTO() { return this.speedRate_TO; }
     public ushort GetSpeedRateAirStd() { return this.speedRate_Air_Std; }
     public ushort GetSpeedRateAirMax() { return this.speedRate_Air_Max; }
-    public Texture2D GetIcon() { return this.icon; }
+    public Texture GetIcon() { return this.icon; }
 	public GameObject GetGO() {	return this.go; }
 	public Aircraft GetScript() { return this.script; }
 	public int GetAuthoAltitude() { return this.authoAltitude; }

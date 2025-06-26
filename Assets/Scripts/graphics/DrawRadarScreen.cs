@@ -4,8 +4,8 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using static DrawRadarScreen;
-using static Unity.Burst.Intrinsics.X86.Sse4_2;
-using static UnityEditor.PlayerSettings;
+//using static Unity.Burst.Intrinsics.X86.Sse4_2;
+//using static UnityEditor.PlayerSettings;
 
 /**
  * Manages and draws graphical icons and others.
@@ -83,7 +83,7 @@ public class DrawRadarScreen : MonoBehaviour
     private static GUISkin labelStyle_aircrafts;
 
     //var lengthOfLineRenderer : int = 2;
-    private static Material defaultMaterial;
+    //private static Material defaultMaterial;
 
     static Vector3 airportPosition; //= new Vector3(-3.560833f, 40.472222f, 2000.0f);
     static float minAltitude = airportPosition.z;
@@ -137,6 +137,7 @@ public class DrawRadarScreen : MonoBehaviour
             acftGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.aircraftList[0]).go);
             */
             //		SetAcftLabelPos();
+
         }// if initGUI
 
         if (showGUI)
@@ -220,7 +221,7 @@ public class DrawRadarScreen : MonoBehaviour
         ringsSeparation = Config.rings_separation;
         gridSeparation = ringsSeparation;
 
-        defaultMaterial = new Material(Shader.Find("Diffuse"));
+        //defaultMaterial = new Material(Shader.Find("Diffuse"));
 
         labelStyle_navaids = Config.labelStyle_navaids;
         labelStyle_aircrafts = Config.labelStyle_aircrafts;
@@ -262,7 +263,33 @@ public class DrawRadarScreen : MonoBehaviour
         }
 
         icons = new Dictionary<string, Texture2D>();
-
+        
+        icons.Add("aircraft", Config.icon_aircraft);
+        icons.Add("aerodrome_civil", Config.icon_aerodrome_civil);
+        icons.Add("aerodrome_civil_no_facilities", Config.icon_aerodrome_civil_no_facilities);
+        icons.Add("aerodrome_government_civil", Config.icon_aerodrome_gorvernment_civil);
+        icons.Add("aerodrome_government", Config.icon_aerodrome_gorvernment);
+        icons.Add("vor", Config.icon_vor);
+        icons.Add("vor_dme", Config.icon_vor_dme);
+        icons.Add("vor_dme_rose", Config.icon_vor_dme_rose);
+        icons.Add("dme", Config.icon_dme);
+        icons.Add("fix_empty", Config.icon_fix_empty);
+        icons.Add("fix_filled", Config.icon_fix_filled);
+        
+        /*
+        icons.Add("aircraft", Resources.Load("icons/aeronautical/white/Aircraft") as Texture2D);
+        icons.Add("aerodrome_civil", Resources.Load("icons/aeronautical/gray/Aerodrome_Civil") as Texture2D);
+        icons.Add("aerodrome_civil_(no facilities)", Resources.Load("icons/aeronautical/gray/Aerodrome_Civil_(no facilities)") as Texture2D);
+        icons.Add("aerodrome_government_civil", Resources.Load("icons/aeronautical/gray/Aerodrome_Government_Civil") as Texture2D);
+        icons.Add("aerodrome_government", Resources.Load("icons/aeronautical/gray/Aerodrome_Government") as Texture2D);
+        icons.Add("vor", Resources.Load("icons/aeronautical/gray/VOR") as Texture2D);
+        icons.Add("vor_dme", Resources.Load("icons/aeronautical/gray/VOR_DME") as Texture2D);
+        icons.Add("vor_dme_rose", Resources.Load("icons/aeronautical/gray/VOR_DME_ROSE") as Texture2D);
+        icons.Add("dme", Resources.Load("icons/aeronautical/gray/DME") as Texture2D);
+        icons.Add("fix_empty", Resources.Load("icons/aeronautical/gray/FIX_EMPTY") as Texture2D);
+        icons.Add("fix_filled", Resources.Load("icons/aeronautical/gray/FIX_FILLED") as Texture2D);
+        */
+        /*
         icons.Add("aircraft", Resources.Load("icons/aeronautical/" + folderAircraft + "/Aircraft") as Texture2D);
         icons.Add("aerodrome_civil", Resources.Load("icons/aeronautical/" + folderNavaids + "/Aerodrome_Civil") as Texture2D);
         icons.Add("aerodrome_civil_(no facilities)", Resources.Load("icons/aeronautical/" + folderNavaids + "/Aerodrome_Civil_(no facilities)") as Texture2D);
@@ -274,6 +301,7 @@ public class DrawRadarScreen : MonoBehaviour
         icons.Add("dme", Resources.Load("icons/aeronautical/" + folderNavaids + "/DME") as Texture2D);
         icons.Add("fix_empty", Resources.Load("icons/aeronautical/" + folderNavaids + "/FIX_EMPTY") as Texture2D);
         icons.Add("fix_filled", Resources.Load("icons/aeronautical/" + folderNavaids + "/FIX_FILLED") as Texture2D);
+        */
     }
 
     public static void StartDraw()
@@ -349,8 +377,8 @@ public class DrawRadarScreen : MonoBehaviour
 
             //LineRenderer auxLineRenderer = lineGO.GetComponent<LineRenderer>() as LineRenderer;
             Color c1 = labelLineColor;
-            auxLineRenderer.material = defaultMaterial;
-            auxLineRenderer.material.shader = Shader.Find("Unlit/Color");
+            auxLineRenderer.material = Config.custom_material;
+            auxLineRenderer.material.shader = Config.line_shader;
             auxLineRenderer.material.color = c1;
             auxLineRenderer.startColor = c1;
             auxLineRenderer.endColor = c1;
@@ -401,8 +429,8 @@ public class DrawRadarScreen : MonoBehaviour
         //	Debug.Log("Runway 0: " + rwys[0].GetThrLon() + " - " + rwys[0].GetThrLat());
         //	Debug.Log("Runway 1: " + rwys[1].GetThrLon() + " - " + rwys[1].GetThrLat());
         Color c1 = _color_runways;
-        lineRenderer.material = defaultMaterial;
-        lineRenderer.material.shader = Shader.Find("Unlit/Color");
+        lineRenderer.material = Config.custom_material;
+        lineRenderer.material.shader = Config.line_shader;
         lineRenderer.material.color = c1;
         lineRenderer.startColor = c1;
         lineRenderer.endColor = c1;
@@ -467,8 +495,9 @@ public class DrawRadarScreen : MonoBehaviour
 
         LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
         Color c1 = _color_circles;
-        lineRenderer.material = defaultMaterial;
-        lineRenderer.material.shader = Shader.Find("Unlit/Color");
+
+        lineRenderer.material = Config.custom_material;
+        lineRenderer.material.shader = Config.line_shader;
         lineRenderer.material.color = c1;
         lineRenderer.startColor = c1;
         lineRenderer.endColor = c1;
@@ -540,8 +569,8 @@ public class DrawRadarScreen : MonoBehaviour
 
         LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
         Color c1 = _color_limit_circles;
-        lineRenderer.material = defaultMaterial;
-        lineRenderer.material.shader = Shader.Find("Unlit/Color");
+        lineRenderer.material = Config.custom_material;
+        lineRenderer.material.shader = Config.line_shader;
         lineRenderer.material.color = c1;
         lineRenderer.startColor = c1;
         lineRenderer.endColor = c1;
@@ -587,8 +616,8 @@ public class DrawRadarScreen : MonoBehaviour
 
             LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
             Color c1 = _color_sid;
-            lineRenderer.material = defaultMaterial;
-            lineRenderer.material.shader = Shader.Find("Unlit/Color");
+            lineRenderer.material = Config.custom_material;
+            lineRenderer.material.shader = Config.line_shader;
             lineRenderer.material.color = c1;
             lineRenderer.startColor = c1;
             lineRenderer.endColor = c1;
@@ -636,8 +665,8 @@ public class DrawRadarScreen : MonoBehaviour
 
             LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
             Color c1 = _color_star;
-            lineRenderer.material = defaultMaterial;
-            lineRenderer.material.shader = Shader.Find("Unlit/Color");
+            lineRenderer.material = Config.custom_material;
+            lineRenderer.material.shader = Config.line_shader;
             lineRenderer.material.color = c1;
             lineRenderer.startColor = c1;
             lineRenderer.endColor = c1;
@@ -723,8 +752,8 @@ public class DrawRadarScreen : MonoBehaviour
 
         LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
         Color c1 = _color_grid;
-        lineRenderer.material = defaultMaterial;
-        lineRenderer.material.shader = Shader.Find("Unlit/Color");
+        lineRenderer.material = Config.custom_material;
+        lineRenderer.material.shader = Config.line_shader;
         lineRenderer.material.color = c1;
         lineRenderer.startColor = c1;
         lineRenderer.endColor = c1;

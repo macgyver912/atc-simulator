@@ -87,9 +87,9 @@ public class Airport
 //	/**
 //	 * Icon to represent objects of this class.
 //	 * @attribute icon
-//	 * @type {Texture2D}
+//	 * @type {Texture}
 //	 */	
-//	var icon : Texture2D;
+//	var icon : Texture;
 	/**
 	 * GameObject to represent graphically this class.
 	 * @attribute go

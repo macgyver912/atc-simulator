@@ -104,7 +104,7 @@ public class DrawATCPopup : MonoBehaviour
     private const int ALT_MIN = -2000;   // in feet - lowest airport is about -1240 ft in Israel
     private const int ALT_MAX = 55000;   // in feet
 
-    private const ushort SPD_MIN = 100;     // in kts
+    private const ushort SPD_MIN = 120;     // in kts
     private const ushort SPD_MAX = 500;     // in kts	
 
     private ushort nDigits;

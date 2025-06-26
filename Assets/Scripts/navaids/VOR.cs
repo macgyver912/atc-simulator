@@ -102,6 +102,7 @@ public class VOR : Navaid /*: ScriptableObject*/
         this.go = GameObject.CreatePrimitive(PrimitiveType.Plane);
         //this.go.name = this.GetType() + "_" + this.id;
         this.go.name = this.id;
+        this.go.GetComponent<Renderer>().material = Config.custom_material;
         this.go.GetComponent<Renderer>().material.mainTexture = this.icon;
         this.go.GetComponent<Renderer>().material.shader = Config.object_shader;
         this.go.GetComponent<Renderer>().enabled = this.IsVisible();
