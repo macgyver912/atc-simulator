@@ -518,7 +518,7 @@ public class DrawATCPopup : MonoBehaviour
             string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", turn ";
             debugText += (submenuHeadingToolbarInt == 0) ? "left " : (submenuHeadingToolbarInt == 2) ? "right " : "";
             debugText += "to heading " + TextUtils.Text2SpellFormat(hdgStr);
-            Debug.LogWarning(debugText);
+            //Debug.LogWarning(debugText);
             MngDialogs.SetText(debugText, 0);
 
             // set commands to the aircraft
@@ -770,7 +770,7 @@ public class DrawATCPopup : MonoBehaviour
                 debugText += "descend to ";
             }
             debugText += (tgtAlt < CreateObjects.airport.GetTransAltitude() ? tgtAlt.ToString() + " feet" : "flight level " + TextUtils.Text2SpellFormat((tgtAlt/100).ToString()));
-            Debug.LogWarning(debugText);
+            //Debug.LogWarning(debugText);
             MngDialogs.SetText(debugText, 0);
 
             // set commands to the aircraft
@@ -948,7 +948,7 @@ public class DrawATCPopup : MonoBehaviour
             debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + tgtPoint.GetId();
         }
 
-        Debug.LogWarning(debugText);
+        //Debug.LogWarning(debugText);
         MngDialogs.SetText(debugText, 0);
 
         // set commands to the aircraft
@@ -1050,7 +1050,7 @@ public class DrawATCPopup : MonoBehaviour
             string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) 
                 + ", " + (submenuIsSpeedSpeedUp ? "expedite " : "") + "speed ";
             debugText += spdStr + " knots";
-            Debug.LogWarning(debugText);
+            //Debug.LogWarning(debugText);
             MngDialogs.SetText(debugText, 0);
 
             // set commands to the aircraft
