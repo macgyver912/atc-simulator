@@ -34,6 +34,8 @@ public class DrawGUI : MonoBehaviour
     string departures_title = "Departures";
     float arr_dep_panelHeight;
 
+    float camera_size;
+    int zoom_selection = 1;
     /*
     float distanceAssistantValue = -1.0f;
     bool existsDistRings = false;
@@ -90,7 +92,6 @@ public class DrawGUI : MonoBehaviour
             showSIDs    = GUI.Toggle(new Rect(Screen.width * 0.5f + 50f, 05f, 100f, 20f), showSIDs, "SID");
             showSTARs   = GUI.Toggle(new Rect(Screen.width * 0.5f + 50f, 25f, 100f, 20f), showSTARs, "STAR");
 
-
             if (showGrid)
                 DrawRadarScreen.DrawGrid();
             else
@@ -111,7 +112,24 @@ public class DrawGUI : MonoBehaviour
             else
                 DrawRadarScreen.HideSTARs();
 
-
+            zoom_selection = GUI.Toolbar(new Rect(Screen.width - 250f, 5f, 200f, 20f), zoom_selection, new string[] { "Far", "AUTO", "Near" });
+            switch (zoom_selection)
+            {
+                case 0:
+                    camera_size = 125;
+                    break;
+                case 1:
+                    camera_size = 100;
+                    break;
+                case 2:
+                    camera_size = 75;
+                    break;
+                default:
+                    camera_size = 100;
+                    break;
+            }
+                 
+            MngCamera.SetCameraSize(camera_size);
 
             /*
             GUI.Label(new Rect(Screen.width * 0.5f - 40.0f, 5.0f, 80.0f, 20.0f), "Grid & Circles");

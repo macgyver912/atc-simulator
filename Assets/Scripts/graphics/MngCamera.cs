@@ -14,4 +14,9 @@ public class MngCamera : MonoBehaviour
         mainCamera = Camera.main;
     }
     public static Camera GetCamera() { return mainCamera; }
+    public static void SetCameraSize(float size)
+    {
+        mainCamera.orthographicSize = size;
+    }
+        
 }
