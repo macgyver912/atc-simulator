@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\airports\Airport.cs" />
     <Compile Include="Assets\Scripts\navaids\Navaid.cs" />
+    <Compile Include="Assets\Scripts\graphics\MngDialogs.cs" />
     <Compile Include="Assets\Scripts\graphics\DrawRadarScreen.cs" />
     <Compile Include="Assets\Scripts\companies\Company.cs" />
     <Compile Include="Assets\Scripts\graphics\ATCPopupCtrl.cs" />

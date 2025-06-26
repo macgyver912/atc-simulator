@@ -26,6 +26,13 @@ public class VOR : Navaid /*: ScriptableObject*/
 	 */
     //private string id;
     /**
+	 * Name of this VOR.
+	 * For example: <i>Perales</i> for <i>PDT</i> VOR.
+	 * @attribute name
+	 * @type {string}
+	 */
+    private string name;
+    /**
 	 * Frequency in MHz of this VOR.
 	 * For example: <i>116.95</i> for <i>Perales - PDT</i> VOR.
 	 * @attribute frequency
@@ -76,6 +83,7 @@ public class VOR : Navaid /*: ScriptableObject*/
     {
 
         //this.id = id;
+        this.name = name;
         this.frequency = frequency;
         this.morseCode = morseCode;
         this.hasDME = hasDME;
@@ -118,7 +126,8 @@ public class VOR : Navaid /*: ScriptableObject*/
         this.go.transform.parent = parentGO.transform;
     }
 
-    public string GetID() { return id; }
-	public bool HasDME() { return hasDME; }
+    public string GetID() { return this.id; }
+    public string GetName() { return this.name; }
+    public bool HasDME() { return this.hasDME; }
 
 }

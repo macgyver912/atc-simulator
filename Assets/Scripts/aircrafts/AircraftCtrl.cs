@@ -175,7 +175,8 @@ public class AircraftCtrl : MonoBehaviour
         }
 
         debugText += " speed to " + targetSpeed + " knots" + (fast ? " as soon as possible" : "") +  ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
-        Debug.LogWarning(debugText);
+        //Debug.LogWarning(debugText);
+        MngDialogs.SetText(debugText, 1);
     }
 
     private IEnumerator IncreaseSpeed(ushort targetSpeed, bool fast)
@@ -271,7 +272,8 @@ public class AircraftCtrl : MonoBehaviour
         debugText += (fast ? " as soon as possible" : "") + " to " 
             + (targetAltitude < CreateObjects.airport.GetTransAltitude() ? targetAltitude.ToString() + " feet" : "flight level " + TextUtils.Text2SpellFormat((targetAltitude / 100).ToString())) 
             + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
-        Debug.LogWarning(debugText);
+        //Debug.LogWarning(debugText);
+        MngDialogs.SetText(debugText, 1);
     }
 
     private IEnumerator Climb(int targetAltitude, bool fast) 
@@ -399,11 +401,19 @@ public class AircraftCtrl : MonoBehaviour
         }
         else
         {
-            debugText += " to fly to " + aircraft.GetAuthoPoint().GetId() + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+            if (aircraft.GetAuthoPoint().GetType() == typeof(VOR))
+            {
+                debugText += " to fly to " + (aircraft.GetAuthoPoint() as VOR).GetName() + " V O R, " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+            }
+            else
+            {
+                debugText += " to fly to " + aircraft.GetAuthoPoint().GetId() + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+            }
         }
 
         //debugText += " to heading " + targetHeading + ", " + aircraft.GetCallsignCode() + aircraft.GetFlightNumber();
-        Debug.LogWarning(debugText);
+        //Debug.LogWarning(debugText);
+        MngDialogs.SetText(debugText, 1);
     }
 
 
@@ -521,6 +531,7 @@ public class AircraftCtrl : MonoBehaviour
         // simulate the communication text between ATC and pilots
         //string debugText = aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber()) + ", fly to " + target.GetName();
         //Debug.LogWarning(debugText);
+        //MngDialogs.SetText(debugText, 1);
 
         // set commands to the aircraft
         Turn((ushort)GetHeadingToTarget(target), 1);

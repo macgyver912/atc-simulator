@@ -519,6 +519,7 @@ public class DrawATCPopup : MonoBehaviour
             debugText += (submenuHeadingToolbarInt == 0) ? "left " : (submenuHeadingToolbarInt == 2) ? "right " : "";
             debugText += "to heading " + TextUtils.Text2SpellFormat(hdgStr);
             Debug.LogWarning(debugText);
+            MngDialogs.SetText(debugText, 0);
 
             // set commands to the aircraft
             acftCtrl.Turn(tgtHdg, submenuHeadingToolbarInt);
@@ -770,6 +771,7 @@ public class DrawATCPopup : MonoBehaviour
             }
             debugText += (tgtAlt < CreateObjects.airport.GetTransAltitude() ? tgtAlt.ToString() + " feet" : "flight level " + TextUtils.Text2SpellFormat((tgtAlt/100).ToString()));
             Debug.LogWarning(debugText);
+            MngDialogs.SetText(debugText, 0);
 
             // set commands to the aircraft
             acftCtrl.ChangeLevel(tgtAlt, submenuIsAltSpeedUp);
@@ -934,8 +936,20 @@ public class DrawATCPopup : MonoBehaviour
         DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
 
         // simulate the communication text between ATC and pilots
-        string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + tgtPoint.GetId();
+        //string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + tgtPoint.GetId();
+        string debugText = string.Empty;
+        if (tgtPoint.GetType() == typeof(VOR))
+        {
+            ;
+            //debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + (tgtPoint as VOR).GetName() + " V O R";
+        }
+        else
+        {
+            debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + tgtPoint.GetId();
+        }
+
         Debug.LogWarning(debugText);
+        MngDialogs.SetText(debugText, 0);
 
         // set commands to the aircraft
         acftCtrl.FlyTo(tgtPoint);
@@ -1037,6 +1051,7 @@ public class DrawATCPopup : MonoBehaviour
                 + ", " + (submenuIsSpeedSpeedUp ? "expedite " : "") + "speed ";
             debugText += spdStr + " knots";
             Debug.LogWarning(debugText);
+            MngDialogs.SetText(debugText, 0);
 
             // set commands to the aircraft
             //acftCtrl.GetAircraft().SetAuthoSpeed(tgtSpd);
