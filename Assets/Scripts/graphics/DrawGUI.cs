@@ -8,7 +8,7 @@ public class DrawGUI : MonoBehaviour
     private static bool showSIDs = true;
     private static bool showSTARs = true;
     private static bool showGrid = false;
-    private static bool showCircles = true;
+    private static bool showRings = true;
 
     private static bool initGUI;
 
@@ -87,29 +87,30 @@ public class DrawGUI : MonoBehaviour
             windowFPS = GUI.Window(id, windowFPS, DoWindowFPS, windowFPSTitle, windowFPS_guistyle.GetStyle("Window"));
 
             showGrid    = GUI.Toggle(new Rect(Screen.width * 0.5f - 150f, 05f, 100f, 20f), showGrid, "Grid");
-            showCircles = GUI.Toggle(new Rect(Screen.width * 0.5f - 150f, 25f, 100f, 20f), showCircles, "Circles");
+            showRings = GUI.Toggle(new Rect(Screen.width * 0.5f - 150f, 25f, 100f, 20f), showRings, "Rings");
 
             showSIDs    = GUI.Toggle(new Rect(Screen.width * 0.5f + 50f, 05f, 100f, 20f), showSIDs, "SID");
             showSTARs   = GUI.Toggle(new Rect(Screen.width * 0.5f + 50f, 25f, 100f, 20f), showSTARs, "STAR");
 
-            if (showGrid)
+            // Avoid to call every frame, only if selected option is not the drawing one
+            if (showGrid && !DrawRadarScreen.is_showing_Grid)
                 DrawRadarScreen.DrawGrid();
-            else
+            else if (!showGrid && DrawRadarScreen.is_showing_Grid)
                 DrawRadarScreen.HideGrid();
 
-            if (showCircles)
-                DrawRadarScreen.DrawCircles();
-            else
-                DrawRadarScreen.HideCircles();
+            if (showRings && !DrawRadarScreen.is_showing_Rings)
+                DrawRadarScreen.DrawRings();
+            else if (!showRings && DrawRadarScreen.is_showing_Rings)
+                DrawRadarScreen.HideRings();
 
-            if (showSIDs)
+            if (showSIDs && !DrawRadarScreen.is_showing_SIDs)
                 DrawRadarScreen.DrawSIDs();
-            else
+            else if (!showSIDs && DrawRadarScreen.is_showing_SIDs)
                 DrawRadarScreen.HideSIDs();
 
-            if (showSTARs)
+            if (showSTARs && !DrawRadarScreen.is_showing_STARs)
                 DrawRadarScreen.DrawSTARs();
-            else
+            else if (!showSTARs && DrawRadarScreen.is_showing_STARs)
                 DrawRadarScreen.HideSTARs();
 
             zoom_selection = GUI.Toolbar(new Rect(Screen.width - 250f, 5f, 200f, 20f), zoom_selection, new string[] { "Far", "AUTO", "Near" });
@@ -132,7 +133,7 @@ public class DrawGUI : MonoBehaviour
             MngCamera.SetCameraSize(camera_size);
 
             /*
-            GUI.Label(new Rect(Screen.width * 0.5f - 40.0f, 5.0f, 80.0f, 20.0f), "Grid & Circles");
+            GUI.Label(new Rect(Screen.width * 0.5f - 40.0f, 5.0f, 80.0f, 20.0f), "Grid & Rings");
             float aux = distanceAssistantValue;
             distanceAssistantValue = GUI.HorizontalSlider(new Rect(Screen.width * 0.5f - 40.0f, 25.0f, 80.0f, 20.0f),
                         Mathf.Round(distanceAssistantValue), -1.0f, 1.0f);

@@ -94,6 +94,11 @@ public class DrawRadarScreen : MonoBehaviour
     private static uint twr_app_limit;
     private static uint app_ctr_limit;
 
+    public static bool is_showing_SIDs = false;
+    public static bool is_showing_STARs = false;
+    public static bool is_showing_Grid = false;
+    public static bool is_showing_Rings = false;
+
     public void Awake()
     {
         instance = this;
@@ -411,7 +416,7 @@ public class DrawRadarScreen : MonoBehaviour
         lineRenderer.SetPosition(1, MngScreen.RadarScreenPosRelToAirport(rwys[1].GetThrLon(), rwys[1].GetThrLat(), CreateObjects.airport.GetPosition().z / 100f));
     }
 
-    public static void DrawCircles()
+    public static void DrawRings()
     {
         // Check if GameObject exists (if it has been created before)
         GameObject go = GameObject.Find("Rings");
@@ -423,11 +428,11 @@ public class DrawRadarScreen : MonoBehaviour
             //		var deltaDistance = ringsSeparation * Measurement.GetNM_Degree().y * MngScreen.ratio.y;
             float deltaDistance = ringsSeparation * Measurement.GetNM_Degree().y * MngScreen.GetRatio().y / MngScreen.GetPixelRatio();
             float distance = deltaDistance;
-
+            /*
             Debug.Log("Measurement.nm2degree.x: " + Measurement.GetNM_Degree().y);
             Debug.Log("MngScreen.ratio.x: " + MngScreen.GetRatio().y);
             Debug.Log("distance: " + distance);
-
+            */
             float stopCondition = (Screen.width > Screen.height ? Screen.width / 2f : Screen.height / 2f);
 
             while ((deltaDistance > 0) && (distance < stopCondition))
@@ -440,9 +445,10 @@ public class DrawRadarScreen : MonoBehaviour
         {
             //		go.SetActive(true);
         }
+        is_showing_Rings = true;
     }
 
-    public static void HideCircles()
+    public static void HideRings()
     {
         GameObject go = GameObject.Find("Rings");
         if (go != null)
@@ -450,6 +456,7 @@ public class DrawRadarScreen : MonoBehaviour
             //		go.SetActive(false);
             Destroy(go);
         }
+        is_showing_Rings = false;
     }
 
     static void DrawCircle(float radius, ushort vertexCount)
@@ -602,6 +609,7 @@ public class DrawRadarScreen : MonoBehaviour
                 i++;
             }
         }
+        is_showing_SIDs = true;
     }
     public static void HideSIDs()
     {
@@ -611,6 +619,7 @@ public class DrawRadarScreen : MonoBehaviour
             //		go.SetActive(false);
             Destroy(go);
         }
+        is_showing_SIDs = false;
     }
 
     public static void DrawSTARs()
@@ -646,6 +655,7 @@ public class DrawRadarScreen : MonoBehaviour
                 i++;
             }
         }
+        is_showing_STARs = true;
     }
     public static void HideSTARs()
     {
@@ -655,6 +665,7 @@ public class DrawRadarScreen : MonoBehaviour
             //		go.SetActive(false);
             Destroy(go);
         }
+        is_showing_STARs = false;
     }
     public static void DrawGrid()
     {
@@ -688,6 +699,7 @@ public class DrawRadarScreen : MonoBehaviour
         {
             //		go.SetActive(true);
         }
+        is_showing_Grid = true;
     }
 
     public static void HideGrid()
@@ -698,6 +710,7 @@ public class DrawRadarScreen : MonoBehaviour
             //		go.SetActive(false);
             Destroy(go);
         }
+        is_showing_Grid = false;
     }
 
     static void DrawGridLine(float posDist, ushort border)

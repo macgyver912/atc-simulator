@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 4954
+  controlID: 5287
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -94,8 +94,8 @@ MonoBehaviour:
     m_VAllowExceedBaseRangeMin: 1
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
-    m_HSlider: 1
-    m_VSlider: 1
+    m_HSlider: 0
+    m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
     m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
@@ -108,18 +108,18 @@ MonoBehaviour:
       y: 21
       width: 1055
       height: 569
-    m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 527.5, y: 284.50003}
+    m_Scale: {x: 0.52685183, y: 0.52685183}
+    m_Translation: {x: 527.5, y: 284.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -527.5
-      y: -284.50003
-      width: 1055
-      height: 569
+      x: -1001.2303
+      y: -540
+      width: 2002.4606
+      height: 1080
     m_MinimalGUI: 1
   m_defaultScale: 0.52685183
   m_LastWindowPixelSize: {x: 1055, y: 590}
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 4925
+  controlID: 5258
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 4890
+  controlID: 5235
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
