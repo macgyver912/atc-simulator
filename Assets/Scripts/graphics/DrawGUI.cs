@@ -20,7 +20,8 @@ public class DrawGUI : MonoBehaviour
     //static string windowFPSDefaultText;
     static float windowFPSWidth;
     static Rect windowFPS;
-    string windowFPSTitle = "Flight Progress Strips";
+    //string windowFPSTitle = "Flight Progress Strips";
+    string windowFPSTitle = "Flight Strips";
     Vector2 fpsTitleSize;
     Vector2 stripSize;
     
@@ -76,7 +77,7 @@ public class DrawGUI : MonoBehaviour
             arrivals_titleSize = windowFPS_guistyle.GetStyle("Window").CalcSize(new GUIContent(arrivals_title));
             departures_titleSize = windowFPS_guistyle.GetStyle("Window").CalcSize(new GUIContent(departures_title));
 
-            arr_dep_panelHeight = (Screen.height - fpsTitleSize.y) / 2;
+            arr_dep_panelHeight = (Screen.height - fpsTitleSize.y) * 0.5f;
 
             stripSize = windowFPS_guistyle.GetStyle("Arrivals").CalcSize(new GUIContent("AAAXXXX AXXX\nFLXXX AAAAA"));
         }
@@ -134,40 +135,6 @@ public class DrawGUI : MonoBehaviour
             }
                  
             MngCamera.SetCameraSize(camera_size);
-
-            /*
-            GUI.Label(new Rect(Screen.width * 0.5f - 40.0f, 5.0f, 80.0f, 20.0f), "Grid & Rings");
-            float aux = distanceAssistantValue;
-            distanceAssistantValue = GUI.HorizontalSlider(new Rect(Screen.width * 0.5f - 40.0f, 25.0f, 80.0f, 20.0f),
-                        Mathf.Round(distanceAssistantValue), -1.0f, 1.0f);
-           
-            if (distanceAssistantValue != aux)
-            {
-
-                switch (distanceAssistantValue)
-                {
-                    case -1:
-                        existsDistGrid = false;
-                        existsDistRings = false;
-                        DrawRadarScreen.HideGrid();
-                        DrawRadarScreen.HideCircles();
-                        break;
-                    case 0:
-                        existsDistGrid = true;
-                        existsDistRings = false;
-                        DrawRadarScreen.DrawGrid();
-                        DrawRadarScreen.HideCircles();
-                        break;
-                    case 1:
-                        existsDistGrid = true;
-                        existsDistRings = true;
-                        //DrawRadarScreen.DrawGrid();
-                        DrawRadarScreen.DrawCircles();
-                        break;
-                }// switch
-            }// if
-            */
-
         }// if
     }// OnGUI
 
@@ -226,7 +193,7 @@ public class DrawGUI : MonoBehaviour
             }
 
             strip = acft.GetCallsignCode() + acft.GetFlightNumber() + " " + acft.GetAircraftModelCode() + "\n" +
-                                authFLStr + " " + acft.GetAuthoPoint();
+                                authFLStr + " " + acft.GetAuthoPoint().GetId();
             GUI.Label(new Rect(0f, stripSize.y * i, 100f, stripSize.y), strip, windowFPS_guistyle.GetStyle("Arrivals"));
             i++;
         }
@@ -261,7 +228,7 @@ public class DrawGUI : MonoBehaviour
             }
 
             strip = acft.GetCallsignCode() + acft.GetFlightNumber() + " " + acft.GetAircraftModelCode() + "\n" +
-                                authFLStr + " " + acft.GetAuthoPoint();
+                                authFLStr + " " + acft.GetAuthoPoint().GetId();
             GUI.Label(new Rect(0f, stripSize.y * i, 100f, stripSize.y), strip, windowFPS_guistyle.GetStyle("Departures"));
             i++;
         }

@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\graphics\ATCPopupCtrl.cs" />
     <Compile Include="Assets\Scripts\aircrafts\Aircraft.cs" />
     <Compile Include="Assets\Scripts\graphics\DrawATCPopup.cs" />
+    <Compile Include="Assets\Unity.VisualScripting.Generated\VisualScripting.Core\AotStubs.cs" />
     <Compile Include="Assets\Scripts\aircrafts\AircraftCtrl.cs" />
     <Compile Include="Assets\Scripts\graphics\MngScreen.cs" />
     <Compile Include="Assets\Scripts\utils\TextUtils.cs" />
