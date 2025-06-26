@@ -113,17 +113,20 @@ public class DrawGUI : MonoBehaviour
             else if (!showSTARs && DrawRadarScreen.is_showing_STARs)
                 DrawRadarScreen.HideSTARs();
 
-            zoom_selection = GUI.Toolbar(new Rect(Screen.width - 250f, 5f, 200f, 20f), zoom_selection, new string[] { "Far", "AUTO", "Near" });
+            zoom_selection = GUI.Toolbar(new Rect(Screen.width - 300f, 5f, 250f, 20f), zoom_selection, new string[] { "Far", "AUTO", "Near", "Nearest" });
             switch (zoom_selection)
             {
                 case 0:
-                    camera_size = 125;
+                    camera_size = 120;
                     break;
                 case 1:
                     camera_size = 100;
                     break;
                 case 2:
-                    camera_size = 75;
+                    camera_size = 80;
+                    break;
+                case 3:
+                    camera_size = 60;
                     break;
                 default:
                     camera_size = 100;
