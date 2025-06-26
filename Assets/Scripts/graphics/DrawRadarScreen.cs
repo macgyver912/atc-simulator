@@ -581,7 +581,8 @@ public class DrawRadarScreen : MonoBehaviour
         foreach (SID sid_procedure in CreateObjects.sidList)
         {
 
-            GameObject newGO = new GameObject(sid_procedure.GetName() + "_line");
+            //GameObject newGO = new GameObject(sid_procedure.GetName() + "_line");
+            GameObject newGO = new GameObject(sid_procedure.GetName());
             newGO.transform.parent = GameObject.Find("SIDs").gameObject.transform;
 
             LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
@@ -629,7 +630,8 @@ public class DrawRadarScreen : MonoBehaviour
         foreach (STAR star_procedure in CreateObjects.starList)
         {
 
-            GameObject newGO = new GameObject(star_procedure.GetName() + "_line");
+            //GameObject newGO = new GameObject(star_procedure.GetName() + "_line");
+            GameObject newGO = new GameObject(star_procedure.GetName());
             newGO.transform.parent = GameObject.Find("STARs").gameObject.transform;
 
             LineRenderer lineRenderer = newGO.AddComponent<LineRenderer>() as LineRenderer;
