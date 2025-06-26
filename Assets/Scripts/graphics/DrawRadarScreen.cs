@@ -276,8 +276,8 @@ public class DrawRadarScreen : MonoBehaviour
         rwyWidth = 1.5f * MngScreen.GetPixelRatio();
         //Debug.Log("rwyWidth: " + rwyWidth);
         DrawAirport();
-        DrawSIDs();
-        DrawSTARs();
+        //DrawSIDs();
+        //DrawSTARs();
         showGUI = true;
         instance.InvokeRepeating("UpdateRadarScreen", 0, Config.radarPeriod);
     }
@@ -597,10 +597,19 @@ public class DrawRadarScreen : MonoBehaviour
             foreach (Navaid navaid in sid_procedure.GetNavaids())
             {
                 //Debug.Log(i);
-                Debug.Log(navaid.id);
+                //Debug.Log(navaid.id);
                 lineRenderer.SetPosition(i, navaid.position);
                 i++;
             }
+        }
+    }
+    public static void HideSIDs()
+    {
+        GameObject go = GameObject.Find("SIDs");
+        if (go != null)
+        {
+            //		go.SetActive(false);
+            Destroy(go);
         }
     }
 
@@ -638,7 +647,15 @@ public class DrawRadarScreen : MonoBehaviour
             }
         }
     }
-
+    public static void HideSTARs()
+    {
+        GameObject go = GameObject.Find("STARs");
+        if (go != null)
+        {
+            //		go.SetActive(false);
+            Destroy(go);
+        }
+    }
     public static void DrawGrid()
     {
         // Check if GameObject exists (if it has been created before)

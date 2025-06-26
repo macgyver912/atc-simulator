@@ -5,6 +5,11 @@ using UnityEngine;
 public class DrawGUI : MonoBehaviour
 {
     private static bool showGUI = false;
+    private static bool showSIDs = true;
+    private static bool showSTARs = true;
+    private static bool showGrid = false;
+    private static bool showCircles = true;
+
     private static bool initGUI;
 
     private static int id;
@@ -29,10 +34,11 @@ public class DrawGUI : MonoBehaviour
     string departures_title = "Departures";
     float arr_dep_panelHeight;
 
-
+    /*
     float distanceAssistantValue = -1.0f;
     bool existsDistRings = false;
     bool existsDistGrid = false;
+    */
 
     List<Aircraft> arrivalAcfts;
     List<Aircraft> departureAcfts;
@@ -78,14 +84,41 @@ public class DrawGUI : MonoBehaviour
             // Register the window. Notice the 3rd parameter 
             windowFPS = GUI.Window(id, windowFPS, DoWindowFPS, windowFPSTitle, windowFPS_guistyle.GetStyle("Window"));
 
-            //		if(GUI.Button(Rect(Screen.width/2, 5, 50, 20), "Circles")){
-            //			DrawRadarScreen.DrawCircles();
-            //		}
+            showGrid    = GUI.Toggle(new Rect(Screen.width * 0.5f - 150f, 05f, 100f, 20f), showGrid, "Grid");
+            showCircles = GUI.Toggle(new Rect(Screen.width * 0.5f - 150f, 25f, 100f, 20f), showCircles, "Circles");
 
+            showSIDs    = GUI.Toggle(new Rect(Screen.width * 0.5f + 50f, 05f, 100f, 20f), showSIDs, "SID");
+            showSTARs   = GUI.Toggle(new Rect(Screen.width * 0.5f + 50f, 25f, 100f, 20f), showSTARs, "STAR");
+
+
+            if (showGrid)
+                DrawRadarScreen.DrawGrid();
+            else
+                DrawRadarScreen.HideGrid();
+
+            if (showCircles)
+                DrawRadarScreen.DrawCircles();
+            else
+                DrawRadarScreen.HideCircles();
+
+            if (showSIDs)
+                DrawRadarScreen.DrawSIDs();
+            else
+                DrawRadarScreen.HideSIDs();
+
+            if (showSTARs)
+                DrawRadarScreen.DrawSTARs();
+            else
+                DrawRadarScreen.HideSTARs();
+
+
+
+            /*
+            GUI.Label(new Rect(Screen.width * 0.5f - 40.0f, 5.0f, 80.0f, 20.0f), "Grid & Circles");
             float aux = distanceAssistantValue;
-            distanceAssistantValue = GUI.HorizontalSlider(new Rect(Screen.width / 2.0f, 5.0f, 30.0f, 10.0f),
+            distanceAssistantValue = GUI.HorizontalSlider(new Rect(Screen.width * 0.5f - 40.0f, 25.0f, 80.0f, 20.0f),
                         Mathf.Round(distanceAssistantValue), -1.0f, 1.0f);
-
+           
             if (distanceAssistantValue != aux)
             {
 
@@ -111,6 +144,7 @@ public class DrawGUI : MonoBehaviour
                         break;
                 }// switch
             }// if
+            */
 
         }// if
     }// OnGUI
