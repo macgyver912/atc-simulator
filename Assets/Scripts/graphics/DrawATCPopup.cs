@@ -50,6 +50,7 @@ public class DrawATCPopup : MonoBehaviour
     static Vector2 submenuSelButtonSize;
     static Vector2 submenuAcceptButtonSize;
     static Vector2 submenuNavaidButtonSize;
+    static Vector2 submenuProcedureButtonSize;
     static Rect submenuRect;
 
     static Vector2 numberShortcutSize;
@@ -88,6 +89,8 @@ public class DrawATCPopup : MonoBehaviour
 
     Vector2 vorScrollViewValue = new Vector2(0f, 0f);
     Vector2 fixScrollViewValue = new Vector2(0f, 0f);
+    Vector2 sidScrollViewValue = new Vector2(0f, 0f);
+    Vector2 starScrollViewValue = new Vector2(0f, 0f);
 
     int submenuHeadingToolbarInt = 1;
     Texture[] submenuHeadingToolbarTextures;
@@ -1264,9 +1267,8 @@ public class DrawATCPopup : MonoBehaviour
         /* Fly-to submenu
 	     * List of available navaids
 	     */
-        // Show "Speed" text left to inputs			
-        GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
-        textStyle.alignment = TextAnchor.MiddleCenter;
+        //GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
+        //textStyle.alignment = TextAnchor.MiddleCenter;
         //GUI.Label(new Rect(popupOffset, popupOffset, submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), "VOR", textStyle);
         //GUI.Label(new Rect(popupOffset + submenuNavaidButtonSize.x, popupOffset, submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), "FIX", textStyle);
 
@@ -1313,11 +1315,61 @@ public class DrawATCPopup : MonoBehaviour
 
     }// DoFlyToPopup
 
+
     // Make the contents of the window
     void DoProceduresPopup(int windowID)
     {
-        // TODO
-        Debug.Log("DoProceduresPopup");
+        //Debug.Log("DoProceduresPopup");
+
+        /* Standard Procedures submenu
+	     * List of available SIDs, STARs
+	     */
+        //GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
+        //textStyle.alignment = TextAnchor.MiddleCenter;
+        //GUI.Label(new Rect(popupOffset, popupOffset, submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), "SID", textStyle);
+        //GUI.Label(new Rect(popupOffset + submenuNavaidButtonSize.x, popupOffset, submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), "STAR", textStyle);
+
+        GUI.BeginGroup(new Rect(popupOffset, popupOffset, submenuSize.x, submenuSize.y));
+        sidScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuNavaidButtonSize.x, submenuSize.y),
+            sidScrollViewValue,
+            new Rect(0, 0, submenuNavaidButtonSize.x, CreateObjects.sidList.Count * submenuNavaidButtonSize.y),
+            GUIStyle.none, GUIStyle.none);
+
+
+        uint i = 0;
+        foreach (SID sid_procedure in CreateObjects.sidList)
+        {
+
+            // List of SID buttons
+            if (GUI.Button(new Rect(popupOffset, popupOffset + submenuNavaidButtonSize.y * i,
+                        submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), sid_procedure.GetName(), submenuNavaidButtonStyle))
+            {
+                //acftCtrl.FlyTo(sid_item as Navaid);
+                showProceduresPopup = false;
+            }
+            i++;
+        }//foreach SID
+        GUI.EndScrollView();
+
+        starScrollViewValue = GUI.BeginScrollView(new Rect(submenuNavaidButtonSize.x, 0, submenuNavaidButtonSize.x, submenuSize.y),
+            starScrollViewValue,
+            new Rect(submenuNavaidButtonSize.x, 0, submenuNavaidButtonSize.x, CreateObjects.starList.Count * submenuNavaidButtonSize.y),
+            GUIStyle.none, GUIStyle.none);
+        i = 0;
+        foreach (STAR star_procedure in CreateObjects.starList)
+        {
+            // List of STAR buttons
+            if (GUI.Button(new Rect(popupOffset + submenuNavaidButtonSize.x, popupOffset + submenuNavaidButtonSize.y * i,
+                        submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), star_procedure.GetName(), submenuNavaidButtonStyle))
+            {
+                //acftCtrl.FlyTo(fix_item as Navaid);
+                showFlyToPopup = false;
+            }
+            i++;
+        }//foreach STAR
+        GUI.EndScrollView();
+        GUI.EndGroup();
+
     }// DoProceduresPopup
 
 
@@ -1423,7 +1475,9 @@ public class DrawATCPopup : MonoBehaviour
             submenuInputBoxSize = submenuInputBoxStyle.CalcSize(new GUIContent("N"));
             submenuSelButtonSize = new Vector2(submenuInputBoxSize.x, submenuInputBoxSize.y / 1.5f);
             submenuAcceptButtonSize = submenuAcceptButtonStyle.CalcSize(new GUIContent(acceptText));
-            submenuNavaidButtonSize = submenuNavaidButtonStyle.CalcSize(new GUIContent("XXXXX"));
+            submenuNavaidButtonSize = submenuNavaidButtonStyle.CalcSize(new GUIContent(" XXXXX "));
+            submenuProcedureButtonSize = submenuNavaidButtonStyle.CalcSize(new GUIContent(" XXXXXXX "));
+
 
             /* General submenu appeareance
 		     * _________________
