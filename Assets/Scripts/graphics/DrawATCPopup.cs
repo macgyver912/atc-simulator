@@ -29,6 +29,8 @@ public class DrawATCPopup : MonoBehaviour
     static bool showHeadingPopup = false;
     static bool showAltitudePopup = false;
     static bool showSpeedPopup = false;
+    static bool showFlyToPopup = false;
+    static bool showProceduresPopup = false;
 
     public static Vector2 ctrlPopupSize;
     public static Rect ctrlPopupRect;
@@ -154,10 +156,9 @@ public class DrawATCPopup : MonoBehaviour
         ctrlTexts.Add("Heading");
         ctrlTexts.Add("Altitude");
         ctrlTexts.Add("Speed");
-        ctrlTexts.Add("Climb");
-        ctrlTexts.Add("Descend");
-        ctrlTexts.Add("Increase Speed");
-        ctrlTexts.Add("Reduce Speed");
+        ctrlTexts.Add("Fly to");
+        ctrlTexts.Add("SID/STAR");
+        ctrlTexts.Add("Handoff");
     }
 
     // #################
@@ -173,31 +174,22 @@ public class DrawATCPopup : MonoBehaviour
         switch (index)
         {
             case 0:
-                // Do something
-                //			acftCtrl.Turn(045);
-                //			acftCtrl.TurnRight(090);
                 ShowHeadingPopup(Input.mousePosition);
                 break;
             case 1:
-                // Do something
                 ShowAltitudePopup(Input.mousePosition);
                 break;
             case 2:
-                // Do something
                 ShowSpeedPopup(Input.mousePosition);
-                //			acftCtrl.TurnLeft(270);
                 break;
             case 3:
-                acftCtrl.ChangeLevel(12000, false);
+                ShowFlyToPopup(Input.mousePosition);
                 break;
             case 4:
-                acftCtrl.ChangeLevel(3000, true);
+                ShowProceduresPopup(Input.mousePosition);
                 break;
             case 5:
-                acftCtrl.ChangeSpeed(280, true);
-                break;
-            case 6:
-                AcceptPressed_Point();
+                Handoff();
                 break;
             default:
                 showCtrlGUI = false;
@@ -208,7 +200,47 @@ public class DrawATCPopup : MonoBehaviour
 
     }
 
+    void Handoff()
+    {
+        Debug.Log("Requested to handoff to " + acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber());
+        // Change status condition of the aircraft from tranferred to be under your control
+        // if is Outgoing traffic
+        if (acftCtrl.GetAircraft().GetFlightStatus() == Aircraft.FlightStatus.Departure)
+            acftCtrl.GetAircraft().SetFlightStatus(Aircraft.FlightStatus.Outgoing);
+        // if is Incoming traffic						
+        else
+            acftCtrl.GetAircraft().SetFlightStatus(Aircraft.FlightStatus.Incoming);
+    }
+
     // Make the contents of the window
+    void DoCtrlPopup(int windowID)
+    {
+        ushort j = 0;   // reset the internal counter
+
+        for (ushort i = 0; i < ctrlTexts.Count; i++)
+        {
+
+            if (GUI.Button(new Rect(popupOffset, popupOffset + ctrlButtonSize.y * i,
+                ctrlButtonSize.x, ctrlButtonSize.y), ctrlTexts[i], buttonStyle))
+            {
+
+                MngCtrlPressedButton(i);
+            }
+
+            GUI.Label(new Rect(ctrlPopupSize.x - popupOffset - numberShortcutSize.x, popupOffset + ctrlButtonSize.y * j,
+                    numberShortcutSize.x, ctrlButtonSize.y), (i + 1).ToString(), numberShortcutStyle);
+
+            j++;    // increments the internal counter
+
+            // Refresh window size
+            ctrlPopupRect.height = ctrlButtonSize.y * j + 2 * popupOffset;
+
+        }//for
+
+    }//DoCtrlPopup
+
+    // Make the contents of the window
+    /*
     void DoCtrlPopup(int windowID)
     {
         //	ushort e = Event.current;
@@ -322,6 +354,7 @@ public class DrawATCPopup : MonoBehaviour
 
         }//if-else
     }
+    */
 
     // Make the contents of the window for aircraft with 'incoming' status
     void DoNoCtrlPopup(int windowID)
@@ -337,9 +370,14 @@ public class DrawATCPopup : MonoBehaviour
                 {
                     case 0:
                         Debug.Log("Traffic " + acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber() + " is accepted under your control");
-                        
-                        // Change status condition of the aircraft from no controlled to be under your control
-                        acftCtrl.GetAircraft().SetFlightStatus(Aircraft.FlightStatus.Arrival);
+
+                        // Change status condition of the aircraft incoming or outgoing to be under your control
+                        // if is Outgoing traffic
+                        if (acftCtrl.GetAircraft().GetFlightStatus() == Aircraft.FlightStatus.Outgoing)
+                            acftCtrl.GetAircraft().SetFlightStatus(Aircraft.FlightStatus.Departure);
+                        // if is Incoming traffic						
+                        else
+                            acftCtrl.GetAircraft().SetFlightStatus(Aircraft.FlightStatus.Arrival);
                         break;
                     default:
                         showNoCtrlGUI = false;
@@ -374,7 +412,7 @@ public class DrawATCPopup : MonoBehaviour
 
                         // Change status condition of the aircraft from tranferred to be under your control
                         // if is Outgoing traffic
-                        if (acftCtrl.GetAircraft().GetFlightStatus() == Aircraft.FlightStatus.Transferred)
+                        if (acftCtrl.GetAircraft().GetFlightStatus() == Aircraft.FlightStatus.Outgoing)
                             acftCtrl.GetAircraft().SetFlightStatus(Aircraft.FlightStatus.Departure);
                         // if is Incoming traffic						
                         else
@@ -438,6 +476,26 @@ public class DrawATCPopup : MonoBehaviour
         PrepareSubmenuPopup(mousePos);
 
         DrawATCPopup.showSpeedPopup = true;
+
+        // Prepares to show the window
+        setupSubmenu = true;
+    }
+
+    void ShowFlyToPopup(Vector3 mousePos)
+    {
+        PrepareSubmenuPopup(mousePos);
+
+        DrawATCPopup.showFlyToPopup = true;
+
+        // Prepares to show the window
+        setupSubmenu = true;
+    }
+
+    void ShowProceduresPopup(Vector3 mousePos)
+    {
+        PrepareSubmenuPopup(mousePos);
+
+        DrawATCPopup.showProceduresPopup = true;
 
         // Prepares to show the window
         setupSubmenu = true;
@@ -1187,7 +1245,23 @@ public class DrawATCPopup : MonoBehaviour
         }
 
     }
-    
+
+
+    // Make the contents of the window
+    void DoFlyToPopup(int windowID)
+    {
+        // TODO
+        Debug.Log("DoFlyToPopup");
+    }// DoFlyToPopup
+
+    // Make the contents of the window
+    void DoProceduresPopup(int windowID)
+    {
+        // TODO
+        Debug.Log("DoProceduresPopup");
+    }// DoProceduresPopup
+
+
 
 
 
@@ -1396,6 +1470,26 @@ public class DrawATCPopup : MonoBehaviour
                 if (e.type == EventType.MouseDown && !submenuRect.Contains(e.mousePosition))
                 {
                     showSpeedPopup = false;
+                }//if
+            }
+            else if (showFlyToPopup)
+            {
+                submenuRect = GUI.Window(speedPopupId, submenuRect, DoFlyToPopup, "", popupStyle);
+
+                // If user clicks away from GUI, hide it
+                if (e.type == EventType.MouseDown && !submenuRect.Contains(e.mousePosition))
+                {
+                    showFlyToPopup = false;
+                }//if
+            }
+            else if (showProceduresPopup)
+            {
+                submenuRect = GUI.Window(speedPopupId, submenuRect, DoProceduresPopup, "", popupStyle);
+
+                // If user clicks away from GUI, hide it
+                if (e.type == EventType.MouseDown && !submenuRect.Contains(e.mousePosition))
+                {
+                    showProceduresPopup = false;
                 }//if
             }
             else

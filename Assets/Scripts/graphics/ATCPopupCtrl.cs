@@ -34,9 +34,8 @@ public class ATCPopupCtrl : MonoBehaviour
                         -mousePos.y + Screen.height - DrawATCPopup.ctrlPopupRect.height : -mousePos.y + Screen.height);
 
                 DrawATCPopup.showCtrlGUI = true;
-
-                // if aircraft is not controlled by player and is incoming traffic	
             }
+            // if aircraft is not controlled by player and is incoming traffic
             else if (controller.GetAircraft().GetFlightStatus() == Aircraft.FlightStatus.Incoming)
             {
                 // do popup rect where mouse is
@@ -49,9 +48,8 @@ public class ATCPopupCtrl : MonoBehaviour
                         -mousePos.y + Screen.height - DrawATCPopup.noCtrlPopupRect.height : -mousePos.y + Screen.height);
 
                 DrawATCPopup.showNoCtrlGUI = true;
-
-                // if aircraft is not controlled by player and is outgoing traffic	
             }
+            // if aircraft is not controlled by player and is outgoing traffic
             else
             {
                 // do popup rect where mouse is

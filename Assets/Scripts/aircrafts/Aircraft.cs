@@ -29,10 +29,11 @@ public class Aircraft /*: ScriptableObject*/
 
 	public enum FlightStatus
 	{
-		Incoming,           // Incoming traffic before contact it
-		Arrival,            // Incoming traffic with player
-		Departure,          // Outgoing traffic with player
-		Transferred         // Outgoing traffic handled off by player	
+		Incoming,			// Incoming traffic before contact it as arrival
+        Outgoing,			// Outgoing traffic before contact it as departure
+        Arrival,            // Incoming traffic with player
+		Departure          // Outgoing traffic with player
+		//Transferred         // Outgoing traffic handled off by player	
 	};
 
 	// Turn rates

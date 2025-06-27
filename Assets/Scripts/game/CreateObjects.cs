@@ -515,7 +515,7 @@ public class CreateObjects : MonoBehaviour
             7000,
             200,
             GetVOR("TLD") as Navaid,
-            Aircraft.FlightStatus.Departure
+            Aircraft.FlightStatus.Incoming
         ));
         /*
         aircraftList.Add(new Aircraft(
