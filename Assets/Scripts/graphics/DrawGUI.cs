@@ -87,8 +87,9 @@ public class DrawGUI : MonoBehaviour
             // Register the window. Notice the 3rd parameter 
             windowFPS = GUI.Window(id, windowFPS, DoWindowFPS, windowFPSTitle, windowFPS_guistyle.GetStyle("Window"));
 
+            // Control of draw for Grid, Rings, SIDs and STARs
             showGrid    = GUI.Toggle(new Rect(Screen.width * 0.5f - 150f, 05f, 100f, 20f), showGrid, "Grid");
-            showRings = GUI.Toggle(new Rect(Screen.width * 0.5f - 150f, 25f, 100f, 20f), showRings, "Rings");
+            showRings   = GUI.Toggle(new Rect(Screen.width * 0.5f - 150f, 25f, 100f, 20f), showRings, "Rings");
 
             showSIDs    = GUI.Toggle(new Rect(Screen.width * 0.5f + 50f, 05f, 100f, 20f), showSIDs, "SID");
             showSTARs   = GUI.Toggle(new Rect(Screen.width * 0.5f + 50f, 25f, 100f, 20f), showSTARs, "STAR");
@@ -114,7 +115,8 @@ public class DrawGUI : MonoBehaviour
             else if (!showSTARs && DrawRadarScreen.is_showing_STARs)
                 DrawRadarScreen.HideSTARs();
 
-            zoom_selection = GUI.Toolbar(new Rect(Screen.width - 300f, 5f, 250f, 20f), zoom_selection, new string[] { "Far", "AUTO", "Near", "Nearest" });
+            // Zoom controls
+            zoom_selection = GUI.Toolbar(new Rect(Screen.width * 0.75f -125, 5f, 250f, 20f), zoom_selection, new string[] { "Far", "AUTO", "Near", "Nearest" });
             switch (zoom_selection)
             {
                 case 0:
@@ -133,8 +135,17 @@ public class DrawGUI : MonoBehaviour
                     camera_size = 100;
                     break;
             }
-                 
             MngCamera.SetCameraSize(camera_size);
+
+            // Close button
+            if (GUI.Button(new Rect(Screen.width - 100f, 5f, 50f, 20f), new GUIContent("Close", "Ctrl + Q")) ||
+                ((Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftControl)) && Input.GetKey(KeyCode.Q)))
+            {
+                Debug.Log("Application.Quit()");
+                Application.Quit();
+            }
+            // Tooltip for close button
+            GUI.Label(new Rect(Screen.width - 100f, 25f, 50f, 20f), GUI.tooltip);
         }// if
     }// OnGUI
 
