@@ -1269,13 +1269,13 @@ public class DrawATCPopup : MonoBehaviour
 	     */
         //GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
         //textStyle.alignment = TextAnchor.MiddleCenter;
-        //GUI.Label(new Rect(popupOffset, popupOffset, submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), "VOR", textStyle);
-        //GUI.Label(new Rect(popupOffset + submenuNavaidButtonSize.x, popupOffset, submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), "FIX", textStyle);
+        //GUI.Label(new Rect(popupOffset, popupOffset, submenuSize.x * 0.5f, submenuNavaidButtonSize.y), "VOR", textStyle);
+        //GUI.Label(new Rect(popupOffset + submenuSize.x * 0.5f, popupOffset, submenuSize.x * 0.5f, submenuNavaidButtonSize.y), "FIX", textStyle);
 
         GUI.BeginGroup(new Rect(popupOffset, popupOffset, submenuSize.x, submenuSize.y));
-        vorScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuNavaidButtonSize.x, submenuSize.y), 
+        vorScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y), 
             vorScrollViewValue, 
-            new Rect(0, 0, submenuNavaidButtonSize.x, CreateObjects.vorList.Count * submenuNavaidButtonSize.y),
+            new Rect(0, 0, submenuSize.x * 0.5f, CreateObjects.vorList.Count * submenuNavaidButtonSize.y),
             GUIStyle.none, GUIStyle.none);
 
 
@@ -1284,8 +1284,8 @@ public class DrawATCPopup : MonoBehaviour
         {
 
             // List of VOR buttons
-            if (GUI.Button(new Rect(popupOffset, popupOffset + submenuNavaidButtonSize.y * i,
-                        submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), vor_item.id, submenuNavaidButtonStyle))
+            if (GUI.Button(new Rect(0, submenuNavaidButtonSize.y * i,
+                        submenuSize.x * 0.5f, submenuNavaidButtonSize.y), vor_item.id, submenuNavaidButtonStyle))
             {
                 acftCtrl.FlyTo(vor_item as Navaid);
                 showFlyToPopup = false;
@@ -1294,16 +1294,16 @@ public class DrawATCPopup : MonoBehaviour
         }//foreach VOR
         GUI.EndScrollView();
 
-        fixScrollViewValue = GUI.BeginScrollView(new Rect(submenuNavaidButtonSize.x, 0, submenuNavaidButtonSize.x, submenuSize.y),
+        fixScrollViewValue = GUI.BeginScrollView(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y),
             fixScrollViewValue,
-            new Rect(submenuNavaidButtonSize.x, 0, submenuNavaidButtonSize.x, CreateObjects.fixList.Count * submenuNavaidButtonSize.y),
+            new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, CreateObjects.fixList.Count * submenuNavaidButtonSize.y),
             GUIStyle.none, GUIStyle.none);
         i = 0;
         foreach (FIX fix_item in CreateObjects.fixList.Values)
         {
             // List of FIX buttons
-            if (GUI.Button(new Rect(popupOffset + submenuNavaidButtonSize.x, popupOffset + submenuNavaidButtonSize.y * i,
-                        submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), fix_item.id, submenuNavaidButtonStyle))
+            if (GUI.Button(new Rect(submenuSize.x * 0.5f, submenuNavaidButtonSize.y * i,
+                        submenuSize.x * 0.5f, submenuNavaidButtonSize.y), fix_item.id, submenuNavaidButtonStyle))
             {
                 acftCtrl.FlyTo(fix_item as Navaid);
                 showFlyToPopup = false;
@@ -1326,13 +1326,13 @@ public class DrawATCPopup : MonoBehaviour
 	     */
         //GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
         //textStyle.alignment = TextAnchor.MiddleCenter;
-        //GUI.Label(new Rect(popupOffset, popupOffset, submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), "SID", textStyle);
-        //GUI.Label(new Rect(popupOffset + submenuNavaidButtonSize.x, popupOffset, submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), "STAR", textStyle);
+        //GUI.Label(new Rect(popupOffset, popupOffset, submenuSize.x * 0.5f, submenuNavaidButtonSize.y), "SID", textStyle);
+        //GUI.Label(new Rect(popupOffset + submenuSize.x * 0.5f, popupOffset, submenuSize.x * 0.5f, submenuNavaidButtonSize.y), "STAR", textStyle);
 
         GUI.BeginGroup(new Rect(popupOffset, popupOffset, submenuSize.x, submenuSize.y));
-        sidScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuNavaidButtonSize.x, submenuSize.y),
+        sidScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y),
             sidScrollViewValue,
-            new Rect(0, 0, submenuNavaidButtonSize.x, CreateObjects.sidList.Count * submenuNavaidButtonSize.y),
+            new Rect(0, 0, submenuSize.x * 0.5f, CreateObjects.sidList.Count * submenuNavaidButtonSize.y),
             GUIStyle.none, GUIStyle.none);
 
 
@@ -1341,8 +1341,8 @@ public class DrawATCPopup : MonoBehaviour
         {
 
             // List of SID buttons
-            if (GUI.Button(new Rect(popupOffset, popupOffset + submenuNavaidButtonSize.y * i,
-                        submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), sid_procedure.GetName(), submenuNavaidButtonStyle))
+            if (GUI.Button(new Rect(0, 0 + submenuNavaidButtonSize.y * i,
+                        submenuSize.x * 0.5f, submenuNavaidButtonSize.y), sid_procedure.GetName(), submenuNavaidButtonStyle))
             {
                 //acftCtrl.FlyTo(sid_item as Navaid);
                 showProceduresPopup = false;
@@ -1351,16 +1351,16 @@ public class DrawATCPopup : MonoBehaviour
         }//foreach SID
         GUI.EndScrollView();
 
-        starScrollViewValue = GUI.BeginScrollView(new Rect(submenuNavaidButtonSize.x, 0, submenuNavaidButtonSize.x, submenuSize.y),
+        starScrollViewValue = GUI.BeginScrollView(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y),
             starScrollViewValue,
-            new Rect(submenuNavaidButtonSize.x, 0, submenuNavaidButtonSize.x, CreateObjects.starList.Count * submenuNavaidButtonSize.y),
+            new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, CreateObjects.starList.Count * submenuNavaidButtonSize.y),
             GUIStyle.none, GUIStyle.none);
         i = 0;
         foreach (STAR star_procedure in CreateObjects.starList)
         {
             // List of STAR buttons
-            if (GUI.Button(new Rect(popupOffset + submenuNavaidButtonSize.x, popupOffset + submenuNavaidButtonSize.y * i,
-                        submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), star_procedure.GetName(), submenuNavaidButtonStyle))
+            if (GUI.Button(new Rect(submenuSize.x * 0.5f, submenuNavaidButtonSize.y * i,
+                        submenuSize.x * 0.5f, submenuNavaidButtonSize.y), star_procedure.GetName(), submenuNavaidButtonStyle))
             {
                 //acftCtrl.FlyTo(fix_item as Navaid);
                 showFlyToPopup = false;
