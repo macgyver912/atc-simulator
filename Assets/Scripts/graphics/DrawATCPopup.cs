@@ -161,9 +161,11 @@ public class DrawATCPopup : MonoBehaviour
     {
         acceptText = "Accept";
 
-        noCtrlTexts.Add("Accept");
+        //noCtrlTexts.Add("Accept");
+        noCtrlTexts.Add("Request contact");
 
-        transCtrlTexts.Add("Req. come back with you");
+        //transCtrlTexts.Add("Req. come back with you");
+        transCtrlTexts.Add("Request contact");
 
         ctrlTexts.Add("Heading");
         ctrlTexts.Add("Altitude");
@@ -1324,50 +1326,60 @@ public class DrawATCPopup : MonoBehaviour
         /* Standard Procedures submenu
 	     * List of available SIDs, STARs
 	     */
-        //GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
-        //textStyle.alignment = TextAnchor.MiddleCenter;
-        //GUI.Label(new Rect(popupOffset, popupOffset, submenuSize.x * 0.5f, submenuNavaidButtonSize.y), "SID", textStyle);
-        //GUI.Label(new Rect(popupOffset + submenuSize.x * 0.5f, popupOffset, submenuSize.x * 0.5f, submenuNavaidButtonSize.y), "STAR", textStyle);
-
-        GUI.BeginGroup(new Rect(popupOffset, popupOffset, submenuSize.x, submenuSize.y));
-        sidScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y),
-            sidScrollViewValue,
-            new Rect(0, 0, submenuSize.x * 0.5f, CreateObjects.sidList.Count * submenuNavaidButtonSize.y),
-            GUIStyle.none, GUIStyle.none);
-
+        GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
+        textStyle.alignment = TextAnchor.MiddleCenter;
 
         uint i = 0;
-        foreach (SID sid_procedure in CreateObjects.sidList)
-        {
+        GUI.BeginGroup(new Rect(popupOffset, popupOffset, submenuSize.x, submenuSize.y));
 
-            // List of SID buttons
-            if (GUI.Button(new Rect(0, 0 + submenuNavaidButtonSize.y * i,
-                        submenuSize.x * 0.5f, submenuNavaidButtonSize.y), sid_procedure.GetName(), submenuNavaidButtonStyle))
-            {
-                //acftCtrl.FlyTo(sid_item as Navaid);
-                showProceduresPopup = false;
-            }
-            i++;
-        }//foreach SID
-        GUI.EndScrollView();
-
-        starScrollViewValue = GUI.BeginScrollView(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y),
-            starScrollViewValue,
-            new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, CreateObjects.starList.Count * submenuNavaidButtonSize.y),
-            GUIStyle.none, GUIStyle.none);
-        i = 0;
-        foreach (STAR star_procedure in CreateObjects.starList)
+        // For departure flights
+        if (acftCtrl.GetAircraft().GetFlightStatus() == Aircraft.FlightStatus.Departure)
         {
-            // List of STAR buttons
-            if (GUI.Button(new Rect(submenuSize.x * 0.5f, submenuNavaidButtonSize.y * i,
-                        submenuSize.x * 0.5f, submenuNavaidButtonSize.y), star_procedure.GetName(), submenuNavaidButtonStyle))
+            GUI.Label(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y), "SID", textStyle);
+
+            sidScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y),
+                sidScrollViewValue,
+                new Rect(0, 0, submenuSize.x * 0.5f, CreateObjects.sidList.Count * submenuNavaidButtonSize.y),
+                GUIStyle.none, GUIStyle.none);
+
+            i = 0;
+            foreach (SID sid_procedure in CreateObjects.sidList)
             {
-                //acftCtrl.FlyTo(fix_item as Navaid);
-                showFlyToPopup = false;
-            }
-            i++;
-        }//foreach STAR
-        GUI.EndScrollView();
+                // List of SID buttons
+                if (GUI.Button(new Rect(0, 0 + submenuNavaidButtonSize.y * i,
+                            submenuSize.x * 0.5f, submenuNavaidButtonSize.y), sid_procedure.GetName(), submenuNavaidButtonStyle))
+                {
+                    //acftCtrl.FlyTo(sid_item as Navaid);
+                    showProceduresPopup = false;
+                }
+                i++;
+            }//foreach SID
+            GUI.EndScrollView();
+        }
+        else
+        {   // For arrival flights
+            GUI.Label(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y), "STAR", textStyle);
+
+            starScrollViewValue = GUI.BeginScrollView(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y),
+                starScrollViewValue,
+                new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, CreateObjects.starList.Count * submenuNavaidButtonSize.y),
+                GUIStyle.none, GUIStyle.none);
+
+            i = 0;
+            foreach (STAR star_procedure in CreateObjects.starList)
+            {
+                // List of STAR buttons
+                if (GUI.Button(new Rect(submenuSize.x * 0.5f, submenuNavaidButtonSize.y * i,
+                            submenuSize.x * 0.5f, submenuNavaidButtonSize.y), star_procedure.GetName(), submenuNavaidButtonStyle))
+                {
+                    //acftCtrl.FlyTo(fix_item as Navaid);
+                    showProceduresPopup = false;
+                }
+                i++;
+            }//foreach STAR
+            GUI.EndScrollView();
+        }
+
         GUI.EndGroup();
 
     }// DoProceduresPopup
