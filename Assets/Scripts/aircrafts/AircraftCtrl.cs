@@ -78,7 +78,7 @@ public class AircraftCtrl : MonoBehaviour
         for (ushort i = 0; i < nTrails; i++)
         {
             GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            plane.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            plane.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
             plane.GetComponent<Renderer>().material.color = DrawRadarScreen.labelLineColor;
             plane.GetComponent<Renderer>().material.shader = Config.object_shader;
             plane.name = aircraft.GetGO().name + "_trail#" + i;
