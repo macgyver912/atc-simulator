@@ -21,6 +21,8 @@ public class DrawATCPopup : MonoBehaviour
     private static int headingPopupId;
     private static int altitudePopupId;
     private static int speedPopupId;
+    private static int flyToPopupId;
+    private static int proceduresPopupId;
 
     public static bool showCtrlGUI = false;
     public static bool showNoCtrlGUI = false;
@@ -47,6 +49,7 @@ public class DrawATCPopup : MonoBehaviour
     static Vector2 submenuInputBoxSize;
     static Vector2 submenuSelButtonSize;
     static Vector2 submenuAcceptButtonSize;
+    static Vector2 submenuNavaidButtonSize;
     static Rect submenuRect;
 
     static Vector2 numberShortcutSize;
@@ -81,6 +84,10 @@ public class DrawATCPopup : MonoBehaviour
     private GUIStyle submenuInputBoxStyle;
     private GUIStyle submenuSelButtonStyle;
     private GUIStyle submenuAcceptButtonStyle;
+    private GUIStyle submenuNavaidButtonStyle;
+
+    Vector2 vorScrollViewValue = new Vector2(0f, 0f);
+    Vector2 fixScrollViewValue = new Vector2(0f, 0f);
 
     int submenuHeadingToolbarInt = 1;
     Texture[] submenuHeadingToolbarTextures;
@@ -134,6 +141,8 @@ public class DrawATCPopup : MonoBehaviour
         headingPopupId = General.AssignWindowId();
         altitudePopupId = General.AssignWindowId();
         speedPopupId = General.AssignWindowId();
+        flyToPopupId = General.AssignWindowId();
+        proceduresPopupId = General.AssignWindowId();
 
         noCtrlTexts = new List<string>();
         ctrlTexts = new List<string>();
@@ -1250,8 +1259,58 @@ public class DrawATCPopup : MonoBehaviour
     // Make the contents of the window
     void DoFlyToPopup(int windowID)
     {
-        // TODO
-        Debug.Log("DoFlyToPopup");
+        //Debug.Log("DoFlyToPopup");
+
+        /* Fly-to submenu
+	     * List of available navaids
+	     */
+        // Show "Speed" text left to inputs			
+        GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
+        textStyle.alignment = TextAnchor.MiddleCenter;
+        //GUI.Label(new Rect(popupOffset, popupOffset, submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), "VOR", textStyle);
+        //GUI.Label(new Rect(popupOffset + submenuNavaidButtonSize.x, popupOffset, submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), "FIX", textStyle);
+
+        GUI.BeginGroup(new Rect(popupOffset, popupOffset, submenuSize.x, submenuSize.y));
+        vorScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuNavaidButtonSize.x, submenuSize.y), 
+            vorScrollViewValue, 
+            new Rect(0, 0, submenuNavaidButtonSize.x, CreateObjects.vorList.Count * submenuNavaidButtonSize.y),
+            GUIStyle.none, GUIStyle.none);
+
+
+        uint i = 0;
+        foreach (VOR vor_item in CreateObjects.vorList.Values)
+        {
+
+            // List of VOR buttons
+            if (GUI.Button(new Rect(popupOffset, popupOffset + submenuNavaidButtonSize.y * i,
+                        submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), vor_item.id, submenuNavaidButtonStyle))
+            {
+                acftCtrl.FlyTo(vor_item as Navaid);
+                showFlyToPopup = false;
+            }
+            i++;
+        }//foreach VOR
+        GUI.EndScrollView();
+
+        fixScrollViewValue = GUI.BeginScrollView(new Rect(submenuNavaidButtonSize.x, 0, submenuNavaidButtonSize.x, submenuSize.y),
+            fixScrollViewValue,
+            new Rect(submenuNavaidButtonSize.x, 0, submenuNavaidButtonSize.x, CreateObjects.fixList.Count * submenuNavaidButtonSize.y),
+            GUIStyle.none, GUIStyle.none);
+        i = 0;
+        foreach (FIX fix_item in CreateObjects.fixList.Values)
+        {
+            // List of FIX buttons
+            if (GUI.Button(new Rect(popupOffset + submenuNavaidButtonSize.x, popupOffset + submenuNavaidButtonSize.y * i,
+                        submenuNavaidButtonSize.x, submenuNavaidButtonSize.y), fix_item.id, submenuNavaidButtonStyle))
+            {
+                acftCtrl.FlyTo(fix_item as Navaid);
+                showFlyToPopup = false;
+            }
+            i++;
+        }//foreach FIX
+        GUI.EndScrollView();
+        GUI.EndGroup();
+
     }// DoFlyToPopup
 
     // Make the contents of the window
@@ -1357,11 +1416,14 @@ public class DrawATCPopup : MonoBehaviour
             submenuInputBoxStyle.fontSize = 12;
             submenuAcceptButtonStyle = new GUIStyle("Button");
             submenuAcceptButtonStyle.fontSize = 9;
+            submenuNavaidButtonStyle = new GUIStyle("Button");
+            submenuNavaidButtonStyle.fontSize = 9;
 
             submenuAsideTextSize = submenuAsideTextStyle.CalcSize(new GUIContent("XXX"));
             submenuInputBoxSize = submenuInputBoxStyle.CalcSize(new GUIContent("N"));
             submenuSelButtonSize = new Vector2(submenuInputBoxSize.x, submenuInputBoxSize.y / 1.5f);
             submenuAcceptButtonSize = submenuAcceptButtonStyle.CalcSize(new GUIContent(acceptText));
+            submenuNavaidButtonSize = submenuNavaidButtonStyle.CalcSize(new GUIContent("XXXXX"));
 
             /* General submenu appeareance
 		     * _________________
@@ -1373,7 +1435,7 @@ public class DrawATCPopup : MonoBehaviour
 
             submenuSize = new Vector2(2 * submenuAsideTextSize.x + submenuMaxNumberOfDigits * submenuInputBoxSize.x + popupOffset * 2,
                         submenuInputBoxSize.y + 2 * submenuSelButtonSize.y + submenuAcceptButtonSize.y + popupOffset * 2);
-            submenuRect = new Rect(Screen.width / 2f, Screen.height / 2f, submenuSize.x, submenuSize.y);
+            submenuRect = new Rect(Screen.width * 0.5f, Screen.height * 0.5f, submenuSize.x, submenuSize.y);
 
         }
 
@@ -1474,7 +1536,7 @@ public class DrawATCPopup : MonoBehaviour
             }
             else if (showFlyToPopup)
             {
-                submenuRect = GUI.Window(speedPopupId, submenuRect, DoFlyToPopup, "", popupStyle);
+                submenuRect = GUI.Window(flyToPopupId, submenuRect, DoFlyToPopup, "", popupStyle);
 
                 // If user clicks away from GUI, hide it
                 if (e.type == EventType.MouseDown && !submenuRect.Contains(e.mousePosition))
@@ -1484,7 +1546,7 @@ public class DrawATCPopup : MonoBehaviour
             }
             else if (showProceduresPopup)
             {
-                submenuRect = GUI.Window(speedPopupId, submenuRect, DoProceduresPopup, "", popupStyle);
+                submenuRect = GUI.Window(proceduresPopupId, submenuRect, DoProceduresPopup, "", popupStyle);
 
                 // If user clicks away from GUI, hide it
                 if (e.type == EventType.MouseDown && !submenuRect.Contains(e.mousePosition))

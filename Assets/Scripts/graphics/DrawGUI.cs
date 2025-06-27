@@ -160,7 +160,8 @@ public class DrawGUI : MonoBehaviour
         arrivals_scrollPos = GUI.BeginScrollView(
                                     new Rect(0, arrivals_titleSize.y, windowFPSWidth, arr_dep_panelHeight - arrivals_titleSize.y),
                                     arrivals_scrollPos,
-                                    new Rect(0, 0, windowFPSWidth - 20, CreateObjects.aircraftList.Count * stripSize.y)
+                                    new Rect(0, 0, windowFPSWidth - 20, CreateObjects.aircraftList.Count * stripSize.y), 
+                                    GUIStyle.none, GUIStyle.none
                                 );
 
         ushort authFL;
