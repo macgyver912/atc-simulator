@@ -340,7 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _radarPeriod: 5
   _aircraftDataPeriod: 5
-  _twr_range: 10
+  _twr_range: 8
   _app_range: 60
   _rings_separation: 20
   _ils_range: 15

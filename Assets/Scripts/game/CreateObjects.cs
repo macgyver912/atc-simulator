@@ -68,7 +68,7 @@ public class CreateObjects : MonoBehaviour
         rwys[7] = new Runway("18L", 180, 3500, Measurement.DMS2DD(40, 31, 41.22f), Measurement.DMS2DD(-3, 33, 33.68f), 2000f, true);
 
         // Airport
-        airport = new Airport("Adolfo Suárez Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20f), Measurement.DMS2DD(-3, 33, 39f), 2000f, "Madrid", "Spain", 13000, 140, rwys);
+        airport = new Airport("Adolfo Suárez Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20f), Measurement.DMS2DD(-3, 33, 39f), 1998f, "Madrid", "Spain", 13000, 140, rwys);
 
         // ### FIX LIST - LEMD ###
         fixList.Add("ADUXO", new FIX("ADUXO", Measurement.DMS2DD(40, 30, 44.4f), Measurement.DMS2DD(-2, 03, 51.4f), FIX.FixTypes.OnRequest, true));
@@ -138,7 +138,7 @@ public class CreateObjects : MonoBehaviour
         vorList.Add("BAN", new VOR("BAN", "Barahona", 112.80f, "-... .- -.", true, Measurement.DMS2DD(41, 19, 24.8f), Measurement.DMS2DD(-2, 37, 47.2F), true));
         vorList.Add("BRA", new VOR("BRA", "Barajas", 116.45f, "-... .-. .-", true, Measurement.DMS2DD(40, 28, 08.9f), Measurement.DMS2DD(-3, 33, 27.1f), false));
         vorList.Add("CCS", new VOR("CCS", "Cáceres", 114.20f, "-.-. -.-. ...", true, Measurement.DMS2DD(39, 31, 27.7f), Measurement.DMS2DD(-6, 26, 08.4f), true));
-        vorList.Add("CNR", new VOR("CNR", "Colmenar Viejo", 117.30f, "-.-. -. .-.", true, Measurement.DMS2DD(40, 38, 45.5f), Measurement.DMS2DD(-3, 44, 09.0f), true));
+        vorList.Add("CNR", new VOR("CNR", "Colmenar", 117.30f, "-.-. -. .-.", true, Measurement.DMS2DD(40, 38, 45.5f), Measurement.DMS2DD(-3, 44, 09.0f), true));
         vorList.Add("PDT", new VOR("PDT", "Perales", 116.75f, ".--. -.. -", true, Measurement.DMS2DD(40, 15, 10f), Measurement.DMS2DD(-3, 20, 52f), true));
         vorList.Add("RBO", new VOR("RBO", "Robledillo", 113.95f, ".-. -... ---", true, Measurement.DMS2DD(40, 51, 13.9f), Measurement.DMS2DD(-3, 14, 47.9f), true));
         vorList.Add("SIE", new VOR("SIE", "Somosierra", 115.40f, "... .. .", true, Measurement.DMS2DD(41, 09, 06.0f), Measurement.DMS2DD(-3, 36, 17.4f), true));
