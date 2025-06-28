@@ -462,12 +462,30 @@ public class CreateObjects : MonoBehaviour
 
 
 
-
+        // ### COMPANIES
         companyList = new List<Company>();
+
+        companyList.Add(new Company("Iberia Líneas Aereas de España", "IBERIA", "IBE"));
+        companyList.Add(new Company("Vueling", "VUELING", "VLG"));
+        companyList.Add(new Company("Air Europa", "EUROPA", "AEA"));
+        companyList.Add(new Company("Air Nostrum Líneas Aéreas del Mediterráneo, S.A.", "NOSTRUM AIR", "ANE"));
+        companyList.Add(new Company("Transportes Aereos Portugueses, E.P.", "AIR PORTUGAL", "TAP"));
+
+        companyList.Add(new Company("Ryanair", "RYANAIR", "RYR"));
+        companyList.Add(new Company("EasyJet UK Ltd", "EASY", "EZY"));
+        companyList.Add(new Company("American Airlines Inc.", "AMERICAN", "AAL"));
+        companyList.Add(new Company("British Airways", "SPEEDBIRD", "BAW"));
+        companyList.Add(new Company("Delta Airlines", "DELTA", "DAL"));
+        companyList.Add(new Company("Deutsche Lufthansa, AG", "LUFTHANSA", "DLH"));
+        companyList.Add(new Company("KLM Royal Dutch Airlines", "KLM", "KLM"));
+        companyList.Add(new Company("Emirates", "EMIRATES", "UAE"));
+        companyList.Add(new Company("Aerovías de México, S.A.", "AEROMEXICO", "AMX"));
+        companyList.Add(new Company("Aerovías del Continente Americano, S.A.", "AVIANCA", "AVA"));
+
+
+
+        // ### AIRCRAFTS ###
         aircraftList = new List<Aircraft>();
-
-        companyList.Add(new Company("Iberia Lineas Aereas de España", "IBERIA", "IBE"));
-
         aircraftList.Add(new Aircraft(
             "Airbus A320-214",
             "A320",
@@ -492,7 +510,7 @@ public class CreateObjects : MonoBehaviour
             GetVOR("TLD") as Navaid,
             Aircraft.FlightStatus.Arrival
         ));
-        
+        /*
         aircraftList.Add(new Aircraft(
             "Boeing 747-300",
             "B743",
@@ -517,6 +535,7 @@ public class CreateObjects : MonoBehaviour
             GetVOR("TLD") as Navaid,
             Aircraft.FlightStatus.Outgoing
         ));
+        */
         /*
         aircraftList.Add(new Aircraft(
             "Boeing 737-800",
@@ -570,7 +589,7 @@ public class CreateObjects : MonoBehaviour
         */
         //var aircraft = ScriptableObject.CreateInstance<Aircraft>();
 
-        Debug.Log(companyList[0].GetCompanyName() + " | " + companyList[0].GetCallsign() + " | " + companyList[0].GetCallsignCode());
+        //Debug.Log(companyList[0].GetCompanyName() + " | " + companyList[0].GetCallsign() + " | " + companyList[0].GetCallsignCode());
         //Debug.Log(aircraftList[0]);
     }
 
