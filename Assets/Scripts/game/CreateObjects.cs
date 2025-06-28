@@ -68,7 +68,7 @@ public class CreateObjects : MonoBehaviour
         rwys[7] = new Runway("18L", 180, 3500, Measurement.DMS2DD(40, 31, 41.22f), Measurement.DMS2DD(-3, 33, 33.68f), 2000f, true);
 
         // Airport
-        airport = new Airport("Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20f), Measurement.DMS2DD(-3, 33, 39f), 2000f, "Madrid", "Spain", 13000, 140, rwys);
+        airport = new Airport("Adolfo Suárez Madrid-Barajas", "LEMD", "MAD", Measurement.DMS2DD(40, 28, 20f), Measurement.DMS2DD(-3, 33, 39f), 2000f, "Madrid", "Spain", 13000, 140, rwys);
 
         // ### FIX LIST - LEMD ###
         fixList.Add("ADUXO", new FIX("ADUXO", Measurement.DMS2DD(40, 30, 44.4f), Measurement.DMS2DD(-2, 03, 51.4f), FIX.FixTypes.OnRequest, true));

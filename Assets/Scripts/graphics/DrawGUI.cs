@@ -87,12 +87,35 @@ public class DrawGUI : MonoBehaviour
             // Register the window. Notice the 3rd parameter 
             windowFPS = GUI.Window(id, windowFPS, DoWindowFPS, windowFPSTitle, windowFPS_guistyle.GetStyle("Window"));
 
-            // Control of draw for Grid, Rings, SIDs and STARs
-            showGrid    = GUI.Toggle(new Rect(Screen.width * 0.5f - 150f, 05f, 100f, 20f), showGrid, "Grid");
-            showRings   = GUI.Toggle(new Rect(Screen.width * 0.5f - 150f, 25f, 100f, 20f), showRings, "Rings");
+            // Show airport info
+            GUI.BeginGroup(new Rect(windowFPSWidth + 20f, 5f, Screen.width * 0.35f, 60f));
+                // First line
+                GUI.Label(new Rect(0f, 0f, Screen.width * 0.20f, 20f), 
+                    "Airport: " + CreateObjects.airport.GetName() + " (" + CreateObjects.airport.GetCodeICAO() + " / " + CreateObjects.airport.GetCodeIATA() + ")");
+                GUI.Label(new Rect(Screen.width * 0.20f, 0f, Screen.width * 0.15f, 20f),
+                    "Location: " + CreateObjects.airport.GetCity() + ", " + CreateObjects.airport.GetCountry());
 
-            showSIDs    = GUI.Toggle(new Rect(Screen.width * 0.5f + 50f, 05f, 100f, 20f), showSIDs, "SID");
-            showSTARs   = GUI.Toggle(new Rect(Screen.width * 0.5f + 50f, 25f, 100f, 20f), showSTARs, "STAR");
+                // Second line
+                GUI.Label(new Rect(0, 20f, Screen.width * 0.10f, 20f), 
+                    "Lat.: " + CreateObjects.airport.GetLat().ToString("#.0000") + " ºN");       
+                GUI.Label(new Rect(Screen.width * 0.10f, 20f, Screen.width * 0.10f, 20f),
+                    "Trans. Level: FL" + CreateObjects.airport.GetTransLevel());
+                GUI.Label(new Rect(Screen.width * 0.20f, 20f, Screen.width * 0.10f, 20f),
+                        "Elev.: " + CreateObjects.airport.GetElevation() + " ft");               
+
+                // Third line
+                GUI.Label(new Rect(0f, 40f, Screen.width * 0.10f, 20f),
+                        "Lon.: " + CreateObjects.airport.GetLon().ToString("#.0000") + " ºE");
+                GUI.Label(new Rect(Screen.width * 0.10f, 40f, Screen.width * 0.10f, 20f),
+                    "Trans. Alt.: " + CreateObjects.airport.GetTransAltitude() + " ft");
+            GUI.EndGroup();
+
+            // Control of draw for Grid, Rings, SIDs and STARs
+            showGrid = GUI.Toggle(new Rect(Screen.width * 0.5f - 70f, 05f, 50f, 20f), showGrid, "Grid");
+            showRings   = GUI.Toggle(new Rect(Screen.width * 0.5f - 70f, 25f, 50f, 20f), showRings, "Rings");
+
+            showSIDs    = GUI.Toggle(new Rect(Screen.width * 0.5f + 20f, 05f, 50f, 20f), showSIDs, "SID");
+            showSTARs   = GUI.Toggle(new Rect(Screen.width * 0.5f + 20f, 25f, 50f, 20f), showSTARs, "STAR");
 
             // Avoid to call every frame, only if selected option is not the drawing one
             if (showGrid && !DrawRadarScreen.is_showing_Grid)
