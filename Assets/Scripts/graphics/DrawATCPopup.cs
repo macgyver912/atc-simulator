@@ -7,6 +7,7 @@ using static Unity.Burst.Intrinsics.X86;
 using UnityEngine.UIElements.Experimental;
 using UnityEngine.UIElements;
 using System.Linq;
+using NUnit.Framework.Internal.Execution;
 
 public class DrawATCPopup : MonoBehaviour
 {
@@ -995,13 +996,9 @@ public class DrawATCPopup : MonoBehaviour
 
 
     // Sets commands to aircraft when heading is set and 'accept' button is pressed
-    void AcceptPressed_Point()
+    void AcceptPressed_Point(Navaid tgtPoint)
     {
-        FIX tgtPoint = CreateObjects.fixList.ElementAt(0).Value;   // TODO: select from list
-
-        //Debug.Log("Point: " + tgtHdg);
-
-        //showPointPopup = false;
+       showFlyToPopup = false;
 
         // update radar screen tag of this aircraft
         acftCtrl.GetAircraft().SetAuthoPoint(tgtPoint);
@@ -1012,8 +1009,7 @@ public class DrawATCPopup : MonoBehaviour
         string debugText = string.Empty;
         if (tgtPoint.GetType() == typeof(VOR))
         {
-            ;
-            //debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + (tgtPoint as VOR).GetName() + " V O R";
+            debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + (tgtPoint as VOR).GetName() + " V O R";
         }
         else
         {
@@ -1026,7 +1022,7 @@ public class DrawATCPopup : MonoBehaviour
         // set commands to the aircraft
         acftCtrl.FlyTo(tgtPoint);
 
-    } // AcceptPressed_HDG
+    } // AcceptPressed_Point
 
 
 
@@ -1289,8 +1285,7 @@ public class DrawATCPopup : MonoBehaviour
             if (GUI.Button(new Rect(0, submenuNavaidButtonSize.y * i,
                         submenuSize.x * 0.5f, submenuNavaidButtonSize.y), vor_item.id, submenuNavaidButtonStyle))
             {
-                acftCtrl.FlyTo(vor_item as Navaid);
-                showFlyToPopup = false;
+                AcceptPressed_Point(vor_item as Navaid);
             }
             i++;
         }//foreach VOR
@@ -1307,8 +1302,7 @@ public class DrawATCPopup : MonoBehaviour
             if (GUI.Button(new Rect(submenuSize.x * 0.5f, submenuNavaidButtonSize.y * i,
                         submenuSize.x * 0.5f, submenuNavaidButtonSize.y), fix_item.id, submenuNavaidButtonStyle))
             {
-                acftCtrl.FlyTo(fix_item as Navaid);
-                showFlyToPopup = false;
+                AcceptPressed_Point(fix_item as Navaid);
             }
             i++;
         }//foreach FIX
