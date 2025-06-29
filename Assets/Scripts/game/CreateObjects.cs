@@ -10,8 +10,9 @@ public class CreateObjects : MonoBehaviour
     public static Airport airport;
     public static List<Company> companyList;
     public static List<Aircraft> aircraftList;
-    public static Dictionary<string, FIX> fixList;
     public static Dictionary<string, VOR> vorList;
+    public static Dictionary<string, FIX> fixList;
+    public static Dictionary<string, FIX> fixListWithoutRNAV;
     public static List<Navaid> navaidList;
     public static List<Navaid> temp_navaid_list;
 
@@ -45,8 +46,9 @@ public class CreateObjects : MonoBehaviour
 
     public static void Init()
     {
-        fixList = new Dictionary<string, FIX>();
         vorList = new Dictionary<string, VOR>();
+        fixList = new Dictionary<string, FIX>();
+        fixListWithoutRNAV = new Dictionary<string, FIX>();
 
         temp_navaid_list = new List<Navaid>();
 
@@ -132,6 +134,17 @@ public class CreateObjects : MonoBehaviour
         fixList.Add("URRIF", new FIX("URRIF", Measurement.DMS2DD(40, 14, 32.3f), Measurement.DMS2DD(-3, 44, 46.7f), FIX.FixTypes.OnRequest, true));
         fixList.Add("VILLA", new FIX("VILLA", Measurement.DMS2DD(40, 13, 58.6f), Measurement.DMS2DD(-2, 24, 37.6f), FIX.FixTypes.OnRequest, true));
         fixList.Add("YUNYE", new FIX("YUNYE", Measurement.DMS2DD(40, 02, 38.7f), Measurement.DMS2DD(-3, 37, 44.2f), FIX.FixTypes.OnRequest, true));
+
+
+        // Copy to fixListWithoutRNAV only the FIX objects that no belongs to RNAV procedures
+        foreach (FIX fix_item in fixList.Values)
+        {
+            // List of FIX buttons
+            if (!fix_item.id.StartsWith("MD"))    // Filter RNAV SID-STAR points called MDxxx
+            {
+                fixListWithoutRNAV.Add(fix_item.GetId(), fix_item);
+            }
+        }//foreach FIX
         
 
         // ### VOR LIST - LEMD ###

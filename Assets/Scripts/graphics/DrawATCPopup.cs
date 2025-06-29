@@ -569,7 +569,7 @@ public class DrawATCPopup : MonoBehaviour
         hdg_out = (ushort)(hdg_in % 360);
         hdg_out = (hdg_out == 0 ? (ushort)360 : hdg_out);
 
-        //Debug.Log("CheckRange_HDG: " + hdg_out);
+        Debug.Log("CheckRange_HDG: " + hdg_out);
         return hdg_out;
     }
 
@@ -1293,10 +1293,10 @@ public class DrawATCPopup : MonoBehaviour
 
         fixScrollViewValue = GUI.BeginScrollView(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y),
             fixScrollViewValue,
-            new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, CreateObjects.fixList.Count * submenuNavaidButtonSize.y),
+            new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, CreateObjects.fixListWithoutRNAV.Count * submenuNavaidButtonSize.y),
             GUIStyle.none, GUIStyle.none);
         i = 0;
-        foreach (FIX fix_item in CreateObjects.fixList.Values)
+        foreach (FIX fix_item in CreateObjects.fixListWithoutRNAV.Values)
         {
             // List of FIX buttons
             if (GUI.Button(new Rect(submenuSize.x * 0.5f, submenuNavaidButtonSize.y * i,
