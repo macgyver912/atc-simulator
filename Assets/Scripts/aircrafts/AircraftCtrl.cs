@@ -430,12 +430,17 @@ public class AircraftCtrl : MonoBehaviour
 
         ushort prevHdg = aircraft.GetHeading();
         float auxHdg = prevHdg - (aircraft.GetTurnRate() * Config.aircraftDataPeriod);
+        //Debug.Log("auxHdg (pre): " + auxHdg);
 
-        if (auxHdg > 360f)
+        if (auxHdg < 0f)
+            auxHdg = auxHdg + 360f;
+        else if (auxHdg > 360f)
             auxHdg = auxHdg - 360f;
+        //Debug.Log("auxHdg (post): " + auxHdg);
 
         // Target heading is reached, set heading as target heading
-        if (auxHdg <= targetHeading && prevHdg > targetHeading)
+        //if (auxHdg <= targetHeading && prevHdg > targetHeading)
+        if (auxHdg <= targetHeading)
         {
             //Debug.Log("Target heading is reached");
 
@@ -482,12 +487,17 @@ public class AircraftCtrl : MonoBehaviour
 
         ushort prevHdg = aircraft.GetHeading();
         float auxHdg = prevHdg + (aircraft.GetTurnRate() * Config.aircraftDataPeriod);
+        //Debug.Log("auxHdg (pre): " + auxHdg);
 
-        if (auxHdg > 360f)
+        if (auxHdg < 0f)
+            auxHdg = auxHdg + 360f;
+        else if (auxHdg > 360f)
             auxHdg = auxHdg - 360f;
+        //Debug.Log("auxHdg (post): " + auxHdg);
 
         // Target heading is reached, set heading as target heading
-        if ((auxHdg >= targetHeading && prevHdg < targetHeading))
+        //if ((auxHdg >= targetHeading && prevHdg < targetHeading))
+        if (auxHdg >= targetHeading)
         {
             //Debug.Log("Target heading is reached");
 
@@ -523,7 +533,7 @@ public class AircraftCtrl : MonoBehaviour
 
     public void FlyTo(Navaid target)
     {
-        //Debug.Log("FlyTo: " + target.GetName());
+        Debug.Log("FlyTo: " + target.GetId());
 
         is_flying_to = true;
         aircraft.SetAuthoPoint(target);
@@ -541,6 +551,7 @@ public class AircraftCtrl : MonoBehaviour
 
     public float GetHeadingToTarget(Navaid target)
     {
+        
         // Get position before look at target to set it after look at
         Vector3 eulerAnglesOld = this.gameObject.transform.rotation.eulerAngles;
         //Debug.Log("eulerAnglesOld = " + eulerAnglesOld.ToString());
@@ -548,18 +559,38 @@ public class AircraftCtrl : MonoBehaviour
         if (target != null)
         {
             // Look at target to get the heading to that target in axis x
-            this.gameObject.transform.LookAt(target.GetGO().transform);
-        }
-        Vector3 eulerAngles = this.gameObject.transform.rotation.eulerAngles;
-        float hdg_fly_to = eulerAngles.x + 90;
-        //Debug.Log("eulerAngles = " + eulerAngles.ToString());
+            this.gameObject.transform.LookAt(target.GetGO().transform.position);
 
+            //float diff_angle = Vector3.Angle(this.gameObject.transform.position - target.GetGO().transform.position, transform.forward);
+            //Debug.Log("diff_angle: " +  diff_angle);
+        }
+
+        // Get desired heading from rotated object eulerAngles.x
+        Vector3 eulerAngles = this.gameObject.transform.rotation.eulerAngles;
+        float rot_to_hdg_offset = 90f;   // This is the standard 90 deg offset from object rotation to heading
+        // This extra offset is due to automatic rotation in LookAt
+        if (eulerAngles.y >= 270f)
+        {
+            if (eulerAngles.x <= 90f) {
+                Debug.Log("Cuadrante 3");
+                rot_to_hdg_offset = rot_to_hdg_offset + 45f;
+            } else if (eulerAngles.x >= 270f) {
+                Debug.Log("Cuadrante 2");
+                rot_to_hdg_offset = rot_to_hdg_offset + -90;
+            }
+        }
+
+        float hdg_fly_to = eulerAngles.x + rot_to_hdg_offset;
+        Debug.Log("eulerAngles = " + eulerAngles.ToString());
+        Debug.Log("hdg_fly_to (pre): " + hdg_fly_to);
+
+        // Reset the game object rotation to original one
         this.gameObject.transform.eulerAngles = eulerAnglesOld;
 
         hdg_fly_to = (ushort)(hdg_fly_to % 360);
         hdg_fly_to = (hdg_fly_to == 0 ? (ushort)360 : hdg_fly_to);
 
-        //Debug.Log("hdg_fly_to: " + hdg_fly_to);
+        Debug.Log("hdg_fly_to (post): " + hdg_fly_to);
         return hdg_fly_to;
     }
 
