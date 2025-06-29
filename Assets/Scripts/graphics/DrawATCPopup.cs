@@ -569,7 +569,7 @@ public class DrawATCPopup : MonoBehaviour
         hdg_out = (ushort)(hdg_in % 360);
         hdg_out = (hdg_out == 0 ? (ushort)360 : hdg_out);
 
-        Debug.Log("CheckRange_HDG: " + hdg_out);
+        //Debug.Log("CheckRange_HDG: " + hdg_out);
         return hdg_out;
     }
 

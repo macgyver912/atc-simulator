@@ -227,8 +227,10 @@ public class DrawGUI : MonoBehaviour
                 authFLStr = "A" + acft.GetAuthoAltitude().ToString();
             }
 
+            string authoHdgPoint = (acft.GetAuthoPoint() != null ? acft.GetAuthoPoint().GetId() : "H" + string.Format("{0:D3}", acft.GetAuthoHdg()));
+
             strip = acft.GetCallsignCode() + acft.GetFlightNumber() + " " + acft.GetAircraftModelCode() + "\n" +
-                                authFLStr + " " + acft.GetAuthoPoint().GetId();
+                                authFLStr + " " + authoHdgPoint;
             GUI.Label(new Rect(0f, stripSize.y * i, 100f, stripSize.y), strip, windowFPS_guistyle.GetStyle("Arrivals"));
             i++;
         }
@@ -262,8 +264,10 @@ public class DrawGUI : MonoBehaviour
                 authFLStr = "A" + acft.GetAuthoAltitude().ToString();
             }
 
+            string authoHdgPoint = (acft.GetAuthoPoint() != null ? acft.GetAuthoPoint().GetId() : "H" + string.Format("{0:D3}", acft.GetAuthoHdg()));
+
             strip = acft.GetCallsignCode() + acft.GetFlightNumber() + " " + acft.GetAircraftModelCode() + "\n" +
-                                authFLStr + " " + acft.GetAuthoPoint().GetId();
+                                authFLStr + " " + authoHdgPoint;
             GUI.Label(new Rect(0f, stripSize.y * i, 100f, stripSize.y), strip, windowFPS_guistyle.GetStyle("Departures"));
             i++;
         }

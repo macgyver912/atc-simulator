@@ -395,8 +395,8 @@ public class Aircraft /*: ScriptableObject*/
         //		this.go.renderer.material.color = new Color(1,1,1,1);
         //this.go.GetComponent<Renderer>().material.color.a = 1;
         this.go.transform.rotation = Quaternion.Euler(90 + this.heading, 90, 270);
-		//this.go.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
-		this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_acf;
+        //this.go.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
+        this.go.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f) * Config.scale_acf;
 		
         this.go.AddComponent<AircraftCtrl>();
         this.go.GetComponent<AircraftCtrl>().aircraft = this;

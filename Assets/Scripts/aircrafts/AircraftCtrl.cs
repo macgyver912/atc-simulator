@@ -1,6 +1,7 @@
 
 //private static AircraftCtrl instance;
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -182,7 +183,7 @@ public class AircraftCtrl : MonoBehaviour
     private IEnumerator IncreaseSpeed(ushort targetSpeed, bool fast)
     {
         ushort speedRate = (fast ? aircraft.GetSpeedRateAirMax() : aircraft.GetSpeedRateAirStd());
-        float auxSpeed = aircraft.GetSpeedGS() + (speedRate * Config.aircraftDataPeriod) + Random.Range(-2, 2);
+        float auxSpeed = aircraft.GetSpeedGS() + (speedRate * Config.aircraftDataPeriod) + UnityEngine.Random.Range(-2, 2);
         if (auxSpeed >= targetSpeed && aircraft.GetSpeedGS() < targetSpeed)
         {
             // Target speed is reached, maintain target speed
@@ -211,7 +212,7 @@ public class AircraftCtrl : MonoBehaviour
     private IEnumerator ReduceSpeed(ushort targetSpeed, bool fast)
     {
         ushort speedRate = (fast ? aircraft.GetSpeedRateAirMax() : aircraft.GetSpeedRateAirStd());
-        float auxSpeed = aircraft.GetSpeedGS() - (speedRate * Config.aircraftDataPeriod) + Random.Range(-2, 2);
+        float auxSpeed = aircraft.GetSpeedGS() - (speedRate * Config.aircraftDataPeriod) + UnityEngine.Random.Range(-2, 2);
         if (auxSpeed <= targetSpeed && aircraft.GetSpeedGS() > targetSpeed)
         {
             // Target speed is reached, maintain target speed
@@ -279,7 +280,7 @@ public class AircraftCtrl : MonoBehaviour
     private IEnumerator Climb(int targetAltitude, bool fast) 
     {
         ushort vsRate = (fast ? aircraft.GetVSRateMax() : aircraft.GetVSRateStd());
-        int auxRate = vsRate + Random.Range(-50, 50);       // feet per minute
+        int auxRate = vsRate + UnityEngine.Random.Range(-50, 50);       // feet per minute
         ushort auxRateSec = (ushort)(auxRate * Config.aircraftDataPeriod / 60f);           // feet per second
 
         aircraft.SetAltitude((ushort) (aircraft.GetAltitude() + auxRateSec));
@@ -313,7 +314,7 @@ public class AircraftCtrl : MonoBehaviour
     private IEnumerator Descend(int targetAltitude, bool fast)
     {
         ushort vsRate = (fast ? aircraft.GetVSRateMax() : aircraft.GetVSRateStd());
-        int auxRate = -vsRate + Random.Range(-50, 50);       // feet per minute
+        int auxRate = -vsRate + UnityEngine.Random.Range(-50, 50);       // feet per minute
         ushort auxRateSec = (ushort)(auxRate * Config.aircraftDataPeriod / 60f);           // feet per second
 
         aircraft.SetAltitude((ushort)(aircraft.GetAltitude() + auxRateSec));
@@ -419,31 +420,44 @@ public class AircraftCtrl : MonoBehaviour
 
     private IEnumerator TurnLeft(ushort targetHeading)
     {
+        bool tgt_hdg_is_reached = false;
 
         // If lateral navigation mode is flying to point, refresh every time to avoid deviation by wind, etc.
-        //Debug.Log("is_flying_to: " + is_flying_to);
         if (is_flying_to == true)
         {
-            //Debug.Log("Refreshing heading to fly to");
             targetHeading = (ushort)GetHeadingToTarget(aircraft.GetAuthoPoint());
         }
 
-        ushort prevHdg = aircraft.GetHeading();
-        float auxHdg = prevHdg - (aircraft.GetTurnRate() * Config.aircraftDataPeriod);
-        //Debug.Log("auxHdg (pre): " + auxHdg);
+        float prevHdg = aircraft.GetHeading();
+        float deltaHdg = -(aircraft.GetTurnRate() * Config.aircraftDataPeriod);
+        float nextHdg = aircraft.GetHeading() + deltaHdg;
 
-        if (auxHdg < 0f)
-            auxHdg = auxHdg + 360f;
-        else if (auxHdg > 360f)
-            auxHdg = auxHdg - 360f;
-        //Debug.Log("auxHdg (post): " + auxHdg);
+        // Avoid negative and pass through 0       
+        if (nextHdg < 0f)
+            nextHdg = nextHdg + 360f;
+        else if (nextHdg > 360f)
+            nextHdg = nextHdg - 360f;
 
+        if ((prevHdg + deltaHdg) < 0f)
+            prevHdg = prevHdg + 360f;
+        /*
+        Debug.Log("prevHdg: " + prevHdg);
+        Debug.Log("nextHdg: " + nextHdg);
+        Debug.Log("targetHeading: " + targetHeading);
+        */
         // Target heading is reached, set heading as target heading
-        //if (auxHdg <= targetHeading && prevHdg > targetHeading)
-        if (auxHdg <= targetHeading)
+        if (nextHdg <= targetHeading && prevHdg > targetHeading)
         {
-            //Debug.Log("Target heading is reached");
+            tgt_hdg_is_reached = true;
+        }
+        else
+        {
+            tgt_hdg_is_reached = false;
+        }
 
+        if (tgt_hdg_is_reached)
+        {
+            //Debug.Log("Target heading is reached")
             aircraft.SetHeading((ushort)targetHeading);
 
             if (coroutine_HDG_Left != null && is_flying_to == false)
@@ -459,15 +473,14 @@ public class AircraftCtrl : MonoBehaviour
                 //Debug.Log("NAV mode is flying to, not turn but maintain coroutine");
                 // TODO: implement to get corrections by wind...
             }
-
         }
         else
         {
             // Target heading is not reached yet, continue turn
             //Debug.Log("Target heading is not reached yet, continue turning left to heading: " + targetHeading);
             is_changing_hdg = true;
+            aircraft.SetHeading((ushort)nextHdg);
 
-            aircraft.SetHeading((ushort)auxHdg);
             yield return new WaitForSeconds(Config.aircraftDataPeriod);
             coroutine_HDG_Left = StartCoroutine(TurnLeft(targetHeading));
         }
@@ -476,31 +489,44 @@ public class AircraftCtrl : MonoBehaviour
 
     private IEnumerator TurnRight(ushort targetHeading)
     {
+        bool tgt_hdg_is_reached = false;
 
         // If lateral navigation mode is flying to point, refresh every time to avoid deviation by wind, etc.
-        //Debug.Log("is_flying_to: " + is_flying_to);
         if (is_flying_to == true)
         {
-            //Debug.Log("Refreshing heading to fly to");
             targetHeading = (ushort)GetHeadingToTarget(aircraft.GetAuthoPoint());
         }
 
-        ushort prevHdg = aircraft.GetHeading();
-        float auxHdg = prevHdg + (aircraft.GetTurnRate() * Config.aircraftDataPeriod);
-        //Debug.Log("auxHdg (pre): " + auxHdg);
+        float prevHdg = aircraft.GetHeading();
+        float deltaHdg = (aircraft.GetTurnRate() * Config.aircraftDataPeriod);
+        float nextHdg = aircraft.GetHeading() + deltaHdg;
 
-        if (auxHdg < 0f)
-            auxHdg = auxHdg + 360f;
-        else if (auxHdg > 360f)
-            auxHdg = auxHdg - 360f;
-        //Debug.Log("auxHdg (post): " + auxHdg);
+        // Avoid negative and pass through 0
+        if (nextHdg < 0f)
+            nextHdg = nextHdg + 360f;
+        else if (nextHdg > 360f)
+            nextHdg = nextHdg - 360f;
 
+        if ((prevHdg + deltaHdg) > 360f )
+            prevHdg = prevHdg - 360f;
+        /*
+        Debug.Log("prevHdg: " + prevHdg);
+        Debug.Log("nextHdg: " + nextHdg);
+        Debug.Log("targetHeading: " + targetHeading);
+        */
         // Target heading is reached, set heading as target heading
-        //if ((auxHdg >= targetHeading && prevHdg < targetHeading))
-        if (auxHdg >= targetHeading)
+        if (nextHdg >= targetHeading && prevHdg < targetHeading)
         {
-            //Debug.Log("Target heading is reached");
+            tgt_hdg_is_reached = true;
+        }
+        else
+        {
+            tgt_hdg_is_reached = false;
+        }
 
+        if (tgt_hdg_is_reached)
+        {
+            //Debug.Log("Target heading is reached")
             aircraft.SetHeading((ushort)targetHeading);
 
             if (coroutine_HDG_Right != null && is_flying_to == false)
@@ -516,19 +542,18 @@ public class AircraftCtrl : MonoBehaviour
                 //Debug.Log("NAV mode is flying to, not turn but maintain coroutine");
                 // TODO: implement to get corrections by wind...
             }
-
         }
         else
         {
             // Target heading is not reached yet, continue turn
-            //Debug.Log("Target heading is not reached yet, continue turning right to heading: " + targetHeading);
+            //Debug.Log("Target heading is not reached yet, continue turning left to heading: " + targetHeading);
             is_changing_hdg = true;
+            aircraft.SetHeading((ushort)nextHdg);
 
-            aircraft.SetHeading((ushort)auxHdg);
             yield return new WaitForSeconds(Config.aircraftDataPeriod);
             coroutine_HDG_Right = StartCoroutine(TurnRight(targetHeading));
         }
-        
+
     }
 
     public void FlyTo(Navaid target)
