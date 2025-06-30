@@ -79,7 +79,7 @@ public class DrawGUI : MonoBehaviour
 
             arr_dep_panelHeight = (Screen.height - fpsTitleSize.y) * 0.5f;
 
-            stripSize = windowFPS_guistyle.GetStyle("Arrivals").CalcSize(new GUIContent("AAAXXXX AXXX\nFLXXX AAAAA"));
+            stripSize = windowFPS_guistyle.GetStyle("Arrivals").CalcSize(new GUIContent("AAAXXXX AXXX\nFLXXX AAAAA\nAAAAAXA"));
         }
 
         if (showGUI)
@@ -111,7 +111,7 @@ public class DrawGUI : MonoBehaviour
             GUI.EndGroup();
 
             // Control of draw for Grid, Rings, SIDs and STARs
-            showGrid = GUI.Toggle(new Rect(Screen.width * 0.5f - 70f, 05f, 50f, 20f), showGrid, "Grid");
+            showGrid    = GUI.Toggle(new Rect(Screen.width * 0.5f - 70f, 05f, 50f, 20f), showGrid, "Grid");
             showRings   = GUI.Toggle(new Rect(Screen.width * 0.5f - 70f, 25f, 50f, 20f), showRings, "Rings");
 
             showSIDs    = GUI.Toggle(new Rect(Screen.width * 0.5f + 20f, 05f, 50f, 20f), showSIDs, "SID");
@@ -228,9 +228,12 @@ public class DrawGUI : MonoBehaviour
             }
 
             string authoHdgPoint = (acft.GetAuthoPoint() != null ? acft.GetAuthoPoint().GetId() : "H" + string.Format("{0:D3}", acft.GetAuthoHdg()));
+            string authoStdProcedure = (acft.GetAuthoStdProcedure() != null ? acft.GetAuthoStdProcedure().GetName() : "");
 
             strip = acft.GetCallsignCode() + acft.GetFlightNumber() + " " + acft.GetAircraftModelCode() + "\n" +
-                                authFLStr + " " + authoHdgPoint;
+                                authFLStr + " " + authoHdgPoint + "\n" +
+                                authoStdProcedure;
+
             GUI.Label(new Rect(0f, stripSize.y * i, 100f, stripSize.y), strip, windowFPS_guistyle.GetStyle("Arrivals"));
             i++;
         }
@@ -265,9 +268,11 @@ public class DrawGUI : MonoBehaviour
             }
 
             string authoHdgPoint = (acft.GetAuthoPoint() != null ? acft.GetAuthoPoint().GetId() : "H" + string.Format("{0:D3}", acft.GetAuthoHdg()));
+            string authoStdProcedure = (acft.GetAuthoStdProcedure() != null ? acft.GetAuthoStdProcedure().GetName() : "");
 
             strip = acft.GetCallsignCode() + acft.GetFlightNumber() + " " + acft.GetAircraftModelCode() + "\n" +
-                                authFLStr + " " + authoHdgPoint;
+                                authFLStr + " " + authoHdgPoint + "\n" +
+                                authoStdProcedure;
             GUI.Label(new Rect(0f, stripSize.y * i, 100f, stripSize.y), strip, windowFPS_guistyle.GetStyle("Departures"));
             i++;
         }

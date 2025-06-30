@@ -296,14 +296,20 @@ public class Aircraft /*: ScriptableObject*/
 	 */
     private string authoPointId;
 	/**
+	 * Indicates if authoPoint belongs to a Standard Procedure
+	 * @attribute authoStdProcedure
+	 * @type {StdProcedure}
+	 */
+	private StdProcedure authoStdProcedure;
+    /**
 	 * Indicates if traffic is incoming (Arrival) or outcoming (Departure)
 	 * @attribute flightStatus
 	 * @type {FlightStatus}
 	 */
-	private FlightStatus flightStatus;
+    private FlightStatus flightStatus;
 
 
-	private string label;
+    private string label;
 	private DrawRadarScreen.AcftLabelPos labelPos;
 	private Vector3 labelScreenPos;
 	private Vector2 labelLineOffset;
@@ -316,7 +322,7 @@ public class Aircraft /*: ScriptableObject*/
 	private ushort speedRate_Air_Max;
 
 
-	/**
+    /**
 	 * @class Aircraft 
 	 * @constructor
 	 * @param {String} modelName Aircraft model name, <i>e.g. Airbus A320-214, Boeing 737-800</i>.
@@ -340,13 +346,14 @@ public class Aircraft /*: ScriptableObject*/
  	 * @param {short} authoAltitude Authorized altitude (in feet).
  	 * @param {short} authoSpeed Authorized speed (in kts).
  	 * @param {Navaid} authoPoint Authorized point (FIX, VOR, etc).
+ 	 * @param {StdProcedure} authoStdProcedure Indicates if authoPoint belongs to a Standard Procedure.
  	 * @param {FlightStatus} flightStatus Indicates if traffic is incoming (Arrival) or outcoming (Departure).
 	 */
-	public Aircraft(string modelName, string modelCode, Category category, Company company,
+    public Aircraft(string modelName, string modelCode, Category category, Company company,
 				string flightNumber, string registration, ushort squawk, float lat, float lon,
 				ushort heading, ushort track, ushort speedGS, ushort speedIAS, ushort speedCAS,
 				ushort speedTAS, ushort altitude, ushort height, short verticalSpeed,
-				ushort authoAltitude, ushort authoSpeed, Navaid authoPoint, FlightStatus flightStatus)
+				ushort authoAltitude, ushort authoSpeed, Navaid authoPoint, StdProcedure authoStdProcedure, FlightStatus flightStatus)
 	{
 		this.aircraftModelName = modelName;
 		this.aircraftModelCode = modelCode;
@@ -376,6 +383,7 @@ public class Aircraft /*: ScriptableObject*/
 		else
             this.authoPoint = authoPoint as VOR;
         this.authoPointId = this.authoPoint.GetId();
+		this.authoStdProcedure = authoStdProcedure;
 
 
         this.flightStatus = flightStatus;
@@ -501,6 +509,7 @@ public class Aircraft /*: ScriptableObject*/
     public ushort GetAuthoHdg() { return this.authoHdg; }
     public Navaid GetAuthoPoint() { return this.authoPoint; }
     public string GetAuthoPointId() { return this.authoPoint.GetId(); }
+	public StdProcedure GetAuthoStdProcedure() { return this.authoStdProcedure; }
     public FlightStatus GetFlightStatus() { return this.flightStatus; }
 	public string GetLabel() { return this.label; }
     public DrawRadarScreen.AcftLabelPos GetLabelPos() { return this.labelPos; }
@@ -526,7 +535,9 @@ public class Aircraft /*: ScriptableObject*/
 	public void SetAuthoAltitude(int authoAltitude) { this.authoAltitude= authoAltitude; }
 
 	public void SetAuthoPoint(Navaid authoPoint) { this.authoPoint = authoPoint; this.authoPointId = authoPoint.GetId(); }
-	public void SetAuthoHdg(ushort authoHdg) { this.authoHdg = authoHdg; this.authoPoint = null; }
+    public void SetAuthoStdProcedure(StdProcedure authoStdProcedure) { this.authoStdProcedure = authoStdProcedure; }
+
+    public void SetAuthoHdg(ushort authoHdg) { this.authoHdg = authoHdg; this.authoPoint = null; }
     public void SetPosition(Vector3 position) { this.position = position; }
 
     public void SetPosition(Vector2 position) { this.position = new Vector3(position.x, position.y, 1.0f); }

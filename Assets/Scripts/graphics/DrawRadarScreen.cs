@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,8 +113,8 @@ public class DrawRadarScreen : MonoBehaviour
             //labelStyle_aircrafts.GetStyle("Label").fontSize = (int) acftLabelFontSize;
 
             defCallsignSize = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX H"));
-            acftLabelWidth = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent(CreateObjects.aircraftList[0].GetLabel())).x;
-            acftLabelHeight = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent(CreateObjects.aircraftList[0].GetLabel())).y;
+            acftLabelWidth = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX AXXX\nFLXXX AAAAA\nAAAAAXA")).x;
+            acftLabelHeight = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX AXXX\nFLXXX AAAAA\nAAAAAXA")).y;
 
             fixGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixList.ElementAt(0).Value).GetGO());
             vorRoseGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.vorList.ElementAt(0).Value).GetGO());
@@ -340,6 +341,7 @@ public class DrawRadarScreen : MonoBehaviour
         ushort autAlt;
         string autAltStr;
         string authoHdgPoint;
+        string authoStdProcedure;
 
         // Aircraft
         string vsLabel = "=";     // label for vertical speed
@@ -355,12 +357,14 @@ public class DrawRadarScreen : MonoBehaviour
         autAlt = (ushort) Mathf.Ceil(acft.GetAuthoAltitude() / 100.0f);
         autAltStr = (autAlt < 100 ? "0" + autAlt.ToString() : autAlt.ToString());
         //		speed = Mathf.Ceil(acft.speedGS / 10f)*10;
-       
+
         authoHdgPoint = (acft.GetAuthoPoint() != null ? acft.GetAuthoPoint().GetId() : "H" + string.Format("{0:D3}", acft.GetAuthoHdg()));
+        authoStdProcedure = (acft.GetAuthoStdProcedure() != null ? acft.GetAuthoStdProcedure().GetName() : "");
 
         acft.SetLabel(acft.GetCallsignCode() + acft.GetFlightNumber() + " " + (acft.GetCategory() == Aircraft.Category.Heavy ? "H" : "") + "\n" +
                     flStr + vsLabel + " " + autAltStr + "\n" +
-                    speed + " " + authoHdgPoint
+                    speed + " " + authoHdgPoint + "\n" +
+                    authoStdProcedure
                     );
 
     }

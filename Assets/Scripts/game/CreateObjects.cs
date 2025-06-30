@@ -15,15 +15,15 @@ public class CreateObjects : MonoBehaviour
     public static Dictionary<string, FIX> fixListWithoutRNAV;
     public static List<Navaid> navaidList;
     public static List<Navaid> temp_navaid_list;
+    public static List<STAR> starList;
+    public static List<SID> sidList;
 
     private static FIX aux_fix;
     private static VOR aux_vor;
+    private static SID aux_sid;
+    private static STAR aux_star;
     private static Navaid aux_navaid;
     private static string id_str;
-
-
-    public static List<STAR> starList;
-    public static List<SID> sidList;
 
     Quaternion fromRotation;
 
@@ -499,7 +499,7 @@ public class CreateObjects : MonoBehaviour
 
         // ### AIRCRAFTS ###
         aircraftList = new List<Aircraft>();
-        aircraftList.Add(new Aircraft(
+        aircraftList.Add(new Aircraft(  
             "Airbus A320-214",
             "A320",
             Aircraft.Category.Medium,
@@ -521,6 +521,7 @@ public class CreateObjects : MonoBehaviour
             15000,
             220,
             GetVOR("TLD") as Navaid,
+            GetSTAR("ADUXO2D") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
         /*
@@ -664,6 +665,18 @@ public class CreateObjects : MonoBehaviour
         {
             return null;
         }
+    }
+
+    private static SID GetSID(string id_str)
+    {
+        aux_sid = sidList.Find((x) => x.name == id_str);
+        return aux_sid;
+    }
+
+    private static STAR GetSTAR(string id_str)
+    {
+        aux_star = starList.Find((x) => x.name == id_str);
+        return aux_star;
     }
 
 }

@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\navaids\STAR.cs" />
     <Compile Include="Assets\Scripts\general\General.cs" />
     <Compile Include="Assets\Scripts\utils\Measurement.cs" />
+    <Compile Include="Assets\Scripts\navaids\StdProcedure.cs" />
     <Compile Include="Assets\Scripts\navaids\VOR.cs" />
     <Compile Include="Assets\Scripts\navaids\SID.cs" />
   </ItemGroup>

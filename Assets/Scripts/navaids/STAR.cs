@@ -12,35 +12,20 @@
      * @author Jaime Valle Alonso
      */
 
-    public class STAR /*: ScriptableObject*/
+    public class STAR : StdProcedure
     {
 
-        /**
-          * Name of this STAR.
-          * For example: <i>SOTUK3C</i> FIX.
-          * @attribute name
-          * @type {string}
-          */
-        public string name;
-
-        public List<Navaid> navaids;
         /**
 	     * @class STAR
 	     * @constructor
 	     * @param {string} name Name of this STAR.
 	     * @param {List<Navaid>} navaids List of navaids belonging to this STAR.
 	     */
-        public STAR(string name, List<Navaid> navaids)
+        public STAR(string name, List<Navaid> navaids) : base(name, navaids)
         {
 
-            this.name = name;
-            this.navaids = navaids;
+            // Empty constructor (derived to StdProcedure)
         }
-
-        public string GetName() { return name; }
-        public List<Navaid> GetNavaids() { return navaids; }
-        public ushort GetNumberOfPoints() { return (ushort) this.GetNavaids().Count; }
-
 
     }
 
