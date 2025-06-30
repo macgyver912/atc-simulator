@@ -437,11 +437,7 @@ public class Aircraft /*: ScriptableObject*/
 			this.speedRate_Air_Max = (ushort) SpeedRate_Air_Max.AcftHeavy;
 		}
 
-        if (this.authoPoint != null)
-            this.go.GetComponent<AircraftCtrl>().FlyTo(this.authoPoint);
-
-
-        // Locate GameObject inside "Aircrafts" GameObject
+		// Locate GameObject inside "Aircrafts" GameObject
         GameObject parentGO = GameObject.Find("Aircrafts");
         if (parentGO == null)
         {
@@ -449,6 +445,16 @@ public class Aircraft /*: ScriptableObject*/
         }
         this.go.transform.parent = parentGO.transform;
 
+
+        // Set initial ATC commands
+        if (this.authoPoint != null)
+            this.go.GetComponent<AircraftCtrl>().FlyTo(this.authoPoint);
+
+		if (this.authoSpeed != this.speedGS)
+			this.go.GetComponent<AircraftCtrl>().ChangeSpeed(this.authoSpeed, false);
+
+		if (this.authoAltitude != this.altitude)
+			this.go.GetComponent<AircraftCtrl>().ChangeLevel(this.authoAltitude, false);
     }
 
 	public void SetGameObjectPos()
