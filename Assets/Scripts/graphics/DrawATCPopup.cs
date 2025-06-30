@@ -225,6 +225,12 @@ public class DrawATCPopup : MonoBehaviour
         // if is Incoming traffic						
         else
             acftCtrl.GetAircraft().SetFlightStatus(Aircraft.FlightStatus.Incoming);
+
+        // If aircraft is transferred, destroy it in 30 seconds
+        CreateObjects.aircraftList.Remove(acftCtrl.GetAircraft());
+        //Destroy(acftCtrl.GetAircraft().GetGO(), 30f);
+        Destroy(GameObject.Find(acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber() + "_Trails"));
+        Destroy(acftCtrl.GetAircraft().GetGO());
     }
 
     // Make the contents of the window
