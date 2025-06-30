@@ -36,6 +36,22 @@
             this.navaids = navaids;
         }
 
+        public Navaid GetNavaid(string id)
+        {
+            int index = navaids.FindIndex(x => x.id == id);
+            return navaids[index];
+        }
+
+        public void RemoveNavaid(string id)
+        {
+            int index = navaids.FindIndex(x => x.id == id);
+            if (index != -1)
+                navaids.RemoveAt(index);
+
+            if (navaids.Count == 0)
+                navaids = null;            
+        }
+
         public string GetName() { return name; }
         public List<Navaid> GetNavaids() { return navaids; }
         public ushort GetNumberOfPoints() { return (ushort) this.GetNavaids().Count; }

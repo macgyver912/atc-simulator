@@ -538,7 +538,7 @@ public class Aircraft /*: ScriptableObject*/
 	public void SetAltitude(int altitude) { this.altitude = altitude; }
 	public void SetAuthoAltitude(int authoAltitude) { this.authoAltitude= authoAltitude; }
 
-	public void SetAuthoPoint(Navaid authoPoint) { this.authoPoint = authoPoint; this.authoPointId = authoPoint.GetId(); }
+	public void SetAuthoPoint(Navaid authoPoint) { this.authoPoint = authoPoint; if (authoPoint != null) this.authoPointId = authoPoint.GetId(); }
     public void SetAuthoStdProcedure(StdProcedure authoStdProcedure) { this.authoStdProcedure = authoStdProcedure; }
 
     public void SetAuthoHdg(ushort authoHdg) { this.authoHdg = authoHdg; this.authoPoint = null; }

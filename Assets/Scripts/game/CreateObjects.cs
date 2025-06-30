@@ -501,7 +501,7 @@ public class CreateObjects : MonoBehaviour
         aircraftList = new List<Aircraft>();
         aircraftList.Add(new Aircraft(
             "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[0], "5472", null, 4257,
-            Measurement.DMS2DD(40, 30, 00f), Measurement.DMS2DD(-1, 50, 00f), 300,
+            Measurement.DMS2DD(40, 30, 00f), Measurement.DMS2DD(-1, 58, 00f), 300,
             250, 20000, 0,
             220, 6000,
             GetFIX(GetSTAR("ADUXO2D").GetNavaids()[0].GetId()) as Navaid,

@@ -626,11 +626,23 @@ public class AircraftCtrl : MonoBehaviour
             //Debug.Log("distToNextPoint = " + distToNextPoint + " nm");
 
             // If aircraft is near enough to authoPoint, remove it and set next one
-            if (distToNextPoint < 2.0f) // nm
+            if (distToNextPoint < 1.0f) // nm
             {
-                //aircraft.GetAuthoStdProcedure()
-                //aircraft.SetAuthoPoint(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
-                Debug.Log("Next point");
+                //Debug.Log("Next point");
+                // Remove current point
+                aircraft.GetAuthoStdProcedure().RemoveNavaid(authoPoint.GetId());
+                // Set next point the first of list (previous were removed)
+                if (aircraft.GetAuthoStdProcedure().GetNavaids() != null && aircraft.GetAuthoStdProcedure().GetNavaids().Count > 0)
+                {
+                    Debug.Log("List: " + aircraft.GetAuthoStdProcedure().GetNavaids().ToString());
+                    FlyTo(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
+                }
+                else
+                {
+                    aircraft.SetAuthoStdProcedure(null);
+                    aircraft.SetAuthoPoint(null);
+                    aircraft.SetAuthoHdg(aircraft.GetHeading());
+                }
             }
 
         }
