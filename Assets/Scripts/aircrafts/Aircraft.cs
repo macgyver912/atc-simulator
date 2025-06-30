@@ -322,7 +322,7 @@ public class Aircraft /*: ScriptableObject*/
 	private ushort speedRate_Air_Max;
 
 
-    /**
+	/**
 	 * @class Aircraft 
 	 * @constructor
 	 * @param {String} modelName Aircraft model name, <i>e.g. Airbus A320-214, Boeing 737-800</i>.
@@ -349,11 +349,11 @@ public class Aircraft /*: ScriptableObject*/
  	 * @param {StdProcedure} authoStdProcedure Indicates if authoPoint belongs to a Standard Procedure.
  	 * @param {FlightStatus} flightStatus Indicates if traffic is incoming (Arrival) or outcoming (Departure).
 	 */
-    public Aircraft(string modelName, string modelCode, Category category, Company company,
+	public Aircraft(string modelName, string modelCode, Category category, Company company,
 				string flightNumber, string registration, ushort squawk, float lat, float lon,
 				ushort heading, /*ushort track,*/ ushort speedGS, /*ushort speedIAS, ushort speedCAS,
 				ushort speedTAS,*/ ushort altitude, /*ushort height,*/ short verticalSpeed,
-                ushort authoSpeed, ushort authoAltitude, Navaid authoPoint, StdProcedure authoStdProcedure, FlightStatus flightStatus)
+				ushort authoSpeed, ushort authoAltitude, Navaid authoPoint, StdProcedure authoStdProcedure, FlightStatus flightStatus)
 	{
 		this.aircraftModelName = modelName;
 		this.aircraftModelCode = modelCode;
@@ -379,11 +379,15 @@ public class Aircraft /*: ScriptableObject*/
 
 		this.authoAltitude = authoAltitude;
 		this.authoSpeed = authoSpeed;
-		if (authoPoint.id.Length > 3)
-			this.authoPoint = authoPoint as FIX;
-		else
-            this.authoPoint = authoPoint as VOR;
-        this.authoPointId = this.authoPoint.GetId();
+		if (authoPoint != null)
+		{
+			if (authoPoint.id.Length > 3)
+				this.authoPoint = authoPoint as FIX;
+			else
+				this.authoPoint = authoPoint as VOR;
+
+			this.authoPointId = this.authoPoint.GetId();
+		}
 		this.authoStdProcedure = authoStdProcedure;
 
 
@@ -462,8 +466,10 @@ public class Aircraft /*: ScriptableObject*/
 		if (this.authoAltitude != this.altitude)
 			this.go.GetComponent<AircraftCtrl>().ChangeLevel(this.authoAltitude, false);
 
-        if (this.authoPoint != null)
-            this.go.GetComponent<AircraftCtrl>().FlyTo(this.authoPoint);
+		if (this.authoStdProcedure != null)
+			SetAuthoStdProcedure(this.authoStdProcedure);
+		else if (this.authoPoint != null)
+			this.go.GetComponent<AircraftCtrl>().FlyTo(this.authoPoint);
     }
 
 	public void SetGameObjectPos()
@@ -538,8 +544,21 @@ public class Aircraft /*: ScriptableObject*/
 	public void SetAltitude(int altitude) { this.altitude = altitude; }
 	public void SetAuthoAltitude(int authoAltitude) { this.authoAltitude= authoAltitude; }
 
-	public void SetAuthoPoint(Navaid authoPoint) { this.authoPoint = authoPoint; if (authoPoint != null) this.authoPointId = authoPoint.GetId(); }
-    public void SetAuthoStdProcedure(StdProcedure authoStdProcedure) { this.authoStdProcedure = authoStdProcedure; }
+	public void SetAuthoPoint(Navaid authoPoint) 
+	{ 
+		this.authoPoint = authoPoint; 
+		if (authoPoint != null) 
+			this.authoPointId = authoPoint.GetId(); 
+	}
+    public void SetAuthoStdProcedure(StdProcedure authoStdProcedure) 
+	{ 
+		this.authoStdProcedure = authoStdProcedure;
+		if (this.authoStdProcedure != null)
+		{
+			//Debug.Log("SetAuthoPoint(): " + authoStdProcedure.GetNavaids()[0].GetId());
+			SetAuthoPoint(authoStdProcedure.GetNavaids()[0] as Navaid);
+		}
+    }
 
     public void SetAuthoHdg(ushort authoHdg) { this.authoHdg = authoHdg; this.authoPoint = null; }
     public void SetPosition(Vector3 position) { this.position = position; }

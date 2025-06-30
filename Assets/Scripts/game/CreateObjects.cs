@@ -505,7 +505,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(40, 30, 00f), Measurement.DMS2DD(-1, 58, 00f), 270,
             250, 20000, 0,
             220, 6000,
-            GetFIX(GetSTAR("ADUXO2D").GetNavaids()[0].GetId()) as Navaid,
+            null,
             GetSTAR("ADUXO2D") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -515,7 +515,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(40, 30, 00f), Measurement.DMS2DD(-3, 58, 00f), 300,
             250, 20000, 0,
             220, 6000,
-            GetFIX(GetSTAR("ADUXO2D").GetNavaids()[0].GetId()) as Navaid,
+            null,
             GetSTAR("ADUXO2D") as StdProcedure,
             Aircraft.FlightStatus.Incoming
         ));
