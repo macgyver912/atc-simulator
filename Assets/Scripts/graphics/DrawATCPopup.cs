@@ -602,6 +602,7 @@ public class DrawATCPopup : MonoBehaviour
 
             // set commands to the aircraft
             acftCtrl.Turn(tgtHdg, submenuHeadingToolbarInt);
+            acftCtrl.GetAircraft().SetAuthoStdProcedure(null);
         }
         else
         {
@@ -1027,6 +1028,7 @@ public class DrawATCPopup : MonoBehaviour
 
         // set commands to the aircraft
         acftCtrl.FlyTo(tgtPoint);
+        acftCtrl.GetAircraft().SetAuthoStdProcedure(null);
 
     } // AcceptPressed_Point
 

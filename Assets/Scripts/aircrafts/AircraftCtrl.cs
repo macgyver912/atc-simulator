@@ -421,8 +421,6 @@ public class AircraftCtrl : MonoBehaviour
 
     private IEnumerator TurnLeft(ushort targetHeading)
     {
-        bool tgt_hdg_is_reached = false;
-
         // If lateral navigation mode is flying to point, refresh every time to avoid deviation by wind, etc.
         if (is_flying_to == true)
         {
@@ -447,16 +445,7 @@ public class AircraftCtrl : MonoBehaviour
         Debug.Log("targetHeading: " + targetHeading);
         */
         // Target heading is reached, set heading as target heading
-        if (nextHdg <= targetHeading && prevHdg > targetHeading)
-        {
-            tgt_hdg_is_reached = true;
-        }
-        else
-        {
-            tgt_hdg_is_reached = false;
-        }
-
-        if (tgt_hdg_is_reached)
+        if (nextHdg <= targetHeading && prevHdg >= targetHeading)
         {
             //Debug.Log("Target heading is reached")
             aircraft.SetHeading((ushort)targetHeading);
@@ -490,8 +479,6 @@ public class AircraftCtrl : MonoBehaviour
 
     private IEnumerator TurnRight(ushort targetHeading)
     {
-        bool tgt_hdg_is_reached = false;
-
         // If lateral navigation mode is flying to point, refresh every time to avoid deviation by wind, etc.
         if (is_flying_to == true)
         {
@@ -516,16 +503,7 @@ public class AircraftCtrl : MonoBehaviour
         Debug.Log("targetHeading: " + targetHeading);
         */
         // Target heading is reached, set heading as target heading
-        if (nextHdg >= targetHeading && prevHdg < targetHeading)
-        {
-            tgt_hdg_is_reached = true;
-        }
-        else
-        {
-            tgt_hdg_is_reached = false;
-        }
-
-        if (tgt_hdg_is_reached)
+        if (nextHdg >= targetHeading && prevHdg <= targetHeading)
         {
             //Debug.Log("Target heading is reached")
             aircraft.SetHeading((ushort)targetHeading);
@@ -634,7 +612,6 @@ public class AircraftCtrl : MonoBehaviour
                 // Set next point the first of list (previous were removed)
                 if (aircraft.GetAuthoStdProcedure().GetNavaids() != null && aircraft.GetAuthoStdProcedure().GetNavaids().Count > 0)
                 {
-                    Debug.Log("List: " + aircraft.GetAuthoStdProcedure().GetNavaids().ToString());
                     FlyTo(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
                 }
                 else
