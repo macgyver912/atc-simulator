@@ -558,7 +558,7 @@ public class AircraftCtrl : MonoBehaviour
 
     public void FlyTo(Navaid target)
     {
-        Debug.Log("FlyTo: " + target.GetId());
+        //Debug.Log("FlyTo: " + target.GetId());
 
         is_flying_to = true;
         aircraft.SetAuthoPoint(target);
@@ -578,8 +578,8 @@ public class AircraftCtrl : MonoBehaviour
         
         if (target != null)
         {
-            Debug.Log("Acft pos: " + this.gameObject.transform.position.ToString());
-            Debug.Log("Point pos: " + target.GetGO().transform.position.ToString());
+            //Debug.Log("Acft pos: " + this.gameObject.transform.position.ToString());
+            //Debug.Log("Point pos: " + target.GetGO().transform.position.ToString());
             /*
             float diff_angle = Vector3.SignedAngle(
                 new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, 0f),
@@ -599,14 +599,14 @@ public class AircraftCtrl : MonoBehaviour
                 target.GetGO().transform.position,
                 new Vector3(0f, 0f, -1f));
             */
-            Debug.Log("diff_angle: " + diff_angle);
+            //Debug.Log("diff_angle: " + diff_angle);
 
             float hdg_fly_to = 270 - diff_angle;
 
             hdg_fly_to = (ushort)(hdg_fly_to % 360);
             hdg_fly_to = (hdg_fly_to == 0 ? (ushort)360 : hdg_fly_to);
 
-            Debug.Log("hdg_fly_to (post): " + hdg_fly_to);
+            //Debug.Log("hdg_fly_to (post): " + hdg_fly_to);
             return hdg_fly_to;
         }
         else
