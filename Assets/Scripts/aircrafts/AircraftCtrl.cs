@@ -573,44 +573,90 @@ public class AircraftCtrl : MonoBehaviour
          
     }
 
+    public float GetHeadingToTarget(Navaid target)
+    {
+        
+        if (target != null)
+        {
+            Debug.Log("Acft pos: " + this.gameObject.transform.position.ToString());
+            Debug.Log("Point pos: " + target.GetGO().transform.position.ToString());
+            /*
+            float diff_angle = Vector3.SignedAngle(
+                new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, 0f),
+                new Vector3(target.GetGO().transform.position.x, target.GetGO().transform.position.y, 0f), 
+                new Vector3(0f, 0f, -1f));
+            */
 
+            float diff_angle = (float) Math.Atan2(this.gameObject.transform.position.y - target.GetGO().transform.position.y,
+                this.gameObject.transform.position.x - target.GetGO().transform.position.x) * Mathf.Rad2Deg;
+            /*
+            float diff_angle = (float)Math.Atan2(target.GetGO().transform.position.y - this.gameObject.transform.position.y,
+                target.GetGO().transform.position.x - this.gameObject.transform.position.x) * Mathf.Rad2Deg;
+            */
+            /*
+            float diff_angle = Vector3.SignedAngle(
+                this.gameObject.transform.position,
+                target.GetGO().transform.position,
+                new Vector3(0f, 0f, -1f));
+            */
+            Debug.Log("diff_angle: " + diff_angle);
+
+            float hdg_fly_to = 270 - diff_angle;
+
+            hdg_fly_to = (ushort)(hdg_fly_to % 360);
+            hdg_fly_to = (hdg_fly_to == 0 ? (ushort)360 : hdg_fly_to);
+
+            Debug.Log("hdg_fly_to (post): " + hdg_fly_to);
+            return hdg_fly_to;
+        }
+        else
+        { 
+            return -1f; 
+        }
+    }
+    /*
     public float GetHeadingToTarget(Navaid target)
     {
         
         // Get position before look at target to set it after look at
-        Vector3 eulerAnglesOld = this.gameObject.transform.rotation.eulerAngles;
-        //Debug.Log("eulerAnglesOld = " + eulerAnglesOld.ToString());
+        Vector3 eulerAnglesOld_acft = this.gameObject.transform.rotation.eulerAngles;
+
+        //Debug.Log("eulerAnglesOld_acft = " + eulerAnglesOld_acft.ToString());
 
         if (target != null)
         {
             // Look at target to get the heading to that target in axis x
-            this.gameObject.transform.LookAt(target.GetGO().transform.position);
+            this.gameObject.transform.LookAt(target.GetGO().transform.position, new Vector3(0f, 0f, -1f));
 
             //float diff_angle = Vector3.Angle(this.gameObject.transform.position - target.GetGO().transform.position, transform.forward);
             //Debug.Log("diff_angle: " +  diff_angle);
         }
 
         // Get desired heading from rotated object eulerAngles.x
-        Vector3 eulerAngles = this.gameObject.transform.rotation.eulerAngles;
+        Vector3 targetEulerAngles = this.gameObject.transform.rotation.eulerAngles;
         float rot_to_hdg_offset = 90f;   // This is the standard 90 deg offset from object rotation to heading
         // This extra offset is due to automatic rotation in LookAt
-        if (eulerAngles.y >= 270f)
+        
+        if (targetEulerAngles.y >= 270f)
         {
-            if (eulerAngles.x <= 90f) {
+            if (targetEulerAngles.x <= 90f) {
                 Debug.Log("Cuadrante 3");
-                rot_to_hdg_offset = rot_to_hdg_offset + 45f;
-            } else if (eulerAngles.x >= 270f) {
+                //rot_to_hdg_offset = rot_to_hdg_offset + 90f;
+            } else if (targetEulerAngles.x >= 270f) {
                 Debug.Log("Cuadrante 2");
-                rot_to_hdg_offset = rot_to_hdg_offset + -90;
+                rot_to_hdg_offset = rot_to_hdg_offset - 45;
             }
         }
+        
 
-        float hdg_fly_to = eulerAngles.x + rot_to_hdg_offset;
-        Debug.Log("eulerAngles = " + eulerAngles.ToString());
+        float hdg_fly_to = targetEulerAngles.x + rot_to_hdg_offset;
+        Debug.Log("targetEulerAngles = " + targetEulerAngles.ToString());
         Debug.Log("hdg_fly_to (pre): " + hdg_fly_to);
 
         // Reset the game object rotation to original one
-        this.gameObject.transform.eulerAngles = eulerAnglesOld;
+        this.gameObject.transform.eulerAngles = eulerAnglesOld_acft;
+        //target.GetGO().transform.rotation.eulerAngles = eulerAnglesOld_navaid;
+
 
         hdg_fly_to = (ushort)(hdg_fly_to % 360);
         hdg_fly_to = (hdg_fly_to == 0 ? (ushort)360 : hdg_fly_to);
@@ -618,7 +664,7 @@ public class AircraftCtrl : MonoBehaviour
         Debug.Log("hdg_fly_to (post): " + hdg_fly_to);
         return hdg_fly_to;
     }
-
+    */
     public Aircraft GetAircraft() { return aircraft; }
 
 }//class
