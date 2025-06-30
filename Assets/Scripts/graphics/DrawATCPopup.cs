@@ -163,10 +163,10 @@ public class DrawATCPopup : MonoBehaviour
         acceptText = "Accept";
 
         //noCtrlTexts.Add("Accept");
-        noCtrlTexts.Add("Request contact");
+        noCtrlTexts.Add("Contact");
 
         //transCtrlTexts.Add("Req. come back with you");
-        transCtrlTexts.Add("Request contact");
+        transCtrlTexts.Add("Contact");
 
         ctrlTexts.Add("Heading");
         ctrlTexts.Add("Altitude");
