@@ -56,7 +56,7 @@ public class CreateObjects : MonoBehaviour
 
         // Runways
         Runway[] rwys = new Runway[8];
-        
+
         rwys[0] = new Runway("14R", 143, 3988, Measurement.DMS2DD(40, 29, 05.50f), Measurement.DMS2DD(-3, 34, 33.64f), 2000f, false);
         rwys[1] = new Runway("32L", 323, 3988, Measurement.DMS2DD(40, 27, 47.10f), Measurement.DMS2DD(-3, 33, 14.02f), 2000f, true);
 
@@ -145,7 +145,7 @@ public class CreateObjects : MonoBehaviour
                 fixListWithoutRNAV.Add(fix_item.GetId(), fix_item);
             }
         }//foreach FIX
-        
+
 
         // ### VOR LIST - LEMD ###
         vorList.Add("BAN", new VOR("BAN", "Barahona", 112.80f, "-... .- -.", true, Measurement.DMS2DD(41, 19, 24.8f), Measurement.DMS2DD(-2, 37, 47.2F), true));
@@ -499,125 +499,17 @@ public class CreateObjects : MonoBehaviour
 
         // ### AIRCRAFTS ###
         aircraftList = new List<Aircraft>();
-        aircraftList.Add(new Aircraft(  
-            "Airbus A320-214",
-            "A320",
-            Aircraft.Category.Medium,
-            companyList[0],
-            "5472",
-            null,
-            4257,
-            Measurement.DMS2DD(40, 47, 00),
-            Measurement.DMS2DD(-3, 56, 00),
-            360,
-            0,
-            240,
-            0,
-            0,
-            0,
-            6000,
-            0,
-            0,
-            15000,
-            220,
-            GetVOR("TLD") as Navaid,
+        aircraftList.Add(new Aircraft(
+            "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[0], "5472", null, 4257,
+            Measurement.DMS2DD(40, 30, 00f), Measurement.DMS2DD(-1, 50, 00f), 300,
+            250, 20000, 0,
+            220, 6000,
+            GetFIX(GetSTAR("ADUXO2D").GetNavaids()[0].GetId()) as Navaid,
             GetSTAR("ADUXO2D") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
-        /*
-        aircraftList.Add(new Aircraft(
-            "Boeing 747-300",
-            "B743",
-            Aircraft.Category.Heavy,
-            companyList[0],
-            "6112",
-            null,
-            4358,
-            Measurement.DMS2DD(39, 47, 00),
-            Measurement.DMS2DD(-4, 56, 00),
-            180,
-            0,
-            200,
-            0,
-            0,
-            0,
-            7000,
-            0,
-            0,
-            7000,
-            200,
-            GetVOR("TLD") as Navaid,
-            Aircraft.FlightStatus.Outgoing
-        ));
-        */
-        /*
-        aircraftList.Add(new Aircraft(
-            "Boeing 737-800",
-            "B738",
-            Aircraft.Category.Medium,
-            companyList[0],
-            "23BZ",
-            null,
-            4726,
-            Measurement.DMS2DD(39, 00, 00),
-            Measurement.DMS2DD(-1, 30, 00),
-            090,
-            0,
-            400,
-            0,
-            0,
-            0,
-            4000,
-            0,
-            0,
-            4000,
-            230,
-            CreateObjects.fixList[2],
-            Aircraft.FlightStatus.Transferred
-        ));
 
-        aircraftList.Add(new Aircraft(
-            "Airbus A380",
-            "A380",
-            Aircraft.Category.Heavy,
-            companyList[0],
-            "625C",
-            null,
-            5532,
-            Measurement.DMS2DD(40, 02, 02),
-            Measurement.DMS2DD(-3, 36, 10),
-            270,
-            0,
-            240,
-            0,
-            0,
-            0,
-            6000,
-            0,
-            0,
-            6000,
-            240,
-            CreateObjects.fixList[3],
-            Aircraft.FlightStatus.Incoming
-        ));
-        */
-        //var aircraft = ScriptableObject.CreateInstance<Aircraft>();
-
-        //Debug.Log(companyList[0].GetCompanyName() + " | " + companyList[0].GetCallsign() + " | " + companyList[0].GetCallsignCode());
-        //Debug.Log(aircraftList[0]);
     }
-
-    /*
-    public List<Aircraft> GetAircraftList()
-    {
-        return aircraftList;
-    }
-
-    public List<Company> GetCompanyList()
-    {
-        return companyList;
-    }
-    */
 
     public static void PrepareDraw()
     {

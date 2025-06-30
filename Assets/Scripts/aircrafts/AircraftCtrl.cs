@@ -56,6 +56,7 @@ public class AircraftCtrl : MonoBehaviour
     void UpdateAcftData()
     {
         Forward();
+        CheckNextPoint();
 
         aircraft.GetGO().transform.rotation = Quaternion.Euler(90 + aircraft.GetHeading(), 90, 270);
     }
@@ -614,57 +615,28 @@ public class AircraftCtrl : MonoBehaviour
             return -1f; 
         }
     }
-    /*
-    public float GetHeadingToTarget(Navaid target)
+    Navaid CheckNextPoint()
     {
-        
-        // Get position before look at target to set it after look at
-        Vector3 eulerAnglesOld_acft = this.gameObject.transform.rotation.eulerAngles;
-
-        //Debug.Log("eulerAnglesOld_acft = " + eulerAnglesOld_acft.ToString());
-
-        if (target != null)
+        Navaid nextPoint = null;
+        if (aircraft.GetAuthoStdProcedure() != null)
         {
-            // Look at target to get the heading to that target in axis x
-            this.gameObject.transform.LookAt(target.GetGO().transform.position, new Vector3(0f, 0f, -1f));
+            Navaid authoPoint = aircraft.GetAuthoPoint();
+            float distToNextPoint = Measurement.Distance_DD_NM(aircraft.GetLat(), aircraft.GetLon(), authoPoint.GetLat(), authoPoint.GetLon());
 
-            //float diff_angle = Vector3.Angle(this.gameObject.transform.position - target.GetGO().transform.position, transform.forward);
-            //Debug.Log("diff_angle: " +  diff_angle);
-        }
+            //Debug.Log("distToNextPoint = " + distToNextPoint + " nm");
 
-        // Get desired heading from rotated object eulerAngles.x
-        Vector3 targetEulerAngles = this.gameObject.transform.rotation.eulerAngles;
-        float rot_to_hdg_offset = 90f;   // This is the standard 90 deg offset from object rotation to heading
-        // This extra offset is due to automatic rotation in LookAt
-        
-        if (targetEulerAngles.y >= 270f)
-        {
-            if (targetEulerAngles.x <= 90f) {
-                Debug.Log("Cuadrante 3");
-                //rot_to_hdg_offset = rot_to_hdg_offset + 90f;
-            } else if (targetEulerAngles.x >= 270f) {
-                Debug.Log("Cuadrante 2");
-                rot_to_hdg_offset = rot_to_hdg_offset - 45;
+            // If aircraft is near enough to authoPoint, remove it and set next one
+            if (distToNextPoint < 2.0f) // nm
+            {
+                //aircraft.GetAuthoStdProcedure()
+                //aircraft.SetAuthoPoint(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
+                Debug.Log("Next point");
             }
+
         }
-        
-
-        float hdg_fly_to = targetEulerAngles.x + rot_to_hdg_offset;
-        Debug.Log("targetEulerAngles = " + targetEulerAngles.ToString());
-        Debug.Log("hdg_fly_to (pre): " + hdg_fly_to);
-
-        // Reset the game object rotation to original one
-        this.gameObject.transform.eulerAngles = eulerAnglesOld_acft;
-        //target.GetGO().transform.rotation.eulerAngles = eulerAnglesOld_navaid;
-
-
-        hdg_fly_to = (ushort)(hdg_fly_to % 360);
-        hdg_fly_to = (hdg_fly_to == 0 ? (ushort)360 : hdg_fly_to);
-
-        Debug.Log("hdg_fly_to (post): " + hdg_fly_to);
-        return hdg_fly_to;
+        return nextPoint;
     }
-    */
+
     public Aircraft GetAircraft() { return aircraft; }
 
 }//class

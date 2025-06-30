@@ -107,9 +107,11 @@ public class Measurement : ScriptableObject
     {
         return Distance_DD_NM(new Vector2(lat1, lon1), new Vector2(lat2, lon2));
     }
-
+    
     public static float Distance_DD_KM(Vector2 pos1, Vector2 pos2)
     {
+        // Haversine formula
+        // https://www.omnicalculator.com/other/latitude-longitude-distance
         float dLat = Mathf.Abs(pos1.x - pos2.x) * Mathf.Deg2Rad;
         float dLon = Mathf.Abs(pos1.y - pos2.y) * Mathf.Deg2Rad;
         float lat1 = pos1.x * Mathf.Deg2Rad;
@@ -117,12 +119,13 @@ public class Measurement : ScriptableObject
 
         float a = Mathf.Sin(dLat / 2) * Mathf.Sin(dLat / 2) +
                 Mathf.Sin(dLon / 2) * Mathf.Sin(dLon / 2) * Mathf.Cos(lat1) * Mathf.Cos(lat2);
-        float c = 2 * Mathf.Atan2(Mathf.Sqrt(a), Mathf.Sqrt(1 - a));
-        float d = _EARTH_RADIUS * c;
+        float c = Mathf.Atan2(Mathf.Sqrt(a), Mathf.Sqrt(1 - a));
+        //float c = Mathf.Asin(Mathf.Sqrt(a));
+        float d = 2f * _EARTH_RADIUS * c;
 
         return d;
     }
-
+    
     public static float Distance_DD_NM(Vector2 pos1, Vector2 pos2)
     {
         return KM2NM(Distance_DD_KM(pos1, pos2));

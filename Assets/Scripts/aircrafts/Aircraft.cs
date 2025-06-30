@@ -343,17 +343,17 @@ public class Aircraft /*: ScriptableObject*/
  	 * @param {ushort} altitude Altitude is the measured distance between the aircraft and the mean sea level.
  	 * @param {ushort} height Height is defined as distance between the aircraft and the obstacles below it.
  	 * @param {short} verticalSpeed VS or Vertical Speed is the climb or descent rate in feet per minute of aircraft.
+  	 * @param {short} authoSpeed Authorized speed (in kts).
  	 * @param {short} authoAltitude Authorized altitude (in feet).
- 	 * @param {short} authoSpeed Authorized speed (in kts).
  	 * @param {Navaid} authoPoint Authorized point (FIX, VOR, etc).
  	 * @param {StdProcedure} authoStdProcedure Indicates if authoPoint belongs to a Standard Procedure.
  	 * @param {FlightStatus} flightStatus Indicates if traffic is incoming (Arrival) or outcoming (Departure).
 	 */
     public Aircraft(string modelName, string modelCode, Category category, Company company,
 				string flightNumber, string registration, ushort squawk, float lat, float lon,
-				ushort heading, ushort track, ushort speedGS, ushort speedIAS, ushort speedCAS,
-				ushort speedTAS, ushort altitude, ushort height, short verticalSpeed,
-				ushort authoAltitude, ushort authoSpeed, Navaid authoPoint, StdProcedure authoStdProcedure, FlightStatus flightStatus)
+				ushort heading, /*ushort track,*/ ushort speedGS, /*ushort speedIAS, ushort speedCAS,
+				ushort speedTAS,*/ ushort altitude, /*ushort height,*/ short verticalSpeed,
+                ushort authoSpeed, ushort authoAltitude, Navaid authoPoint, StdProcedure authoStdProcedure, FlightStatus flightStatus)
 	{
 		this.aircraftModelName = modelName;
 		this.aircraftModelCode = modelCode;
@@ -366,14 +366,15 @@ public class Aircraft /*: ScriptableObject*/
 		this.squawk = squawk;
 		this.position = new Vector3(lon, lat, altitude);
 		this.heading = heading;
-		this.track = track;
+		//this.track = track;
 		this.speedGS = speedGS;
-		//		this.speedIAS = speedIAS;
+		/*
 		this.speedIAS = speedGS;
 		this.speedCAS = speedCAS;
 		this.speedTAS = speedTAS;
+		*/
 		this.altitude = altitude;
-		this.height	= height;
+		//this.height	= height;
 		this.verticalSpeed = verticalSpeed;
 
 		this.authoAltitude = authoAltitude;
@@ -455,14 +456,14 @@ public class Aircraft /*: ScriptableObject*/
 
 
         // Set initial ATC commands
-        if (this.authoPoint != null)
-            this.go.GetComponent<AircraftCtrl>().FlyTo(this.authoPoint);
-
-		if (this.authoSpeed != this.speedGS)
+        if (this.authoSpeed != this.speedGS)
 			this.go.GetComponent<AircraftCtrl>().ChangeSpeed(this.authoSpeed, false);
 
 		if (this.authoAltitude != this.altitude)
 			this.go.GetComponent<AircraftCtrl>().ChangeLevel(this.authoAltitude, false);
+
+        if (this.authoPoint != null)
+            this.go.GetComponent<AircraftCtrl>().FlyTo(this.authoPoint);
     }
 
 	public void SetGameObjectPos()
@@ -484,7 +485,10 @@ public class Aircraft /*: ScriptableObject*/
 	public string GetRegistration() { return this.registration; }
 	public ushort GetSquawk() { return this.squawk; }
 	public Vector3 GetPosition() { return this.position; }
-	public Vector3 GetScreenPosition() { return this.screenPosition; }
+	public float GetLat() { return this.position.y; }
+    public float GetLon() { return this.position.x; }
+
+    public Vector3 GetScreenPosition() { return this.screenPosition; }
 	public ushort GetHeading() { return this.heading; }
 	public ushort GetTrack() { return this.track; }
 	public ushort GetSpeedGS() { return this.speedGS; }
