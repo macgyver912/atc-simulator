@@ -279,8 +279,9 @@ public class CreateObjects : MonoBehaviour
 
         // ### SID LIST ###
         sidList = new List<SID>();
-
+        
         // LEMD - SID RNAV (NORTH CONFIGURATION)
+        /*
         // SID - BARDI3X
         temp_navaid_list.Add(GetFIX("MD016"));
         temp_navaid_list.Add(GetFIX("MD017"));
@@ -290,7 +291,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("BARDI"));
         sidList.Add(new SID("BARDI3X", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        
         // SID - BARDI6W
         temp_navaid_list.Add(GetFIX("MD900"));
         temp_navaid_list.Add(GetFIX("MD901"));
@@ -301,7 +302,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("BARDI"));
         sidList.Add(new SID("BARDI6W", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        */
         // SID - BARDI7L
         temp_navaid_list.Add(GetVOR("SSY"));
         temp_navaid_list.Add(GetFIX("MD039"));
@@ -310,7 +311,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("BARDI"));
         sidList.Add(new SID("BARDI7L", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        /*
         // SID - CCS2X
         temp_navaid_list.Add(GetFIX("MD016"));
         temp_navaid_list.Add(GetFIX("MD017"));
@@ -331,7 +332,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("CCS"));
         sidList.Add(new SID("CCS5W", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        */
         // SID - CCS6L
         temp_navaid_list.Add(GetVOR("SSY"));
         temp_navaid_list.Add(GetFIX("MD039"));
@@ -340,7 +341,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("CCS"));
         sidList.Add(new SID("CCS6L", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        /*
         // SID - NANDO3N
         temp_navaid_list.Add(GetFIX("MD901"));
         temp_navaid_list.Add(GetFIX("MD902"));
@@ -351,7 +352,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("NANDO"));
         sidList.Add(new SID("NANDO3N", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        */
         // SID - NANDO3R
         temp_navaid_list.Add(GetFIX("MD047"));
         temp_navaid_list.Add(GetFIX("MD048"));
@@ -361,7 +362,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("NANDO"));
         sidList.Add(new SID("NANDO3R", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        /*
         // SID - PINAR4N
         temp_navaid_list.Add(GetFIX("MD901"));
         temp_navaid_list.Add(GetFIX("MD902"));
@@ -369,14 +370,14 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("PINAR"));
         sidList.Add(new SID("PINAR4N", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        */
         // SID - PINAR4R
         temp_navaid_list.Add(GetFIX("MD047"));
         temp_navaid_list.Add(GetVOR("RBO"));
         temp_navaid_list.Add(GetFIX("PINAR"));
         sidList.Add(new SID("PINAR4R", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        /*
         // SID - RBO4N
         temp_navaid_list.Add(GetVOR("SSY"));
         temp_navaid_list.Add(GetFIX("MD901"));
@@ -384,13 +385,13 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("RBO"));
         sidList.Add(new SID("RBO4N", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        */
         // SID - RBO4R
         temp_navaid_list.Add(GetFIX("MD047"));
         temp_navaid_list.Add(GetVOR("RBO"));
         sidList.Add(new SID("RBO4R", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        /*
         // SID - SIE1X
         temp_navaid_list.Add(GetFIX("MD016"));
         temp_navaid_list.Add(GetFIX("MD017"));
@@ -399,7 +400,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("SIE"));
         sidList.Add(new SID("SIE1X", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        */
         // SID - SIE3W
         temp_navaid_list.Add(GetFIX("MD900"));
         temp_navaid_list.Add(GetFIX("MD901"));
@@ -415,7 +416,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("SIE"));
         sidList.Add(new SID("SIE6L", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        
         // SID - VTB2R
         temp_navaid_list.Add(GetFIX("MD047"));
         temp_navaid_list.Add(GetFIX("MD048"));
@@ -424,7 +425,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("VTB"));
         sidList.Add(new SID("VTB2R", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        /*
         // SID - VTB2X
         temp_navaid_list.Add(GetFIX("MD016"));
         temp_navaid_list.Add(GetFIX("MD017"));
@@ -435,7 +436,8 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("VTB"));
         sidList.Add(new SID("VTB2X", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        */
+        /*
         // SID - VTB6L
         temp_navaid_list.Add(GetVOR("SSY"));
         temp_navaid_list.Add(GetFIX("MD012"));
@@ -444,7 +446,8 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("VTB"));
         sidList.Add(new SID("VTB6L", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        */
+        /*
         // SID - ZMR3W
         temp_navaid_list.Add(GetFIX("MD900"));
         temp_navaid_list.Add(GetFIX("MD901"));
@@ -462,7 +465,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("ZMR"));
         sidList.Add(new SID("ZMR3X", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
-
+        */
         // SID - ZMR7L
         temp_navaid_list.Add(GetVOR("SSY"));
         temp_navaid_list.Add(GetFIX("MD039"));
@@ -471,7 +474,7 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("ZMR"));
         sidList.Add(new SID("ZMR7L", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();      
-
+        
      
         // ### COMPANIES
         companyList = new List<Company>();
