@@ -166,7 +166,27 @@ public class CreateObjects : MonoBehaviour
         // ### STAR LIST - LEMD ###
         starList = new List<STAR>();
 
-        // LEMD - STAR 3 RNAV (NORTH CONFIGURATION)
+        // LEMD - STAR RNAV (NORTH CONFIGURATION)
+
+        // STAR - ADUXO2D
+        temp_navaid_list.Add(GetFIX("ADUXO"));
+        temp_navaid_list.Add(GetFIX("MD001"));
+        temp_navaid_list.Add(GetFIX("SIRGU"));
+        temp_navaid_list.Add(GetFIX("RUDBI"));
+        starList.Add(new STAR("ADUXO2D", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
+        // STAR - BANEV4D
+        temp_navaid_list.Add(GetFIX("BANEV"));
+        temp_navaid_list.Add(GetVOR("BAN"));
+        temp_navaid_list.Add(GetFIX("PINAR"));
+        temp_navaid_list.Add(GetFIX("MD545"));
+        temp_navaid_list.Add(GetFIX("NOSKO"));
+        temp_navaid_list.Add(GetFIX("MD530"));
+        temp_navaid_list.Add(GetFIX("RUDBI"));
+        starList.Add(new STAR("BANEV4D", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
         // STAR - MORAL5C
         temp_navaid_list.Add(GetFIX("MORAL"));
         temp_navaid_list.Add(GetFIX("MD465"));
@@ -187,6 +207,14 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("URRIF"));
         temp_navaid_list.Add(GetFIX("FAFEQ"));
         starList.Add(new STAR("NONTU4C", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
+        // STAR - PRADO3D
+        temp_navaid_list.Add(GetFIX("PRADO"));
+        temp_navaid_list.Add(GetFIX("MD550"));
+        temp_navaid_list.Add(GetFIX("SIRGU"));
+        temp_navaid_list.Add(GetFIX("RUDBI"));
+        starList.Add(new STAR("PRADO3D", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
         // STAR - RIDAV4C
@@ -212,6 +240,16 @@ public class CreateObjects : MonoBehaviour
         starList.Add(new STAR("SOTUK4C", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
+        // STAR - TERSA3Z
+        temp_navaid_list.Add(GetFIX("TERSA"));
+        temp_navaid_list.Add(GetFIX("MD540"));
+        temp_navaid_list.Add(GetFIX("MD535"));
+        temp_navaid_list.Add(GetFIX("NOSKO"));
+        temp_navaid_list.Add(GetFIX("MD530"));
+        temp_navaid_list.Add(GetFIX("RUDBI"));
+        starList.Add(new STAR("TERSA3Z", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
         // STAR - TLD3C
         temp_navaid_list.Add(GetVOR("TLD"));
         temp_navaid_list.Add(GetFIX("MD445"));
@@ -220,6 +258,13 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("YUNYE"));
         temp_navaid_list.Add(GetFIX("FAFEQ"));
         starList.Add(new STAR("TLD3C", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
+        // STAR - VILLA3D
+        temp_navaid_list.Add(GetFIX("VILLA"));
+        temp_navaid_list.Add(GetFIX("SIRGU"));
+        temp_navaid_list.Add(GetFIX("RUDBI"));
+        starList.Add(new STAR("VILLA3D", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
         // STAR - ZMR5C
@@ -231,64 +276,11 @@ public class CreateObjects : MonoBehaviour
         starList.Add(new STAR("ZMR5C", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
-        // LEMD - STAR 4 RNAV (NORTH CONFIGURATION)
-        // STAR - ADUXO2D
-        temp_navaid_list.Add(GetFIX("ADUXO"));
-        temp_navaid_list.Add(GetFIX("MD001"));
-        temp_navaid_list.Add(GetFIX("SIRGU"));
-        temp_navaid_list.Add(GetFIX("RUDBI"));
-        starList.Add(new STAR("ADUXO2D", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // STAR - BANEV4D
-        temp_navaid_list.Add(GetFIX("BANEV"));
-        temp_navaid_list.Add(GetVOR("BAN"));
-        temp_navaid_list.Add(GetFIX("PINAR"));
-        temp_navaid_list.Add(GetFIX("MD545"));
-        temp_navaid_list.Add(GetFIX("NOSKO"));
-        temp_navaid_list.Add(GetFIX("MD530"));
-        temp_navaid_list.Add(GetFIX("RUDBI"));
-        starList.Add(new STAR("BANEV4D", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // STAR - PRADO3D
-        temp_navaid_list.Add(GetFIX("PRADO"));
-        temp_navaid_list.Add(GetFIX("MD550"));
-        temp_navaid_list.Add(GetFIX("SIRGU"));
-        temp_navaid_list.Add(GetFIX("RUDBI"));
-        starList.Add(new STAR("PRADO3D", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // STAR - TERSA3Z
-        temp_navaid_list.Add(GetFIX("TERSA"));
-        temp_navaid_list.Add(GetFIX("MD540"));
-        temp_navaid_list.Add(GetFIX("MD535"));
-        temp_navaid_list.Add(GetFIX("NOSKO"));
-        temp_navaid_list.Add(GetFIX("MD530"));
-        temp_navaid_list.Add(GetFIX("RUDBI"));
-        starList.Add(new STAR("TERSA3Z", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // STAR - VILLA3D
-        temp_navaid_list.Add(GetFIX("VILLA"));
-        temp_navaid_list.Add(GetFIX("SIRGU"));
-        temp_navaid_list.Add(GetFIX("RUDBI"));
-        starList.Add(new STAR("VILLA3D", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
 
         // ### SID LIST ###
         sidList = new List<SID>();
 
-        // LEMD - SID 5 RNAV (NORTH CONFIGURATION)
-        // SID - BARDI7L
-        temp_navaid_list.Add(GetVOR("SSY"));
-        temp_navaid_list.Add(GetFIX("MD039"));
-        temp_navaid_list.Add(GetFIX("AVILA"));
-        temp_navaid_list.Add(GetFIX("LONGA"));
-        temp_navaid_list.Add(GetFIX("BARDI"));
-        sidList.Add(new SID("BARDI7L", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
+        // LEMD - SID RNAV (NORTH CONFIGURATION)
         // SID - BARDI3X
         temp_navaid_list.Add(GetFIX("MD016"));
         temp_navaid_list.Add(GetFIX("MD017"));
@@ -299,13 +291,24 @@ public class CreateObjects : MonoBehaviour
         sidList.Add(new SID("BARDI3X", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
-        // SID - CCS6L
+        // SID - BARDI6W
+        temp_navaid_list.Add(GetFIX("MD900"));
+        temp_navaid_list.Add(GetFIX("MD901"));
+        temp_navaid_list.Add(GetFIX("MD910"));
+        temp_navaid_list.Add(GetVOR("CNR"));
+        temp_navaid_list.Add(GetFIX("AVILA"));
+        temp_navaid_list.Add(GetFIX("LONGA"));
+        temp_navaid_list.Add(GetFIX("BARDI"));
+        sidList.Add(new SID("BARDI6W", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
+        // SID - BARDI7L
         temp_navaid_list.Add(GetVOR("SSY"));
         temp_navaid_list.Add(GetFIX("MD039"));
         temp_navaid_list.Add(GetFIX("AVILA"));
         temp_navaid_list.Add(GetFIX("LONGA"));
-        temp_navaid_list.Add(GetVOR("CCS"));
-        sidList.Add(new SID("CCS6L", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Add(GetFIX("BARDI"));
+        sidList.Add(new SID("BARDI7L", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
         // SID - CCS2X
@@ -316,100 +319,6 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetFIX("LONGA"));
         temp_navaid_list.Add(GetVOR("CCS"));
         sidList.Add(new SID("CCS2X", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // SID - NANDO3N
-        temp_navaid_list.Add(GetFIX("MD901"));
-        temp_navaid_list.Add(GetFIX("MD902"));
-        temp_navaid_list.Add(GetFIX("MD920"));
-        temp_navaid_list.Add(GetFIX("MD049"));
-        temp_navaid_list.Add(GetFIX("MD824"));
-        temp_navaid_list.Add(GetFIX("MD922"));
-        temp_navaid_list.Add(GetFIX("NANDO"));
-        sidList.Add(new SID("NANDO3N", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // SID - PINAR4N
-        temp_navaid_list.Add(GetFIX("MD901"));
-        temp_navaid_list.Add(GetFIX("MD902"));
-        temp_navaid_list.Add(GetVOR("RBO"));
-        temp_navaid_list.Add(GetFIX("PINAR"));
-        sidList.Add(new SID("PINAR4N", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // SID - RBO4N
-        temp_navaid_list.Add(GetVOR("SSY"));
-        temp_navaid_list.Add(GetFIX("MD901"));
-        temp_navaid_list.Add(GetFIX("MD902"));
-        temp_navaid_list.Add(GetVOR("RBO"));
-        sidList.Add(new SID("RBO4N", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // SID - SIE6L
-        temp_navaid_list.Add(GetVOR("SSY"));
-        temp_navaid_list.Add(GetFIX("MD039"));
-        temp_navaid_list.Add(GetVOR("SIE"));
-        sidList.Add(new SID("SIE6L", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // SID - SIE1X
-        temp_navaid_list.Add(GetFIX("MD016"));
-        temp_navaid_list.Add(GetFIX("MD017"));
-        temp_navaid_list.Add(GetFIX("MD025"));
-        temp_navaid_list.Add(GetFIX("MD913"));
-        temp_navaid_list.Add(GetVOR("SIE"));
-        sidList.Add(new SID("SIE1X", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // SID - VTB6L
-        temp_navaid_list.Add(GetVOR("SSY"));
-        temp_navaid_list.Add(GetFIX("MD012"));
-        temp_navaid_list.Add(GetFIX("MD041"));
-        temp_navaid_list.Add(GetVOR("BRA"));
-        temp_navaid_list.Add(GetVOR("VTB"));
-        sidList.Add(new SID("VTB6L", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // SID - VTB2X
-        temp_navaid_list.Add(GetFIX("MD016"));
-        temp_navaid_list.Add(GetFIX("MD017"));
-        temp_navaid_list.Add(GetFIX("MD040"));
-        temp_navaid_list.Add(GetFIX("MD042"));
-        temp_navaid_list.Add(GetFIX("MD043"));
-        temp_navaid_list.Add(GetVOR("BRA"));
-        temp_navaid_list.Add(GetVOR("VTB"));
-        sidList.Add(new SID("VTB2X", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // SID - ZMR7L
-        temp_navaid_list.Add(GetVOR("SSY"));
-        temp_navaid_list.Add(GetFIX("MD039"));
-        temp_navaid_list.Add(GetFIX("MD044"));
-        temp_navaid_list.Add(GetFIX("DISKO"));
-        temp_navaid_list.Add(GetVOR("ZMR"));
-        sidList.Add(new SID("ZMR7L", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-        // SID - ZMR3X
-        temp_navaid_list.Add(GetFIX("MD016"));
-        temp_navaid_list.Add(GetFIX("MD017"));
-        temp_navaid_list.Add(GetFIX("MD025"));
-        temp_navaid_list.Add(GetFIX("DISKO"));
-        temp_navaid_list.Add(GetVOR("ZMR"));
-        sidList.Add(new SID("ZMR3X", new List<Navaid>(temp_navaid_list)));
-        temp_navaid_list.Clear();
-
-
-        // LEMD - SID 7 RNAV (NORTH CONFIGURATION)
-        // SID - BARDI6W
-        temp_navaid_list.Add(GetFIX("MD900"));
-        temp_navaid_list.Add(GetFIX("MD901"));
-        temp_navaid_list.Add(GetFIX("MD910"));
-        temp_navaid_list.Add(GetVOR("CNR"));
-        temp_navaid_list.Add(GetFIX("AVILA"));
-        temp_navaid_list.Add(GetFIX("LONGA"));
-        temp_navaid_list.Add(GetFIX("BARDI"));
-        sidList.Add(new SID("BARDI6W", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
         // SID - CCS5W
@@ -423,6 +332,26 @@ public class CreateObjects : MonoBehaviour
         sidList.Add(new SID("CCS5W", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
+        // SID - CCS6L
+        temp_navaid_list.Add(GetVOR("SSY"));
+        temp_navaid_list.Add(GetFIX("MD039"));
+        temp_navaid_list.Add(GetFIX("AVILA"));
+        temp_navaid_list.Add(GetFIX("LONGA"));
+        temp_navaid_list.Add(GetVOR("CCS"));
+        sidList.Add(new SID("CCS6L", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
+        // SID - NANDO3N
+        temp_navaid_list.Add(GetFIX("MD901"));
+        temp_navaid_list.Add(GetFIX("MD902"));
+        temp_navaid_list.Add(GetFIX("MD920"));
+        temp_navaid_list.Add(GetFIX("MD049"));
+        temp_navaid_list.Add(GetFIX("MD824"));
+        temp_navaid_list.Add(GetFIX("MD922"));
+        temp_navaid_list.Add(GetFIX("NANDO"));
+        sidList.Add(new SID("NANDO3N", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
         // SID - NANDO3R
         temp_navaid_list.Add(GetFIX("MD047"));
         temp_navaid_list.Add(GetFIX("MD048"));
@@ -433,6 +362,14 @@ public class CreateObjects : MonoBehaviour
         sidList.Add(new SID("NANDO3R", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
+        // SID - PINAR4N
+        temp_navaid_list.Add(GetFIX("MD901"));
+        temp_navaid_list.Add(GetFIX("MD902"));
+        temp_navaid_list.Add(GetVOR("RBO"));
+        temp_navaid_list.Add(GetFIX("PINAR"));
+        sidList.Add(new SID("PINAR4N", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
         // SID - PINAR4R
         temp_navaid_list.Add(GetFIX("MD047"));
         temp_navaid_list.Add(GetVOR("RBO"));
@@ -440,10 +377,27 @@ public class CreateObjects : MonoBehaviour
         sidList.Add(new SID("PINAR4R", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
+        // SID - RBO4N
+        temp_navaid_list.Add(GetVOR("SSY"));
+        temp_navaid_list.Add(GetFIX("MD901"));
+        temp_navaid_list.Add(GetFIX("MD902"));
+        temp_navaid_list.Add(GetVOR("RBO"));
+        sidList.Add(new SID("RBO4N", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
         // SID - RBO4R
         temp_navaid_list.Add(GetFIX("MD047"));
         temp_navaid_list.Add(GetVOR("RBO"));
         sidList.Add(new SID("RBO4R", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
+        // SID - SIE1X
+        temp_navaid_list.Add(GetFIX("MD016"));
+        temp_navaid_list.Add(GetFIX("MD017"));
+        temp_navaid_list.Add(GetFIX("MD025"));
+        temp_navaid_list.Add(GetFIX("MD913"));
+        temp_navaid_list.Add(GetVOR("SIE"));
+        sidList.Add(new SID("SIE1X", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
         // SID - SIE3W
@@ -455,6 +409,13 @@ public class CreateObjects : MonoBehaviour
         sidList.Add(new SID("SIE3W", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
+        // SID - SIE6L
+        temp_navaid_list.Add(GetVOR("SSY"));
+        temp_navaid_list.Add(GetFIX("MD039"));
+        temp_navaid_list.Add(GetVOR("SIE"));
+        sidList.Add(new SID("SIE6L", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
         // SID - VTB2R
         temp_navaid_list.Add(GetFIX("MD047"));
         temp_navaid_list.Add(GetFIX("MD048"));
@@ -462,6 +423,26 @@ public class CreateObjects : MonoBehaviour
         temp_navaid_list.Add(GetVOR("PDT"));
         temp_navaid_list.Add(GetVOR("VTB"));
         sidList.Add(new SID("VTB2R", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
+        // SID - VTB2X
+        temp_navaid_list.Add(GetFIX("MD016"));
+        temp_navaid_list.Add(GetFIX("MD017"));
+        temp_navaid_list.Add(GetFIX("MD040"));
+        temp_navaid_list.Add(GetFIX("MD042"));
+        temp_navaid_list.Add(GetFIX("MD043"));
+        temp_navaid_list.Add(GetVOR("BRA"));
+        temp_navaid_list.Add(GetVOR("VTB"));
+        sidList.Add(new SID("VTB2X", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
+
+        // SID - VTB6L
+        temp_navaid_list.Add(GetVOR("SSY"));
+        temp_navaid_list.Add(GetFIX("MD012"));
+        temp_navaid_list.Add(GetFIX("MD041"));
+        temp_navaid_list.Add(GetVOR("BRA"));
+        temp_navaid_list.Add(GetVOR("VTB"));
+        sidList.Add(new SID("VTB6L", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
         // SID - ZMR3W
@@ -473,8 +454,25 @@ public class CreateObjects : MonoBehaviour
         sidList.Add(new SID("ZMR3W", new List<Navaid>(temp_navaid_list)));
         temp_navaid_list.Clear();
 
+        // SID - ZMR3X
+        temp_navaid_list.Add(GetFIX("MD016"));
+        temp_navaid_list.Add(GetFIX("MD017"));
+        temp_navaid_list.Add(GetFIX("MD025"));
+        temp_navaid_list.Add(GetFIX("DISKO"));
+        temp_navaid_list.Add(GetVOR("ZMR"));
+        sidList.Add(new SID("ZMR3X", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();
 
+        // SID - ZMR7L
+        temp_navaid_list.Add(GetVOR("SSY"));
+        temp_navaid_list.Add(GetFIX("MD039"));
+        temp_navaid_list.Add(GetFIX("MD044"));
+        temp_navaid_list.Add(GetFIX("DISKO"));
+        temp_navaid_list.Add(GetVOR("ZMR"));
+        sidList.Add(new SID("ZMR7L", new List<Navaid>(temp_navaid_list)));
+        temp_navaid_list.Clear();      
 
+     
         // ### COMPANIES
         companyList = new List<Company>();
 
@@ -676,6 +674,19 @@ public class CreateObjects : MonoBehaviour
             null,
             GetSTAR("SOTUK4C") as StdProcedure,
             Aircraft.FlightStatus.Arrival
+        ));
+
+
+        // -- Departures --
+        // Avianca from South America -> Entry from South-West
+        aircraftList.Add(new Aircraft(
+            "Boeing 787-800", "B788", Aircraft.Category.Heavy, companyList[14], "4876", null, 4839,
+            Measurement.DMS2DD(41, 00, 00f), Measurement.DMS2DD(-5, 30, 00f), 360,
+            180, 3000, 0,
+            220, 8000,
+            null,
+            GetSTAR("SOTUK4C") as StdProcedure,
+            Aircraft.FlightStatus.Departure
         ));
 
     }
