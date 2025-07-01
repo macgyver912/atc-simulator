@@ -51,7 +51,12 @@ public class AircraftCtrl : MonoBehaviour
     {
         SetTrails();
         InvokeRepeating("UpdateAcftData", 0, Config.aircraftDataPeriod);
-        FlyTo(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
+        if (aircraft.GetAuthoStdProcedure() != null && aircraft.GetAuthoStdProcedure().GetNavaids().Count > 0)
+            FlyTo(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
+        else if (aircraft.GetAuthoPoint() != null)
+            FlyTo(aircraft.GetAuthoPoint());
+        else
+            Turn(aircraft.GetAuthoHdg(), 1);
     }
 
     void UpdateAcftData()
@@ -457,13 +462,14 @@ public class AircraftCtrl : MonoBehaviour
 
         if ((prevHdg + deltaHdg) < 0f)
             prevHdg = prevHdg + 360f;
-        /*
-        Debug.Log("prevHdg: " + prevHdg);
-        Debug.Log("nextHdg: " + nextHdg);
-        Debug.Log("targetHeading: " + targetHeading);
-        */
+        
+        //Debug.Log("prevHdg: " + prevHdg);
+        //Debug.Log("nextHdg: " + nextHdg);
+        //Debug.Log("targetHeading: " + targetHeading);
+        
         // Target heading is reached, set heading as target heading
-        if (nextHdg <= targetHeading && prevHdg >= targetHeading)
+        if ((nextHdg <= targetHeading && prevHdg >= targetHeading)
+            || (nextHdg <= targetHeading+360 && prevHdg >= targetHeading))
         {
             //Debug.Log("Target heading is reached")
             aircraft.SetHeading((ushort)targetHeading);
@@ -515,13 +521,14 @@ public class AircraftCtrl : MonoBehaviour
 
         if ((prevHdg + deltaHdg) > 360f )
             prevHdg = prevHdg - 360f;
-        /*
+        
         Debug.Log("prevHdg: " + prevHdg);
         Debug.Log("nextHdg: " + nextHdg);
         Debug.Log("targetHeading: " + targetHeading);
-        */
+        
         // Target heading is reached, set heading as target heading
-        if (nextHdg >= targetHeading && prevHdg <= targetHeading)
+        if ((nextHdg >= targetHeading && prevHdg <= targetHeading)
+            || (nextHdg >= targetHeading && prevHdg <= targetHeading+360))
         {
             //Debug.Log("Target heading is reached")
             aircraft.SetHeading((ushort)targetHeading);
@@ -646,7 +653,7 @@ public class AircraftCtrl : MonoBehaviour
                 // Remove current point
                 aircraft.GetAuthoStdProcedure().RemoveNavaid(authoPoint.GetId());
                 // Set next point the first of list (previous were removed)
-                if (aircraft.GetAuthoStdProcedure().GetNavaids() != null && aircraft.GetAuthoStdProcedure().GetNavaids().Count > 0)
+                if (aircraft.GetAuthoStdProcedure() != null && aircraft.GetAuthoStdProcedure().GetNavaids().Count > 0)
                 {
                     FlyTo(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
                 }

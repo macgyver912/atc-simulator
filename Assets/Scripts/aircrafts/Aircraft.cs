@@ -395,6 +395,7 @@ public class Aircraft /*: ScriptableObject*/
 			this.authoPointId = this.authoPoint.GetId();
 		}
 		this.authoStdProcedure = authoStdProcedure;
+		this.authoHdg = heading;
 
 
         this.flightStatus = flightStatus;
