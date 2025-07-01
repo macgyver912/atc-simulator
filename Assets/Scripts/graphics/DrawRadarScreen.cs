@@ -113,8 +113,8 @@ public class DrawRadarScreen : MonoBehaviour
             //labelStyle_aircrafts.GetStyle("Label").fontSize = (int) acftLabelFontSize;
 
             defCallsignSize = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX H"));
-            acftLabelWidth = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX AXXX\nFLXXX AAAAA\nAAAAAXA")).x;
-            acftLabelHeight = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX AXXX\nFLXXX AAAAA\nAAAAAXA")).y;
+            acftLabelWidth = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX H\nXXX+ XXX\nXXX AAAAA\nAAAAAXA")).x;
+            acftLabelHeight = labelStyle_aircrafts.GetStyle("Label").CalcSize(new GUIContent("AAAXXXX H\nXXX+ XXX\nXXX AAAAA\nAAAAAXA")).y;
 
             fixGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.fixList.ElementAt(0).Value).GetGO());
             vorRoseGOSize = MngScreen.GetScreenSizeOfGameObject((CreateObjects.vorList.ElementAt(0).Value).GetGO());
