@@ -186,14 +186,17 @@ public class DrawRadarScreen : MonoBehaviour
             // ######### Show aircrafts labels #########
             // Aircraft labels
             foreach (Aircraft acft in CreateObjects.aircraftList)
-            {
+            {   
                 SetAcftLabelPos(acft);
                 Vector2 acftPos = MngScreen.ScreenPosAbsolute(acft.GetScreenPosition());
-                // Below GameObject
 
-                var rect = new Rect(acftLabelRect.x + acftPos.x, acftLabelRect.y + acftPos.y, acftLabelRect.width, acftLabelRect.height);
+                // Below GameObject
+                Rect rect = new Rect(acftLabelRect.x + acftPos.x, acftLabelRect.y + acftPos.y, acftLabelRect.width, acftLabelRect.height);
                 acft.SetLabelScreenPos(MngScreen.GetScreenToWorldPoint(new Vector3(rect.x, rect.y, 0)));
-                GUI.Label(rect, acft.GetLabel(), labelStyle_aircrafts.GetStyle("Label"));
+                if ((acft.GetFlightStatus() == Aircraft.FlightStatus.Arrival) || (acft.GetFlightStatus() == Aircraft.FlightStatus.Departure))
+                {
+                    GUI.Label(rect, acft.GetLabel(), labelStyle_aircrafts.GetStyle("Label"));
+                }
             }//for
 
         }// if showGUI
@@ -319,12 +322,15 @@ public class DrawRadarScreen : MonoBehaviour
     void UpdateRadarScreen()
     {
         // ######### Show aircrafts labels #########
-       
+
         // Aircraft
         foreach (Aircraft acft in CreateObjects.aircraftList)
         {
             UpdateAcftAuthLabel(acft);
-            DrawLabelLine(acft);
+            if ((acft.GetFlightStatus() == Aircraft.FlightStatus.Arrival) || (acft.GetFlightStatus() == Aircraft.FlightStatus.Departure))
+            {
+                DrawLabelLine(acft);
+            }
         }
 
 
@@ -868,7 +874,10 @@ public class DrawRadarScreen : MonoBehaviour
             acft.SetLabelLineOffset(new Vector2(0, 0) * MngScreen.GetPixelRatio());
         }
 
-        DrawLabelLine(acft);
+        if ((acft.GetFlightStatus() == Aircraft.FlightStatus.Arrival) || (acft.GetFlightStatus() == Aircraft.FlightStatus.Departure))
+        {
+            DrawLabelLine(acft);
+        }
 
     }
     
