@@ -166,6 +166,19 @@ public class AircraftCtrl : MonoBehaviour
             }
         }
 
+        if (targetSpeed < aircraft.GetMinSpeed_FlapsFull())
+        {
+            debugText += "Our minimum speed in landing config is " + aircraft.GetMinSpeed_FlapsFull() + " knots, " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+            debugText += "\n";
+            targetSpeed = aircraft.GetMinSpeed_FlapsFull();
+        }
+        else if (targetSpeed < aircraft.GetMinSpeed_CleanConfig())
+        {
+            debugText += "Our minimum clean config speed is " + aircraft.GetMinSpeed_CleanConfig() + " knots, " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+            debugText += "\n";
+            targetSpeed = aircraft.GetMinSpeed_CleanConfig();
+        }
+
         if (targetSpeed > aircraft.GetSpeedGS())
         {
             debugText += "Increasing";

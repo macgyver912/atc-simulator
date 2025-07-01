@@ -48,12 +48,16 @@ public class Aircraft /*: ScriptableObject*/
 	enum SpeedRate_Air_Std : ushort { AcftLight = 2, AcftMedium = 1, AcftHeavy = 1 };           // jets (no Cessna and similar)
 	enum SpeedRate_Air_Max : ushort { AcftLight = 4, AcftMedium = 2, AcftHeavy = 2 };           // jets (no Cessna and similar)
 
-	/*
+    enum Speed_Min_CleanConfig : ushort { AcftLight = 170, AcftMedium = 210, AcftHeavy =  230};           // jets (no Cessna and similar)
+    enum Speed_Min_FlapsFull : ushort { AcftLight = 110, AcftMedium = 135, AcftHeavy =  140};           // jets (no Cessna and similar)
+
+
+    /*
      * Aircraft model, <i>e.g. A320, B738</i>.
      * @attribute aircraftModelCode
      * @type {string}
      */
-	private string aircraftModelCode;
+    private string aircraftModelCode;
 	/**
 	 * Aircraft model name, <i>e.g. Airbus A320-214, Boeing 737-800</i>.
 	 * @attribute aircraftModelName
@@ -320,9 +324,11 @@ public class Aircraft /*: ScriptableObject*/
 	private ushort speedRate_TO;
 	private ushort speedRate_Air_Std;
 	private ushort speedRate_Air_Max;
+	private ushort minSpeed_CleanConfig;
+	private ushort minSpeed_FlapsFull;
 
 
-	/**
+    /**
 	 * @class Aircraft 
 	 * @constructor
 	 * @param {String} modelName Aircraft model name, <i>e.g. Airbus A320-214, Boeing 737-800</i>.
@@ -349,7 +355,7 @@ public class Aircraft /*: ScriptableObject*/
  	 * @param {StdProcedure} authoStdProcedure Indicates if authoPoint belongs to a Standard Procedure.
  	 * @param {FlightStatus} flightStatus Indicates if traffic is incoming (Arrival) or outcoming (Departure).
 	 */
-	public Aircraft(string modelName, string modelCode, Category category, Company company,
+    public Aircraft(string modelName, string modelCode, Category category, Company company,
 				string flightNumber, string registration, ushort squawk, float lat, float lon,
 				ushort heading, /*ushort track,*/ ushort speedGS, /*ushort speedIAS, ushort speedCAS,
 				ushort speedTAS,*/ ushort altitude, /*ushort height,*/ short verticalSpeed,
@@ -428,7 +434,10 @@ public class Aircraft /*: ScriptableObject*/
 			this.speedRate_TO = (ushort) SpeedRate_TO.AcftLight;
 			this.speedRate_Air_Std = (ushort) SpeedRate_Air_Std.AcftLight;
 			this.speedRate_Air_Max = (ushort) SpeedRate_Air_Max.AcftLight;
-		}
+			this.minSpeed_CleanConfig = (ushort) Speed_Min_CleanConfig.AcftLight;
+			this.minSpeed_FlapsFull = (ushort)Speed_Min_FlapsFull.AcftLight;
+
+        }
 		else if (this.category == Aircraft.Category.Medium)
 		{
 			this.turnRate = (ushort) TurnRate.AcftMedium;
@@ -438,7 +447,9 @@ public class Aircraft /*: ScriptableObject*/
 			this.speedRate_TO = (ushort) SpeedRate_TO.AcftMedium;
 			this.speedRate_Air_Std = (ushort) SpeedRate_Air_Std.AcftMedium;
 			this.speedRate_Air_Max = (ushort) SpeedRate_Air_Max.AcftMedium;
-		}
+            this.minSpeed_CleanConfig = (ushort)Speed_Min_CleanConfig.AcftMedium;
+            this.minSpeed_FlapsFull = (ushort)Speed_Min_FlapsFull.AcftMedium;
+        }
 		else
 		{
 			this.turnRate = (ushort) TurnRate.AcftHeavy;
@@ -448,7 +459,9 @@ public class Aircraft /*: ScriptableObject*/
 			this.speedRate_TO = (ushort) SpeedRate_TO.AcftHeavy;
 			this.speedRate_Air_Std = (ushort) SpeedRate_Air_Std.AcftHeavy;
 			this.speedRate_Air_Max = (ushort) SpeedRate_Air_Max.AcftHeavy;
-		}
+            this.minSpeed_CleanConfig = (ushort)Speed_Min_CleanConfig.AcftHeavy;
+            this.minSpeed_FlapsFull = (ushort)Speed_Min_FlapsFull.AcftHeavy;
+        }
 
 		// Locate GameObject inside "Aircrafts" GameObject
         GameObject parentGO = GameObject.Find("Aircrafts");
@@ -507,7 +520,10 @@ public class Aircraft /*: ScriptableObject*/
 	public ushort GetTurnRate() { return this.turnRate; }
 	public ushort GetVSRateStd() { return this.vsRate_Std; }
     public ushort GetVSRateMax() { return this.vsRate_Max; }
-	public ushort GetSpeedRateBrake() { return this.speedRate_Brake; }
+	public ushort GetMinSpeed_CleanConfig() { return this.minSpeed_CleanConfig; }
+    public ushort GetMinSpeed_FlapsFull() { return this.minSpeed_FlapsFull; }
+
+    public ushort GetSpeedRateBrake() { return this.speedRate_Brake; }
     public ushort GetSpeedRateTO() { return this.speedRate_TO; }
     public ushort GetSpeedRateAirStd() { return this.speedRate_Air_Std; }
     public ushort GetSpeedRateAirMax() { return this.speedRate_Air_Max; }
