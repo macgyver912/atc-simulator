@@ -176,16 +176,6 @@ public class DrawGUI : MonoBehaviour
     // Make the contents of the window
     void DoWindowFPS(int windowID)
     {
-        //		GUI.Label(new Rect (10.0f, 20.0f, 100.0f, 20.0f), windowFPSDefaultText);
-        GUI.BeginGroup(new Rect(0, fpsTitleSize.y, windowFPSWidth, arr_dep_panelHeight));
-
-        GUI.Label(new Rect(0, 0, windowFPSWidth, arrivals_titleSize.y), arrivals_title, windowFPS_guistyle.GetStyle("TitleLabel"));
-        arrivals_scrollPos = GUI.BeginScrollView(
-                                    new Rect(0, arrivals_titleSize.y, windowFPSWidth, arr_dep_panelHeight - arrivals_titleSize.y),
-                                    arrivals_scrollPos,
-                                    new Rect(0, 0, windowFPSWidth - 20, CreateObjects.aircraftList.Count * stripSize.y), 
-                                    GUIStyle.none, GUIStyle.none
-                                );
 
         ushort authFL;
         string authFLStr;
@@ -211,6 +201,15 @@ public class DrawGUI : MonoBehaviour
             }
         }
 
+        // Arrivals
+        GUI.BeginGroup(new Rect(0, fpsTitleSize.y, windowFPSWidth, arr_dep_panelHeight));
+        GUI.Label(new Rect(0, 0, windowFPSWidth, arrivals_titleSize.y), arrivals_title, windowFPS_guistyle.GetStyle("TitleLabel"));
+        arrivals_scrollPos = GUI.BeginScrollView(
+                                    new Rect(0f, arrivals_titleSize.y, windowFPSWidth, arr_dep_panelHeight - arrivals_titleSize.y),
+                                    arrivals_scrollPos,
+                                    new Rect(0f, arrivals_titleSize.y, windowFPSWidth, arrivalAcfts.Count * stripSize.y),
+                                    GUIStyle.none, GUIStyle.none
+                                );
 
         ushort i = 0;
         foreach (Aircraft acft in arrivalAcfts)
@@ -234,22 +233,20 @@ public class DrawGUI : MonoBehaviour
                                 authFLStr + " " + authoHdgPoint + "\n" +
                                 authoStdProcedure;
 
-            GUI.Label(new Rect(0f, stripSize.y * i, 100f, stripSize.y), strip, windowFPS_guistyle.GetStyle("Arrivals"));
+            GUI.Label(new Rect(0f, fpsTitleSize.y + stripSize.y * i, windowFPSWidth, stripSize.y), strip, windowFPS_guistyle.GetStyle("Arrivals"));
             i++;
         }
         
         GUI.EndScrollView();
-
         GUI.EndGroup();
 
-
+        // Departures
         GUI.BeginGroup(new Rect(0.0f, fpsTitleSize.y + arr_dep_panelHeight, windowFPSWidth, arr_dep_panelHeight));
-
         GUI.Label(new Rect(0.0f, 0.0f, windowFPSWidth, departures_titleSize.y), departures_title, windowFPS_guistyle.GetStyle("TitleLabel"));
-        arrivals_scrollPos = GUI.BeginScrollView(
-                                    new Rect(0.0f, departures_titleSize.y, windowFPSWidth, arr_dep_panelHeight - departures_titleSize.y),
-                                    arrivals_scrollPos,
-                                    new Rect(0.0f, 0.0f, windowFPSWidth - 20.0f, CreateObjects.aircraftList.Count * stripSize.y)
+        departures_scrollPos = GUI.BeginScrollView(
+                                    new Rect(0f, departures_titleSize.y, windowFPSWidth, arr_dep_panelHeight - departures_titleSize.y),
+                                    departures_scrollPos,
+                                    new Rect(0f, departures_titleSize.y, windowFPSWidth , departureAcfts.Count * stripSize.y)
                                 );
        
         i = 0;
@@ -273,12 +270,11 @@ public class DrawGUI : MonoBehaviour
             strip = acft.GetCallsignCode() + acft.GetFlightNumber() + " " + acft.GetAircraftModelCode() + "\n" +
                                 authFLStr + " " + authoHdgPoint + "\n" +
                                 authoStdProcedure;
-            GUI.Label(new Rect(0f, stripSize.y * i, 100f, stripSize.y), strip, windowFPS_guistyle.GetStyle("Departures"));
+            GUI.Label(new Rect(0f, fpsTitleSize.y + stripSize.y * i, windowFPSWidth, stripSize.y), strip, windowFPS_guistyle.GetStyle("Departures"));
             i++;
         }
         
         GUI.EndScrollView();
-
         GUI.EndGroup();
     }
 
