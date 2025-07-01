@@ -681,17 +681,97 @@ public class CreateObjects : MonoBehaviour
 
 
         // -- Departures --
-        // Avianca from South America -> Entry from South-West
+        // Avianca to South America -> Departure by South-West
         aircraftList.Add(new Aircraft(
-            "Boeing 787-800", "B788", Aircraft.Category.Heavy, companyList[14], "4876", null, 4839,
-            Measurement.DMS2DD(41, 00, 00f), Measurement.DMS2DD(-5, 30, 00f), 360,
-            180, 3000, 0,
-            220, 8000,
+            "Boeing 787-800", "B788", Aircraft.Category.Heavy, companyList[14], "237", null, 4839,
+            Measurement.DMS2DD(40, 31, 22.40f), Measurement.DMS2DD(-3, 34, 29.27f), 360,
+            180, 2000, 0,
+            220, 13000,
             null,
-            GetSTAR("SOTUK4C") as StdProcedure,
+            GetSID("CCS6L") as StdProcedure,
+            Aircraft.FlightStatus.Outgoing
+        ));
+
+        // British Airways to UK -> Departure by North
+        aircraftList.Add(new Aircraft(
+            "Boeing 777-300ER", "B77W", Aircraft.Category.Heavy, companyList[8], "275", null, 4956,
+            Measurement.DMS2DD(40, 46, 49.4f), Measurement.DMS2DD(-3, 39, 31.0f), 007,
+            280, 14000, 0,
+            280, 25000,
+            null,//GetVOR("SIE"),//null,
+            null,//GetSID("SIE6L") as StdProcedure,
             Aircraft.FlightStatus.Departure
         ));
 
+        // Air Nostrum to Bilbao -> Departure by North
+        aircraftList.Add(new Aircraft(
+            "ATR-72", "AT72", Aircraft.Category.Light, companyList[3], "5138", null, 4826,
+            Measurement.DMS2DD(41, 09, 06.0f), Measurement.DMS2DD(-3, 36, 17.4f), 355,
+            300, 20000, 0,
+            300, 28000,
+            null,//GetVOR("SIE"),//null,
+            null,//GetSID("SIE6L") as StdProcedure,
+            Aircraft.FlightStatus.Departure
+        ));
+
+        // Lufthansa to Europe -> Departure by North-East
+        aircraftList.Add(new Aircraft(
+            "Airbus A321", "A321", Aircraft.Category.Medium, companyList[10], "327L", null, 4457,
+            Measurement.DMS2DD(40, 58, 49.1f), Measurement.DMS2DD(-2, 35, 57.0f), 076,
+            300, 22000, 0,
+            300, 35000,
+            null,
+            null,
+            Aircraft.FlightStatus.Departure
+        ));
+
+        // Air Europa to Palma -> Departure by North-East
+        aircraftList.Add(new Aircraft(
+            "Boeing 737-800", "B789", Aircraft.Category.Heavy, companyList[2], "2754", null, 4183,
+            Measurement.DMS2DD(40, 51, 13.9f), Measurement.DMS2DD(-3, 14, 47.9f), 076,
+            300, 16000, 0,
+            300, 29000,
+            GetFIX("PINAR"),
+            null,
+            Aircraft.FlightStatus.Departure
+        ));
+
+        // Iberia to Galicia -> Departure by North-West
+        aircraftList.Add(new Aircraft(
+            "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[0], "1325", null, 4532,
+            Measurement.DMS2DD(41, 00, 54.9f), Measurement.DMS2DD(-4, 13, 23.7f), 297,
+            240, 14000, 0,
+            240, 26000,
+            GetVOR("ZMR"),
+            null,
+            Aircraft.FlightStatus.Departure
+        ));
+
+        // Iberia to Alicante -> Departure by South-East
+        aircraftList.Add(new Aircraft(
+            "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[0], "6234", null, 4189,
+            Measurement.DMS2DD(40, 31, 41.22f), Measurement.DMS2DD(-3, 33, 33.68f), 360,
+            180, 2000, 0,
+            240, 25000,
+            null,
+            GetSID("NANDO3R") as StdProcedure,
+            Aircraft.FlightStatus.Outgoing
+        ));
+
+        // TAP Portugal to Porgutal -> Departure by West
+        aircraftList.Add(new Aircraft(
+            "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[4], "237M", null, 4198,
+            Measurement.DMS2DD(40, 26, 18.1f), Measurement.DMS2DD(-4, 52, 37.6f), 278,
+            280, 26000, 0,
+            300, 32000,
+            GetFIX("BARDI"),
+            null,//GetSTAR("BARDI6W") as StdProcedure,
+            Aircraft.FlightStatus.Departure
+        ));
+
+
+        //new Runway("18R", 180, 4179, Measurement.DMS2DD(40, 31, 22.40f), Measurement.DMS2DD(-3, 34, 29.27f), 2000f, true);
+        //new Runway("18L", 180, 3500, Measurement.DMS2DD(40, 31, 41.22f), Measurement.DMS2DD(-3, 33, 33.68f), 2000f, true);
     }
 
     public static void PrepareDraw()
