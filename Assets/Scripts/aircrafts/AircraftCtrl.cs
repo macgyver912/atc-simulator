@@ -51,12 +51,24 @@ public class AircraftCtrl : MonoBehaviour
     {
         SetTrails();
         InvokeRepeating("UpdateAcftData", 0, Config.aircraftDataPeriod);
+
+
         if (aircraft.GetAuthoStdProcedure() != null && aircraft.GetAuthoStdProcedure().GetNavaids().Count > 0)
+        {
+            // Create a copy of procedure to avoid delete original one
+            StdProcedure origStdProcedure = aircraft.GetAuthoStdProcedure();
+            StdProcedure copyStdProcedure = origStdProcedure.CopyStdProcedure(origStdProcedure as StdProcedure);
+            aircraft.SetAuthoStdProcedure(copyStdProcedure);
             FlyTo(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
+        }
         else if (aircraft.GetAuthoPoint() != null)
+        {
             FlyTo(aircraft.GetAuthoPoint());
+        }
         else
+        {
             Turn(aircraft.GetAuthoHdg(), 1);
+        }
     }
 
     void UpdateAcftData()
@@ -522,9 +534,9 @@ public class AircraftCtrl : MonoBehaviour
         if ((prevHdg + deltaHdg) > 360f )
             prevHdg = prevHdg - 360f;
         
-        Debug.Log("prevHdg: " + prevHdg);
-        Debug.Log("nextHdg: " + nextHdg);
-        Debug.Log("targetHeading: " + targetHeading);
+        //Debug.Log("prevHdg: " + prevHdg);
+        //Debug.Log("nextHdg: " + nextHdg);
+        //Debug.Log("targetHeading: " + targetHeading);
         
         // Target heading is reached, set heading as target heading
         if ((nextHdg >= targetHeading && prevHdg <= targetHeading)
@@ -636,7 +648,8 @@ public class AircraftCtrl : MonoBehaviour
                 if (authoPoint.GetType() == typeof(FIX))
                 {
                     FIX aux_fix = authoPoint as FIX;
-                    if (aux_fix.IsCompulsory()) {
+                    if (aux_fix.IsCompulsory())
+                    {
                         //Debug.Log(authoPoint.GetId() + " is FIX compulsory");
                         string debugText;
                         if (aircraft.GetAuthoPoint().GetType() == typeof(VOR))
@@ -666,6 +679,18 @@ public class AircraftCtrl : MonoBehaviour
             }
 
         }
+        else if (aircraft.GetAuthoPoint() != null)
+        { 
+            nextPoint = aircraft.GetAuthoPoint();
+        }
+        else
+        {
+            nextPoint = null;
+            aircraft.SetAuthoStdProcedure(null);
+            aircraft.SetAuthoPoint(null);
+            aircraft.SetAuthoHdg(aircraft.GetHeading());
+        }
+
         return nextPoint;
     }
 

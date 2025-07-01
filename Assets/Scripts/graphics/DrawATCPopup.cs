@@ -590,7 +590,6 @@ public class DrawATCPopup : MonoBehaviour
 
             // update radar screen tag of this aircraft
             acftCtrl.GetAircraft().SetAuthoHdg(tgtHdg);
-            DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
 
             // simulate the communication text between ATC and pilots
             string hdgStr = string.Format("{0:D3}", tgtHdg);
@@ -603,6 +602,8 @@ public class DrawATCPopup : MonoBehaviour
             // set commands to the aircraft
             acftCtrl.Turn(tgtHdg, submenuHeadingToolbarInt);
             acftCtrl.GetAircraft().SetAuthoStdProcedure(null);
+
+            DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
         }
         else
         {
@@ -833,7 +834,6 @@ public class DrawATCPopup : MonoBehaviour
 
             // update radar screen tag of this aircraft
             acftCtrl.GetAircraft().SetAuthoAltitude(tgtAlt);
-            DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
 
             // simulate the communication text between ATC and pilots
             string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber())
@@ -861,6 +861,7 @@ public class DrawATCPopup : MonoBehaviour
             // altitude and requested altitude are equals
         }
 
+        DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
     }
     
 
@@ -1009,8 +1010,7 @@ public class DrawATCPopup : MonoBehaviour
 
         // update radar screen tag of this aircraft
         acftCtrl.GetAircraft().SetAuthoPoint(tgtPoint);
-        acftCtrl.GetAircraft().SetAuthoStdProcedure(null);
-        DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
+        acftCtrl.GetAircraft().SetAuthoStdProcedure(null); 
 
         // simulate the communication text between ATC and pilots
         //string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + tgtPoint.GetId();
@@ -1030,6 +1030,7 @@ public class DrawATCPopup : MonoBehaviour
         // set commands to the aircraft
         acftCtrl.FlyTo(tgtPoint);
 
+        DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
     } // AcceptPressed_Point
 
 
@@ -1120,7 +1121,6 @@ public class DrawATCPopup : MonoBehaviour
             // update radar screen tag of this aircraft
             string spdStr = string.Format("{0:D3}", tgtSpd);
             //acftCtrl.GetAircraft().SetAuthoSpeed(tgtSpd);
-            DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
 
             // simulate the communication text between ATC and pilots
             string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) 
@@ -1132,6 +1132,8 @@ public class DrawATCPopup : MonoBehaviour
             // set commands to the aircraft
             //acftCtrl.GetAircraft().SetAuthoSpeed(tgtSpd);
             acftCtrl.ChangeSpeed(tgtSpd, submenuIsSpeedSpeedUp);
+
+            DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
         }
         else
         {
@@ -1351,8 +1353,10 @@ public class DrawATCPopup : MonoBehaviour
                 if (GUI.Button(new Rect(0, 0 + submenuNavaidButtonSize.y * i,
                             submenuSize.x * 0.5f, submenuNavaidButtonSize.y), sid_procedure.GetName(), submenuNavaidButtonStyle))
                 {
-                    acftCtrl.GetAircraft().SetAuthoStdProcedure(sid_procedure as StdProcedure);
-                    acftCtrl.FlyTo(sid_procedure.GetNavaids()[0]);
+                    // Create a copy of procedure to avoid delete original one
+                    StdProcedure copy_sid = sid_procedure.CopyStdProcedure(sid_procedure as StdProcedure);
+                    acftCtrl.GetAircraft().SetAuthoStdProcedure(copy_sid);
+                    acftCtrl.FlyTo(acftCtrl.GetAircraft().GetAuthoStdProcedure().GetNavaids()[0]);
                     DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
                     showProceduresPopup = false;
                 }
@@ -1376,8 +1380,10 @@ public class DrawATCPopup : MonoBehaviour
                 if (GUI.Button(new Rect(submenuSize.x * 0.5f, submenuNavaidButtonSize.y * i,
                             submenuSize.x * 0.5f, submenuNavaidButtonSize.y), star_procedure.GetName(), submenuNavaidButtonStyle))
                 {
-                    acftCtrl.GetAircraft().SetAuthoStdProcedure(star_procedure as StdProcedure);
-                    acftCtrl.FlyTo(star_procedure.GetNavaids()[0]);
+                    // Create a copy of procedure to avoid delete original one
+                    StdProcedure copy_star = star_procedure.CopyStdProcedure(star_procedure as StdProcedure);
+                    acftCtrl.GetAircraft().SetAuthoStdProcedure(copy_star);
+                    acftCtrl.FlyTo(acftCtrl.GetAircraft().GetAuthoStdProcedure().GetNavaids()[0]);
                     DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
                     showProceduresPopup = false;
                 }

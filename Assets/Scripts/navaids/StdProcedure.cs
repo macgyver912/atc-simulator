@@ -52,6 +52,20 @@
                 navaids = null;            
         }
 
+        
+        public StdProcedure CopyStdProcedure(StdProcedure origStdProcedure)
+        {
+            string name = origStdProcedure.GetName();
+            List<Navaid> navaidsToCopy = new List<Navaid>();
+            foreach (Navaid navaid in origStdProcedure.GetNavaids())
+            {
+                navaidsToCopy.Add(navaid);
+            }
+            StdProcedure newStdProcedure = new StdProcedure(name, navaidsToCopy);
+
+            return newStdProcedure;
+        }
+
         public string GetName() { return name; }
         public List<Navaid> GetNavaids() { return navaids; }
         public ushort GetNumberOfPoints() { return (ushort) this.GetNavaids().Count; }
