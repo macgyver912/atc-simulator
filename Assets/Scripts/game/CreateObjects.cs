@@ -500,24 +500,182 @@ public class CreateObjects : MonoBehaviour
         // ### AIRCRAFTS ###
         aircraftList = new List<Aircraft>();
 
+        // -- Arrivals -- 
+
+        // Iberia from Europe country -> Entry from East
         aircraftList.Add(new Aircraft(
             "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[0], "5472", null, 4257,
             Measurement.DMS2DD(40, 30, 00f), Measurement.DMS2DD(-1, 58, 00f), 270,
-            250, 20000, 0,
+            250, 18000, 0,
             220, 6000,
             null,
             GetSTAR("ADUXO2D") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
 
+        // Iberia from Alicante -> Entry from South-East
         aircraftList.Add(new Aircraft(
-            "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[0], "5472", null, 4257,
-            Measurement.DMS2DD(40, 30, 00f), Measurement.DMS2DD(-3, 58, 00f), 300,
-            250, 20000, 0,
-            220, 6000,
+            "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[0], "3275", null, 4167,
+            Measurement.DMS2DD(38, 55, 00f), Measurement.DMS2DD(-3, 30, 00f), 330,
+            300, 24000, 0,
+            280, 16000,
             null,
-            GetSTAR("ADUXO2D") as StdProcedure,
+            GetSTAR("MORAL5C") as StdProcedure,
+            Aircraft.FlightStatus.Arrival
+        ));
+
+        // Vueling from Barcelona -> Entry from North-East
+        aircraftList.Add(new Aircraft(
+            "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[1], "3201", null, 4378,
+            Measurement.DMS2DD(40, 45, 00f), Measurement.DMS2DD(-2, 00, 00f), 250,
+            280, 20000, 0,
+            230, 8000,
+            null,
+            GetSTAR("TERSA3Z") as StdProcedure,
+            Aircraft.FlightStatus.Arrival
+        ));
+
+        // Air Europa from South America -> Entry from West
+        aircraftList.Add(new Aircraft(
+            "Boeing 787-900", "B789", Aircraft.Category.Heavy, companyList[2], "450C", null, 4268,
+            Measurement.DMS2DD(40, 45, 00f), Measurement.DMS2DD(-6, 00, 00f), 117,
+            280, 19000, 0,
+            250, 7000,
+            null,
+            GetSTAR("RIDAV4C") as StdProcedure,
+            Aircraft.FlightStatus.Arrival
+        ));
+
+        // Air Europa from Alicante -> Entry from South-East
+        aircraftList.Add(new Aircraft(
+            "Boeing 737-800", "B789", Aircraft.Category.Heavy, companyList[2], "3487", null, 4126,
+            Measurement.DMS2DD(38, 58, 00f), Measurement.DMS2DD(-3, 00, 00f), 270,
+            310, 26000, 0,
+            260, 18000,
+            null,
+            GetSTAR("MORAL5C") as StdProcedure,
             Aircraft.FlightStatus.Incoming
+        ));
+
+        // Air Nostrum from Bilbao -> Entry from North
+        aircraftList.Add(new Aircraft(
+            "ATR-72", "AT72", Aircraft.Category.Light, companyList[3], "1100", null, 4158,
+            Measurement.DMS2DD(41, 45, 00f), Measurement.DMS2DD(-4, 10, 00f), 185,
+            230, 16000, 0,
+            210, 8000,
+            null,
+            GetSTAR("NONTU4C") as StdProcedure,
+            Aircraft.FlightStatus.Arrival
+        ));
+
+        // TAP Portugal from Oporto -> Entry from West
+        aircraftList.Add(new Aircraft(
+            "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[4], "9761", null, 4259,
+            Measurement.DMS2DD(39, 55, 00f), Measurement.DMS2DD(-4, 30, 00f), 070,
+            220, 10000, 0,
+            210, 5000,
+            null,
+            GetSTAR("TLD3C") as StdProcedure,
+            Aircraft.FlightStatus.Arrival
+        ));
+
+        // Ryanair from Italy -> Entry from West
+        aircraftList.Add(new Aircraft(
+            "Boeing 737-800", "B738", Aircraft.Category.Medium, companyList[5], "9761", null, 4765,
+            Measurement.DMS2DD(40, 05, 00f), Measurement.DMS2DD(-1, 50, 00f), 299,
+            230, 15000, 0,
+            210, 7000,
+            null,
+            GetSTAR("PRADO3D") as StdProcedure,
+            Aircraft.FlightStatus.Arrival
+        ));
+
+        // EasyJet from London -> Entry from North
+        aircraftList.Add(new Aircraft(
+            "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[6], "6237", null, 4765,
+            Measurement.DMS2DD(41, 35, 00f), Measurement.DMS2DD(-2, 25, 00f), 206,
+            260, 16000, 0,
+            230, 8000,
+            null,
+            GetSTAR("BANEV4D") as StdProcedure,
+            Aircraft.FlightStatus.Arrival
+        ));
+
+        // American Airlines from USA -> Entry from West
+        aircraftList.Add(new Aircraft(
+            "Boeing 777-300ER", "B77W", Aircraft.Category.Heavy, companyList[7], "94", null, 4687,
+            Measurement.DMS2DD(41, 50, 00f), Measurement.DMS2DD(-5, 45, 00f), 138,
+            280, 21000, 0,
+            230, 9000,
+            null,
+            GetSTAR("ZMR5C") as StdProcedure,
+            Aircraft.FlightStatus.Arrival
+        ));
+
+        // British Airways from USA -> Entry from West
+        aircraftList.Add(new Aircraft(
+            "Boeing 777-300ER", "B77W", Aircraft.Category.Heavy, companyList[8], "734", null, 4687,
+            Measurement.DMS2DD(42, 10, 00f), Measurement.DMS2DD(-6, 00, 00f), 105,
+            300, 23000, 0,
+            280, 17000,
+            null,
+            GetSTAR("ZMR5C") as StdProcedure,
+            Aircraft.FlightStatus.Incoming
+        ));
+
+        // Delta Airlines from USA -> Entry from West
+        aircraftList.Add(new Aircraft(
+            "Airbus A330-300", "A333", Aircraft.Category.Heavy, companyList[9], "126", null, 4395,
+            Measurement.DMS2DD(40, 50, 00f), Measurement.DMS2DD(-6, 30, 00f), 120,
+            280, 19000, 0,
+            230, 15000,
+            null,
+            GetSTAR("RIDAV4C") as StdProcedure,
+            Aircraft.FlightStatus.Incoming
+        ));
+
+        // Lufthansa from Europe -> Entry from North-East
+        aircraftList.Add(new Aircraft(
+            "Airbus A321", "A321", Aircraft.Category.Medium, companyList[10], "3549", null, 4186,
+            Measurement.DMS2DD(41, 30, 00f), Measurement.DMS2DD(-1, 30, 00f), 220,
+            280, 24000, 0,
+            240, 16000,
+            null,
+            GetSTAR("TERSA3Z") as StdProcedure,
+            Aircraft.FlightStatus.Incoming
+        ));
+
+        // Emirates from Asia -> Entry from East
+        aircraftList.Add(new Aircraft(
+            "Airbus A380-800", "A388", Aircraft.Category.Heavy, companyList[12], "143", null, 4731,
+            Measurement.DMS2DD(40, 00, 00f), Measurement.DMS2DD(-1, 30, 00f), 299,
+            300, 17000, 0,
+            240, 7000,
+            null,
+            GetSTAR("PRADO3D") as StdProcedure,
+            Aircraft.FlightStatus.Incoming
+        ));
+
+        // Aeromexico from South America -> Entry from South-West
+        aircraftList.Add(new Aircraft(
+            "Boeing 787-900", "B789", Aircraft.Category.Heavy, companyList[13], "21", null, 4429,
+            Measurement.DMS2DD(39, 30, 00f), Measurement.DMS2DD(-5, 30, 00f), 070,
+            300, 20000, 0,
+            240, 8000,
+            null,
+            GetSTAR("TLD3C") as StdProcedure,
+            Aircraft.FlightStatus.Arrival
+        ));
+
+        // Avianca from South America -> Entry from South-West
+        aircraftList.Add(new Aircraft(
+            "Boeing 787-800", "B788", Aircraft.Category.Heavy, companyList[14], "182", null, 4765,
+            Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-5, 30, 00f), 070,
+            280, 22000, 0,
+            250, 14000,
+            null,
+            GetSTAR("TLD3C") as StdProcedure,
+            Aircraft.FlightStatus.Arrival
         ));
 
     }
