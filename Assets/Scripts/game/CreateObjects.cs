@@ -674,7 +674,7 @@ public class CreateObjects : MonoBehaviour
             280, 22000, 0,
             250, 14000,
             null,
-            GetSTAR("TLD3C") as StdProcedure,
+            GetSTAR("SOTUK4C") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
 

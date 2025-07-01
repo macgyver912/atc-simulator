@@ -73,6 +73,10 @@ public class FIX : Navaid /*: ScriptableObject*/
 		this.go.transform.parent = parentGO.transform;
     }
 
+    public bool IsCompulsory() { 
+        return this.type == FIX.FixTypes.Compulsory; 
+    }
+
  
 
 

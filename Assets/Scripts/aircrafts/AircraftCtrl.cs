@@ -414,9 +414,13 @@ public class AircraftCtrl : MonoBehaviour
             }
         }
 
-        //debugText += " to heading " + targetHeading + ", " + aircraft.GetCallsignCode() + aircraft.GetFlightNumber();
-        //Debug.LogWarning(debugText);
-        MngDialogs.SetText(debugText, 1);
+        // If ATC instructed turn, reply it. If ATC did not instruct, then is an automatic turn and pilot must be muted
+        if (MngDialogs.GetText(0) != String.Empty)
+        {
+            //debugText += " to heading " + targetHeading + ", " + aircraft.GetCallsignCode() + aircraft.GetFlightNumber();
+            //Debug.LogWarning(debugText);
+            MngDialogs.SetText(debugText, 1);
+        }
     }
 
 
@@ -608,6 +612,24 @@ public class AircraftCtrl : MonoBehaviour
             if (distToNextPoint < 1.0f) // nm
             {
                 //Debug.Log("Next point");
+                // If point is compulsory, call ATC
+                if (authoPoint.GetType() == typeof(FIX))
+                {
+                    FIX aux_fix = authoPoint as FIX;
+                    if (aux_fix.IsCompulsory()) {
+                        //Debug.Log(authoPoint.GetId() + " is FIX compulsory");
+                        string debugText;
+                        if (aircraft.GetAuthoPoint().GetType() == typeof(VOR))
+                        {
+                            debugText = "Overflying " + (aircraft.GetAuthoPoint() as VOR).GetName() + " V O R, " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+                        }
+                        else
+                        {
+                            debugText = "Overflying " + aircraft.GetAuthoPoint().GetId() + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+                        }
+                        MngDialogs.SetText(debugText, 1);
+                    }
+                }
                 // Remove current point
                 aircraft.GetAuthoStdProcedure().RemoveNavaid(authoPoint.GetId());
                 // Set next point the first of list (previous were removed)

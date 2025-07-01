@@ -22,9 +22,17 @@ public class MngDialogs : MonoBehaviour
         {
             GUI.Label(new Rect(Screen.width * 0.1f, Screen.height - 40, Screen.width * 0.4f, 30), textToShowLeft, _textStyle);
         }
+        else
+        {
+            textToShowLeft = string.Empty;
+        }
         if (textToShowRight != string.Empty && (Time.time - startTime) < _textTimeDuration)
         {
             GUI.Label(new Rect(Screen.width * 0.6f, Screen.height - 40, Screen.width * 0.4f, 30), textToShowRight, _textStyle);
+        }
+        else
+        {
+            textToShowRight = string.Empty;
         }
 
     }
@@ -46,4 +54,12 @@ public class MngDialogs : MonoBehaviour
             InitTimer();
         }
     }
+    public static string GetText(ushort side)
+    {
+        if (side == 0)
+            return textToShowLeft;
+        else
+            return textToShowRight;
+    }
+
 }
