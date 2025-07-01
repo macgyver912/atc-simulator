@@ -556,7 +556,7 @@ public class CreateObjects : MonoBehaviour
             GetSTAR("MORAL5C") as StdProcedure,
             Aircraft.FlightStatus.Incoming
         ));
-
+        
         // Air Nostrum from Bilbao -> Entry from North
         aircraftList.Add(new Aircraft(
             "ATR-72", "AT72", Aircraft.Category.Light, companyList[3], "1100", null, 4158,

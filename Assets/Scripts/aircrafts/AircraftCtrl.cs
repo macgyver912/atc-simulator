@@ -51,6 +51,7 @@ public class AircraftCtrl : MonoBehaviour
     {
         SetTrails();
         InvokeRepeating("UpdateAcftData", 0, Config.aircraftDataPeriod);
+        FlyTo(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
     }
 
     void UpdateAcftData()

@@ -557,7 +557,8 @@ public class Aircraft /*: ScriptableObject*/
 		{
 			//Debug.Log("SetAuthoPoint(): " + authoStdProcedure.GetNavaids()[0].GetId());
 			SetAuthoPoint(authoStdProcedure.GetNavaids()[0] as Navaid);
-		}
+            //this.go.GetComponent<AircraftCtrl>().FlyTo(this.authoPoint);
+        }
     }
 
     public void SetAuthoHdg(ushort authoHdg) { this.authoHdg = authoHdg; this.authoPoint = null; }

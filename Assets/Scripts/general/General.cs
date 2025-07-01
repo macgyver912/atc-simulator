@@ -29,7 +29,6 @@ public class General : MonoBehaviour
         DrawGUI.StartDraw();
         DrawRadarScreen.StartDraw();
         DrawATCPopup.Init();
-
     }
 
     // Update is called once per frame
