@@ -1354,7 +1354,7 @@ public class DrawATCPopup : MonoBehaviour
                             submenuSize.x * 0.5f, submenuNavaidButtonSize.y), sid_procedure.GetName(), submenuNavaidButtonStyle))
                 {
                     // Create a copy of procedure to avoid delete original one
-                    StdProcedure copy_sid = sid_procedure.CopyStdProcedure(sid_procedure as StdProcedure, acftCtrl.GetAircraft().GetAuthoPoint() as Navaid);
+                    StdProcedure copy_sid = sid_procedure.CopyStdProcedure(sid_procedure as StdProcedure, null);
                     acftCtrl.GetAircraft().SetAuthoStdProcedure(copy_sid);
                     acftCtrl.FlyTo(acftCtrl.GetAircraft().GetAuthoStdProcedure().GetNavaids()[0]);
                     DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
@@ -1381,7 +1381,7 @@ public class DrawATCPopup : MonoBehaviour
                             submenuSize.x * 0.5f, submenuNavaidButtonSize.y), star_procedure.GetName(), submenuNavaidButtonStyle))
                 {
                     // Create a copy of procedure to avoid delete original one
-                    StdProcedure copy_star = star_procedure.CopyStdProcedure(star_procedure as StdProcedure, acftCtrl.GetAircraft().GetAuthoPoint() as Navaid);
+                    StdProcedure copy_star = star_procedure.CopyStdProcedure(star_procedure as StdProcedure, null);
                     acftCtrl.GetAircraft().SetAuthoStdProcedure(copy_star);
                     acftCtrl.FlyTo(acftCtrl.GetAircraft().GetAuthoStdProcedure().GetNavaids()[0]);
                     DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
