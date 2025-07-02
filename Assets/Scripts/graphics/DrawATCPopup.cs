@@ -92,11 +92,16 @@ public class DrawATCPopup : MonoBehaviour
     Vector2 fixScrollViewValue = new Vector2(0f, 0f);
     Vector2 sidScrollViewValue = new Vector2(0f, 0f);
     Vector2 starScrollViewValue = new Vector2(0f, 0f);
+    Vector2 sidPointsScrollViewValue = new Vector2(0f, 0f);
+    Vector2 starPointsScrollViewValue = new Vector2(0f, 0f);
 
     int submenuHeadingToolbarInt = 1;
     Texture[] submenuHeadingToolbarTextures;
 
     bool setupSubmenu;
+    bool showProcedurePoints = false;
+    StdProcedure selStdProcedure;
+    int selProcedureIndex = 0;
 
     static string inputsName = "InputBox";
     static ushort submenuMaxNumberOfDigits = 5;
@@ -1325,66 +1330,144 @@ public class DrawATCPopup : MonoBehaviour
         GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
         textStyle.alignment = TextAnchor.MiddleCenter;
 
-        uint i = 0;
-        GUI.BeginGroup(new Rect(popupOffset, popupOffset, submenuSize.x, submenuSize.y));
+        if (!showProcedurePoints)
+        {   // Show SID/STAR procedures
+            int i = 0;
+            GUI.BeginGroup(new Rect(popupOffset, popupOffset, submenuSize.x, submenuSize.y));
 
-        // For departure flights
-        if (acftCtrl.GetAircraft().GetFlightStatus() == Aircraft.FlightStatus.Departure)
-        {
-            GUI.Label(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y), "SID", textStyle);
-
-            sidScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y),
-                sidScrollViewValue,
-                new Rect(0, 0, submenuSize.x * 0.5f, CreateObjects.sidList.Count * submenuNavaidButtonSize.y),
-                GUIStyle.none, GUIStyle.none);
-
-            i = 0;
-            foreach (SID sid_procedure in CreateObjects.sidList)
+            // For departure flights
+            if (acftCtrl.GetAircraft().GetFlightStatus() == Aircraft.FlightStatus.Departure)
             {
-                // List of SID buttons
-                if (GUI.Button(new Rect(0, 0 + submenuNavaidButtonSize.y * i,
-                            submenuSize.x * 0.5f, submenuNavaidButtonSize.y), sid_procedure.GetName(), submenuNavaidButtonStyle))
+                GUI.Label(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y), "SID", textStyle);
+
+                sidScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y),
+                    sidScrollViewValue,
+                    new Rect(0, 0, submenuSize.x * 0.5f, CreateObjects.sidList.Count * submenuNavaidButtonSize.y),
+                    GUIStyle.none, GUIStyle.none);
+
+                i = 0;
+                foreach (SID sid_procedure in CreateObjects.sidList)
                 {
-                    // Create a copy of procedure to avoid delete original one
-                    StdProcedure copy_sid = sid_procedure.CopyStdProcedure(sid_procedure as StdProcedure, null);
-                    acftCtrl.GetAircraft().SetAuthoStdProcedure(copy_sid);
-                    acftCtrl.FlyTo(acftCtrl.GetAircraft().GetAuthoStdProcedure().GetNavaids()[0]);
-                    DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
-                    showProceduresPopup = false;
-                }
-                i++;
-            }//foreach SID
-            GUI.EndScrollView();
+                    // List of SID buttons
+                    if (GUI.Button(new Rect(0, 0 + submenuNavaidButtonSize.y * i,
+                                submenuSize.x * 0.5f, submenuNavaidButtonSize.y), sid_procedure.GetName(), submenuNavaidButtonStyle))
+                    {
+                        selProcedureIndex = i;
+                        selStdProcedure = sid_procedure;
+                        showProcedurePoints = true;
+                        /*
+                        // Create a copy of procedure to avoid delete original one
+                        StdProcedure copy_sid = sid_procedure.CopyStdProcedure(sid_procedure as StdProcedure, null);
+                        acftCtrl.GetAircraft().SetAuthoStdProcedure(copy_sid);
+                        acftCtrl.FlyTo(acftCtrl.GetAircraft().GetAuthoStdProcedure().GetNavaids()[0]);
+                        DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
+                        showProceduresPopup = false;
+                        */
+                    }
+                    i++;
+                }//foreach SID
+                GUI.EndScrollView();
+            }
+            else
+            {   // For arrival flights
+                GUI.Label(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y), "STAR", textStyle);
+
+                starScrollViewValue = GUI.BeginScrollView(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y),
+                    starScrollViewValue,
+                    new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, CreateObjects.starList.Count * submenuNavaidButtonSize.y),
+                    GUIStyle.none, GUIStyle.none);
+
+                i = 0;
+                foreach (STAR star_procedure in CreateObjects.starList)
+                {
+                    // List of STAR buttons
+                    if (GUI.Button(new Rect(submenuSize.x * 0.5f, submenuNavaidButtonSize.y * i,
+                                submenuSize.x * 0.5f, submenuNavaidButtonSize.y), star_procedure.GetName(), submenuNavaidButtonStyle))
+                    {
+                        selProcedureIndex = i;
+                        selStdProcedure = star_procedure;
+                        showProcedurePoints = true;
+                        /*
+                        // Create a copy of procedure to avoid delete original one
+                        StdProcedure copy_star = star_procedure.CopyStdProcedure(star_procedure as StdProcedure, null);
+                        acftCtrl.GetAircraft().SetAuthoStdProcedure(copy_star);
+                        acftCtrl.FlyTo(acftCtrl.GetAircraft().GetAuthoStdProcedure().GetNavaids()[0]);
+                        DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
+                        showProceduresPopup = false;
+                        */
+                    }
+                    i++;
+                }//foreach STAR
+                GUI.EndScrollView();
+            }
+
+            GUI.EndGroup();
         }
         else
-        {   // For arrival flights
-            GUI.Label(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y), "STAR", textStyle);
+        {   // Show points belonging to SID / STAR procedure
+            uint i = 0;
+            GUI.BeginGroup(new Rect(popupOffset, popupOffset, submenuSize.x, submenuSize.y));
 
-            starScrollViewValue = GUI.BeginScrollView(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y),
-                starScrollViewValue,
-                new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, CreateObjects.starList.Count * submenuNavaidButtonSize.y),
-                GUIStyle.none, GUIStyle.none);
-
-            i = 0;
-            foreach (STAR star_procedure in CreateObjects.starList)
+            // For departure flights
+            if (acftCtrl.GetAircraft().GetFlightStatus() == Aircraft.FlightStatus.Departure)
             {
-                // List of STAR buttons
-                if (GUI.Button(new Rect(submenuSize.x * 0.5f, submenuNavaidButtonSize.y * i,
-                            submenuSize.x * 0.5f, submenuNavaidButtonSize.y), star_procedure.GetName(), submenuNavaidButtonStyle))
-                {
-                    // Create a copy of procedure to avoid delete original one
-                    StdProcedure copy_star = star_procedure.CopyStdProcedure(star_procedure as StdProcedure, null);
-                    acftCtrl.GetAircraft().SetAuthoStdProcedure(copy_star);
-                    acftCtrl.FlyTo(acftCtrl.GetAircraft().GetAuthoStdProcedure().GetNavaids()[0]);
-                    DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
-                    showProceduresPopup = false;
-                }
-                i++;
-            }//foreach STAR
-            GUI.EndScrollView();
-        }
+                GUI.Label(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y), "SID\nPoints", textStyle);
 
-        GUI.EndGroup();
+                sidPointsScrollViewValue = GUI.BeginScrollView(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y),
+                    sidPointsScrollViewValue,
+                    new Rect(0, 0, submenuSize.x * 0.5f, CreateObjects.sidList[selProcedureIndex].GetNumberOfPoints() * submenuNavaidButtonSize.y),
+                    GUIStyle.none, GUIStyle.none);
+
+                i = 0;
+                foreach (Navaid navaid in CreateObjects.sidList[selProcedureIndex].GetNavaids())
+                {
+                    // List of SID buttons
+                    if (GUI.Button(new Rect(0, 0 + submenuNavaidButtonSize.y * i,
+                                submenuSize.x * 0.5f, submenuNavaidButtonSize.y), navaid.GetId(), submenuNavaidButtonStyle))
+                    {
+                        // Create a copy of procedure to avoid delete original one
+                        StdProcedure copy_sid = selStdProcedure.CopyStdProcedure(selStdProcedure as StdProcedure, navaid);
+                        acftCtrl.GetAircraft().SetAuthoStdProcedure(copy_sid);
+                        acftCtrl.FlyTo(acftCtrl.GetAircraft().GetAuthoStdProcedure().GetNavaids()[0]);
+                        DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
+                        showProcedurePoints = false;
+                        showProceduresPopup = false;
+                    }
+                    i++;
+                }//foreach SID
+                GUI.EndScrollView();
+            }
+            else
+            {   // For arrival flights
+                GUI.Label(new Rect(0, 0, submenuSize.x * 0.5f, submenuSize.y), "STAR\nPoints", textStyle);
+
+                starPointsScrollViewValue = GUI.BeginScrollView(new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, submenuSize.y),
+                    starPointsScrollViewValue,
+                    new Rect(submenuSize.x * 0.5f, 0, submenuSize.x * 0.5f, CreateObjects.starList[selProcedureIndex].GetNumberOfPoints() * submenuNavaidButtonSize.y),
+                    GUIStyle.none, GUIStyle.none);
+
+                i = 0;
+                foreach (Navaid navaid in CreateObjects.starList[selProcedureIndex].GetNavaids())
+                {
+                    // List of STAR buttons
+                    if (GUI.Button(new Rect(submenuSize.x * 0.5f, submenuNavaidButtonSize.y * i,
+                                submenuSize.x * 0.5f, submenuNavaidButtonSize.y), navaid.GetId(), submenuNavaidButtonStyle))
+                    {
+                        // Create a copy of procedure to avoid delete original one
+                        StdProcedure copy_star = selStdProcedure.CopyStdProcedure(selStdProcedure as StdProcedure, navaid);
+                        acftCtrl.GetAircraft().SetAuthoStdProcedure(copy_star);
+                        acftCtrl.FlyTo(acftCtrl.GetAircraft().GetAuthoStdProcedure().GetNavaids()[0]);
+                        DrawRadarScreen.UpdateAcftAuthLabel(acftCtrl.GetAircraft());
+                        showProcedurePoints = false;
+                        showProceduresPopup = false;
+                    }
+                    i++;
+                }//foreach STAR
+                GUI.EndScrollView();
+            }
+
+            GUI.EndGroup();
+        }
 
     }// DoProceduresPopup
 
