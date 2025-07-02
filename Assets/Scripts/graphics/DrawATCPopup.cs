@@ -1097,14 +1097,7 @@ public class DrawATCPopup : MonoBehaviour
 
     ushort CheckRange_SPD(ushort spd_in)
     {
-        ushort spd_out;
-        if (spd_in < HDG_MIN)
-            spd_out = HDG_MAX;
-        else if (spd_in > HDG_MAX)
-            spd_out = HDG_MIN;
-        else
-            spd_out = spd_in;
-
+        ushort spd_out = Math.Clamp(spd_in, SPD_MIN, SPD_MAX);
         //Debug.Log("CheckRange_SPD: " + spd_out);
         return spd_out;
     }
@@ -1322,14 +1315,13 @@ public class DrawATCPopup : MonoBehaviour
     }// DoFlyToPopup
 
 
-    // Make the contents of the window
+    /* Standard Procedures submenu
+	 * List of available SIDs, STARs
+	 */
     void DoProceduresPopup(int windowID)
     {
         //Debug.Log("DoProceduresPopup");
 
-        /* Standard Procedures submenu
-	     * List of available SIDs, STARs
-	     */
         GUIStyle textStyle = new GUIStyle(submenuAsideTextStyle);
         textStyle.alignment = TextAnchor.MiddleCenter;
 
