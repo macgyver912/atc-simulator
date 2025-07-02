@@ -53,13 +53,25 @@
         }
 
         
-        public StdProcedure CopyStdProcedure(StdProcedure origStdProcedure)
+        public StdProcedure CopyStdProcedure(StdProcedure origStdProcedure, Navaid initPoint)
         {
+            // Authorized point can be null to define entire route
+            bool initialPointFound = (initPoint == null);
+            //bool initialPointFound = false;
+
             string name = origStdProcedure.GetName();
             List<Navaid> navaidsToCopy = new List<Navaid>();
+
             foreach (Navaid navaid in origStdProcedure.GetNavaids())
             {
-                navaidsToCopy.Add(navaid);
+                if ((initPoint != null) && (navaid.GetId() == initPoint.GetId()))
+                {
+                    initialPointFound = true;
+                }
+                if (initialPointFound)
+                {
+                    navaidsToCopy.Add(navaid);
+                }
             }
             StdProcedure newStdProcedure = new StdProcedure(name, navaidsToCopy);
 

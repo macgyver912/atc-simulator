@@ -57,7 +57,7 @@ public class AircraftCtrl : MonoBehaviour
         {
             // Create a copy of procedure to avoid delete original one
             StdProcedure origStdProcedure = aircraft.GetAuthoStdProcedure();
-            StdProcedure copyStdProcedure = origStdProcedure.CopyStdProcedure(origStdProcedure as StdProcedure);
+            StdProcedure copyStdProcedure = origStdProcedure.CopyStdProcedure(origStdProcedure as StdProcedure, aircraft.GetAuthoPoint() as Navaid);
             aircraft.SetAuthoStdProcedure(copyStdProcedure);
             FlyTo(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
         }

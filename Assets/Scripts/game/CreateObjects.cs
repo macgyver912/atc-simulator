@@ -502,14 +502,13 @@ public class CreateObjects : MonoBehaviour
         aircraftList = new List<Aircraft>();
 
         // -- Arrivals -- 
-
         // Iberia from Europe country -> Entry from East
         aircraftList.Add(new Aircraft(
             "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[0], "5472", null, 4257,
             Measurement.DMS2DD(40, 30, 00f), Measurement.DMS2DD(-1, 58, 00f), 270,
             250, 18000, 0,
             220, 6000,
-            null,
+            null, // Entire route
             GetSTAR("ADUXO2D") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -520,7 +519,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(38, 55, 00f), Measurement.DMS2DD(-3, 30, 00f), 330,
             300, 24000, 0,
             280, 16000,
-            null,
+            null, // Entire route
             GetSTAR("MORAL5C") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -531,7 +530,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(40, 45, 00f), Measurement.DMS2DD(-2, 00, 00f), 250,
             280, 20000, 0,
             230, 8000,
-            null,
+            null, // Entire route
             GetSTAR("TERSA3Z") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -542,7 +541,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(40, 45, 00f), Measurement.DMS2DD(-6, 00, 00f), 117,
             280, 19000, 0,
             250, 7000,
-            null,
+            null, // Entire route
             GetSTAR("RIDAV4C") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -553,7 +552,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(38, 58, 00f), Measurement.DMS2DD(-3, 00, 00f), 270,
             310, 26000, 0,
             260, 18000,
-            null,
+            null, // Entire route
             GetSTAR("MORAL5C") as StdProcedure,
             Aircraft.FlightStatus.Incoming
         ));
@@ -564,7 +563,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(41, 45, 00f), Measurement.DMS2DD(-4, 10, 00f), 185,
             230, 16000, 0,
             210, 8000,
-            null,
+            null, // Entire route
             GetSTAR("NONTU4C") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -575,7 +574,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(39, 55, 00f), Measurement.DMS2DD(-4, 30, 00f), 070,
             220, 10000, 0,
             210, 5000,
-            null,
+            null, // Entire route
             GetSTAR("TLD3C") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -586,7 +585,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(40, 05, 00f), Measurement.DMS2DD(-1, 50, 00f), 299,
             230, 15000, 0,
             210, 7000,
-            null,
+            null, // Entire route
             GetSTAR("PRADO3D") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -597,7 +596,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(41, 35, 00f), Measurement.DMS2DD(-2, 25, 00f), 206,
             260, 16000, 0,
             230, 8000,
-            null,
+            null, // Entire route,
             GetSTAR("BANEV4D") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -608,7 +607,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(41, 50, 00f), Measurement.DMS2DD(-5, 45, 00f), 138,
             280, 21000, 0,
             230, 9000,
-            null,
+            null, // Entire route
             GetSTAR("ZMR5C") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -619,7 +618,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(42, 10, 00f), Measurement.DMS2DD(-6, 00, 00f), 105,
             300, 23000, 0,
             280, 17000,
-            null,
+            null, // Entire route
             GetSTAR("ZMR5C") as StdProcedure,
             Aircraft.FlightStatus.Incoming
         ));
@@ -630,7 +629,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(40, 50, 00f), Measurement.DMS2DD(-6, 30, 00f), 120,
             280, 19000, 0,
             230, 15000,
-            null,
+            null, // Entire route
             GetSTAR("RIDAV4C") as StdProcedure,
             Aircraft.FlightStatus.Incoming
         ));
@@ -641,7 +640,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(41, 30, 00f), Measurement.DMS2DD(-1, 30, 00f), 220,
             280, 24000, 0,
             240, 16000,
-            null,
+            null, // Entire route
             GetSTAR("TERSA3Z") as StdProcedure,
             Aircraft.FlightStatus.Incoming
         ));
@@ -652,7 +651,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(40, 00, 00f), Measurement.DMS2DD(-1, 30, 00f), 299,
             300, 17000, 0,
             240, 7000,
-            null,
+            null, // Entire route
             GetSTAR("PRADO3D") as StdProcedure,
             Aircraft.FlightStatus.Incoming
         ));
@@ -663,7 +662,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(39, 30, 00f), Measurement.DMS2DD(-5, 30, 00f), 070,
             300, 20000, 0,
             240, 8000,
-            null,
+            null, // Entire route
             GetSTAR("TLD3C") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -674,7 +673,7 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(39, 00, 00f), Measurement.DMS2DD(-5, 30, 00f), 070,
             280, 22000, 0,
             250, 14000,
-            null,
+            null, // Entire route
             GetSTAR("SOTUK4C") as StdProcedure,
             Aircraft.FlightStatus.Arrival
         ));
@@ -687,29 +686,29 @@ public class CreateObjects : MonoBehaviour
             Measurement.DMS2DD(40, 31, 22.40f), Measurement.DMS2DD(-3, 34, 29.27f), 360,
             180, 2000, 0,
             220, 13000,
-            null,
+            null, // Entire route
             GetSID("CCS6L") as StdProcedure,
             Aircraft.FlightStatus.Outgoing
         ));
-
+        
         // British Airways to UK -> Departure by North
         aircraftList.Add(new Aircraft(
             "Boeing 777-300ER", "B77W", Aircraft.Category.Heavy, companyList[8], "275", null, 4956,
             Measurement.DMS2DD(40, 46, 49.4f), Measurement.DMS2DD(-3, 39, 31.0f), 007,
             280, 14000, 0,
             280, 25000,
-            null,//GetVOR("SIE"),//null,
-            null,//GetSID("SIE6L") as StdProcedure,
+            GetVOR("SIE"),
+            GetSID("SIE6L") as StdProcedure,
             Aircraft.FlightStatus.Departure
         ));
-
+        
         // Air Nostrum to Bilbao -> Departure by North
         aircraftList.Add(new Aircraft(
             "ATR-72", "AT72", Aircraft.Category.Light, companyList[3], "5138", null, 4826,
             Measurement.DMS2DD(41, 09, 06.0f), Measurement.DMS2DD(-3, 36, 17.4f), 355,
             300, 20000, 0,
             300, 28000,
-            null,//GetVOR("SIE"),//null,
+            null,//GetVOR("SIE"),
             null,//GetSID("SIE6L") as StdProcedure,
             Aircraft.FlightStatus.Departure
         ));
@@ -732,7 +731,7 @@ public class CreateObjects : MonoBehaviour
             300, 16000, 0,
             300, 29000,
             GetFIX("PINAR"),
-            null,
+            GetSID("PINAR4R"),
             Aircraft.FlightStatus.Departure
         ));
 
@@ -743,7 +742,7 @@ public class CreateObjects : MonoBehaviour
             240, 14000, 0,
             240, 26000,
             GetVOR("ZMR"),
-            null,
+            GetSID("ZMR7L"),
             Aircraft.FlightStatus.Departure
         ));
 
@@ -762,16 +761,24 @@ public class CreateObjects : MonoBehaviour
         aircraftList.Add(new Aircraft(
             "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[4], "237M", null, 4198,
             Measurement.DMS2DD(40, 26, 18.1f), Measurement.DMS2DD(-4, 52, 37.6f), 278,
-            280, 26000, 0,
+            280, 22000, 0,
             300, 32000,
             GetFIX("BARDI"),
-            null,//GetSTAR("BARDI6W") as StdProcedure,
+            GetSID("BARDI7L") as StdProcedure,
             Aircraft.FlightStatus.Departure
         ));
 
+        // Iberia to Canary Islands -> Departure by South-West
+        aircraftList.Add(new Aircraft(
+            "Airbus A320-214", "A320", Aircraft.Category.Medium, companyList[0], "3275", null, 4023,
+            Measurement.DMS2DD(40, 37, 28.6f), Measurement.DMS2DD(-4, 32, 59.6f), 234,
+            300, 26000, 0,
+            300, 38000,
+            GetFIX("LONGA"),
+            GetSID("CCS6L") as StdProcedure,
+            Aircraft.FlightStatus.Departure
+        ));
 
-        //new Runway("18R", 180, 4179, Measurement.DMS2DD(40, 31, 22.40f), Measurement.DMS2DD(-3, 34, 29.27f), 2000f, true);
-        //new Runway("18L", 180, 3500, Measurement.DMS2DD(40, 31, 41.22f), Measurement.DMS2DD(-3, 33, 33.68f), 2000f, true);
     }
 
     public static void PrepareDraw()

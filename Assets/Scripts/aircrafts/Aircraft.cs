@@ -479,11 +479,12 @@ public class Aircraft /*: ScriptableObject*/
 
 		if (this.authoAltitude != this.altitude)
 			this.go.GetComponent<AircraftCtrl>().ChangeLevel(this.authoAltitude, false);
-
+		/*
 		if (this.authoStdProcedure != null)
 			SetAuthoStdProcedure(this.authoStdProcedure);
 		else if (this.authoPoint != null)
 			this.go.GetComponent<AircraftCtrl>().FlyTo(this.authoPoint);
+		*/
     }
 
 	public void SetGameObjectPos()
