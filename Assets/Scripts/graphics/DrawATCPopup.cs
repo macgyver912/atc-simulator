@@ -429,7 +429,7 @@ public class DrawATCPopup : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        Debug.Log("Requested to come back with you to " + acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber());
+                        Debug.Log("Requested to contact to " + acftCtrl.GetAircraft().GetCallsignCode() + acftCtrl.GetAircraft().GetFlightNumber());
 
                         // Change status condition of the aircraft from tranferred to be under your control
                         // if is Outgoing traffic

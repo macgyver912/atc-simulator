@@ -633,9 +633,11 @@ public class AircraftCtrl : MonoBehaviour
     Navaid CheckNextPoint()
     {
         Navaid nextPoint = null;
-        if (aircraft.GetAuthoStdProcedure() != null)
+        Navaid authoPoint = aircraft.GetAuthoPoint();
+
+        if (authoPoint != null)
         {
-            Navaid authoPoint = aircraft.GetAuthoPoint();
+
             float distToNextPoint = Measurement.Distance_DD_NM(aircraft.GetLat(), aircraft.GetLon(), authoPoint.GetLat(), authoPoint.GetLon());
 
             //Debug.Log("distToNextPoint = " + distToNextPoint + " nm");
@@ -643,7 +645,7 @@ public class AircraftCtrl : MonoBehaviour
             // If aircraft is near enough to authoPoint, remove it and set next one
             if (distToNextPoint < 1.0f) // nm
             {
-                //Debug.Log("Next point");
+                Debug.Log("Point " + authoPoint.GetId() + " reached, " + aircraft.GetCallsignCode() + aircraft.GetFlightNumber());
                 // If point is compulsory, call ATC
                 if (authoPoint.GetType() == typeof(FIX))
                 {
@@ -654,21 +656,25 @@ public class AircraftCtrl : MonoBehaviour
                         string debugText;
                         if (aircraft.GetAuthoPoint().GetType() == typeof(VOR))
                         {
-                            debugText = "Overflying " + (aircraft.GetAuthoPoint() as VOR).GetName() + " V O R, " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+                            debugText = "Overflying " + (authoPoint as VOR).GetName() + " V O R, " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
                         }
                         else
                         {
-                            debugText = "Overflying " + aircraft.GetAuthoPoint().GetId() + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+                            debugText = "Overflying " + authoPoint.GetId() + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
                         }
                         MngDialogs.SetText(debugText, 1);
                     }
                 }
-                // Remove current point
-                aircraft.GetAuthoStdProcedure().RemoveNavaid(authoPoint.GetId());
-                // Set next point the first of list (previous were removed)
-                if (aircraft.GetAuthoStdProcedure() != null && aircraft.GetAuthoStdProcedure().GetNavaids().Count > 0)
+
+                if (aircraft.GetAuthoStdProcedure() != null)
                 {
-                    FlyTo(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
+                    // Remove current point
+                    aircraft.GetAuthoStdProcedure().RemoveNavaid(authoPoint.GetId());
+                    // Set next point the first of list (previous were removed)
+                    if (aircraft.GetAuthoStdProcedure().GetNavaids().Count > 0)
+                    {
+                        FlyTo(aircraft.GetAuthoStdProcedure().GetNavaids()[0]);
+                    }
                 }
                 else
                 {
@@ -676,19 +682,7 @@ public class AircraftCtrl : MonoBehaviour
                     aircraft.SetAuthoPoint(null);
                     aircraft.SetAuthoHdg(aircraft.GetHeading());
                 }
-            }
-
-        }
-        else if (aircraft.GetAuthoPoint() != null)
-        { 
-            nextPoint = aircraft.GetAuthoPoint();
-        }
-        else
-        {
-            nextPoint = null;
-            aircraft.SetAuthoStdProcedure(null);
-            aircraft.SetAuthoPoint(null);
-            aircraft.SetAuthoHdg(aircraft.GetHeading());
+            }//distToNextPoint
         }
 
         return nextPoint;
