@@ -466,6 +466,8 @@ public class AircraftCtrl : MonoBehaviour
         float deltaHdg = -(aircraft.GetTurnRate() * Config.aircraftDataPeriod);
         float nextHdg = aircraft.GetHeading() + deltaHdg;
 
+        bool already_flown_this_hdg = Mathf.Abs(targetHeading - prevHdg) < Mathf.Abs(deltaHdg);
+
         // Avoid negative and pass through 0       
         if (nextHdg < 0f)
             nextHdg = nextHdg + 360f;
@@ -481,7 +483,7 @@ public class AircraftCtrl : MonoBehaviour
         
         // Target heading is reached, set heading as target heading
         if ((nextHdg <= targetHeading && prevHdg >= targetHeading)
-            || (nextHdg <= targetHeading+360 && prevHdg >= targetHeading))
+            || already_flown_this_hdg)
         {
             //Debug.Log("Target heading is reached")
             aircraft.SetHeading((ushort)targetHeading);
@@ -525,6 +527,8 @@ public class AircraftCtrl : MonoBehaviour
         float deltaHdg = (aircraft.GetTurnRate() * Config.aircraftDataPeriod);
         float nextHdg = aircraft.GetHeading() + deltaHdg;
 
+        bool already_flown_this_hdg = Mathf.Abs(targetHeading - prevHdg) < Mathf.Abs(deltaHdg);
+
         // Avoid negative and pass through 0
         if (nextHdg < 0f)
             nextHdg = nextHdg + 360f;
@@ -540,7 +544,7 @@ public class AircraftCtrl : MonoBehaviour
         
         // Target heading is reached, set heading as target heading
         if ((nextHdg >= targetHeading && prevHdg <= targetHeading)
-            || (nextHdg >= targetHeading && prevHdg <= targetHeading+360))
+            || already_flown_this_hdg)
         {
             //Debug.Log("Target heading is reached")
             aircraft.SetHeading((ushort)targetHeading);
@@ -645,7 +649,7 @@ public class AircraftCtrl : MonoBehaviour
             // If aircraft is near enough to authoPoint, remove it and set next one
             if (distToNextPoint < 1.0f) // nm
             {
-                Debug.Log("Point " + authoPoint.GetId() + " reached, " + aircraft.GetCallsignCode() + aircraft.GetFlightNumber());
+                //Debug.Log("Point " + authoPoint.GetId() + " reached, " + aircraft.GetCallsignCode() + aircraft.GetFlightNumber());
                 // If point is compulsory, call ATC
                 if (authoPoint.GetType() == typeof(FIX))
                 {
