@@ -87,6 +87,11 @@ public class DrawGUI : MonoBehaviour
             // Register the window. Notice the 3rd parameter 
             windowFPS = GUI.Window(id, windowFPS, DoWindowFPS, windowFPSTitle, windowFPS_guistyle.GetStyle("Window"));
 
+            // Show Application Info
+            GUI.Label(new Rect(Screen.width - 250f, Screen.height - 40f, 250f, 40f),
+                    Application.productName + " v" + Application.version + "\n" + Application.companyName
+                );
+
             // Show airport info
             GUI.BeginGroup(new Rect(windowFPSWidth + 20f, 5f, Screen.width * 0.35f, 60f));
                 // First line
