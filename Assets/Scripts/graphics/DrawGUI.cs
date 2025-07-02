@@ -88,8 +88,13 @@ public class DrawGUI : MonoBehaviour
             windowFPS = GUI.Window(id, windowFPS, DoWindowFPS, windowFPSTitle, windowFPS_guistyle.GetStyle("Window"));
 
             // Show Application Info
-            GUI.Label(new Rect(Screen.width - 250f, Screen.height - 40f, 250f, 40f),
-                    Application.productName + " v" + Application.version + "\n" + Application.companyName
+            GUIStyle appInfoStyle = new GUIStyle();
+            appInfoStyle.alignment = TextAnchor.LowerRight;
+            appInfoStyle.fontSize = 8;
+            appInfoStyle.normal.textColor = Color.gray;
+            GUI.Label(new Rect(Screen.width - 210f, Screen.height - 50f, 200, 40f),
+                    Application.productName + " v" + Application.version + "\n" + Application.companyName,
+                    appInfoStyle
                 );
 
             // Show airport info
