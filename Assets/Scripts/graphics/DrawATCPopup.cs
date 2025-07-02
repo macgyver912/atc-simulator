@@ -176,7 +176,7 @@ public class DrawATCPopup : MonoBehaviour
         ctrlTexts.Add("Heading");
         ctrlTexts.Add("Altitude");
         ctrlTexts.Add("Speed");
-        ctrlTexts.Add("Fly to");
+        ctrlTexts.Add("Direct to");
         ctrlTexts.Add("SID/STAR");
         ctrlTexts.Add("Handoff");
     }
@@ -1018,15 +1018,15 @@ public class DrawATCPopup : MonoBehaviour
         acftCtrl.GetAircraft().SetAuthoStdProcedure(null); 
 
         // simulate the communication text between ATC and pilots
-        //string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + tgtPoint.GetId();
+        //string debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly direct to " + tgtPoint.GetId();
         string debugText = string.Empty;
         if (tgtPoint.GetType() == typeof(VOR))
         {
-            debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + (tgtPoint as VOR).GetName() + " V O R";
+            debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly direct to " + (tgtPoint as VOR).GetName() + " V O R";
         }
         else
         {
-            debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly to " + tgtPoint.GetId();
+            debugText = acftCtrl.GetAircraft().GetCallsign() + " " + TextUtils.Text2SpellFormat(acftCtrl.GetAircraft().GetFlightNumber()) + ", fly direct to " + tgtPoint.GetId();
         }
 
         //Debug.LogWarning(debugText);

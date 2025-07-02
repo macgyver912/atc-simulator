@@ -436,11 +436,11 @@ public class AircraftCtrl : MonoBehaviour
         {
             if (aircraft.GetAuthoPoint().GetType() == typeof(VOR))
             {
-                debugText += " to fly to " + (aircraft.GetAuthoPoint() as VOR).GetName() + " V O R, " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+                debugText += " to fly direct to " + (aircraft.GetAuthoPoint() as VOR).GetName() + " V O R, " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
             }
             else
             {
-                debugText += " to fly to " + aircraft.GetAuthoPoint().GetId() + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
+                debugText += " to fly direct to " + aircraft.GetAuthoPoint().GetId() + ", " + aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber());
             }
         }
 
@@ -584,7 +584,7 @@ public class AircraftCtrl : MonoBehaviour
         aircraft.SetAuthoPoint(target);
 
         // simulate the communication text between ATC and pilots
-        //string debugText = aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber()) + ", fly to " + target.GetName();
+        //string debugText = aircraft.GetCallsign() + " " + TextUtils.Text2SpellFormat(aircraft.GetFlightNumber()) + ", fly direct to " + target.GetName();
         //Debug.LogWarning(debugText);
         //MngDialogs.SetText(debugText, 1);
 
